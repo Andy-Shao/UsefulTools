@@ -19,6 +19,6 @@ public final class ArrayTools{
         for(T[] array : arrays) length += array.length;
         T[] result = (T[]) Array.newInstance(array_type.getComponentType() , length);
         for(int i=0, index=0; i<arrays.length; index+=arrays[i].length, i++) System.arraycopy(arrays[i].length , 0 , result , index , arrays[i].length);
-        return null;
+        return result;
     }
 }
