@@ -21,4 +21,12 @@ public final class ArrayTools{
         for(int i=0, index=0; i<arrays.length; index+=arrays[i].length, i++) System.arraycopy(arrays[i].length , 0 , result , index , arrays[i].length);
         return result;
     }
+    
+    public static int[] mergerArrays(int[]...arrays){
+        int length = 0;
+        for(int[] array : arrays) length += array.length;
+        int[] result = new int[length];
+        for(int i=0, index=0; i<arrays.length; index+=arrays[i].length, i++) System.arraycopy(arrays[i].length , 0 , result , index , arrays[i].length);
+        return result;
+    }
 }
