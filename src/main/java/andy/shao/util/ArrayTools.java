@@ -13,6 +13,12 @@ import java.lang.reflect.Array;
  */
 public final class ArrayTools{
     
+    /**
+     * 
+     * @param array_type
+     * @param arrays
+     * @return
+     */
     @SuppressWarnings("unchecked")
     public static <T> T[] mergeArrays(Class<T[]> array_type, T[]...arrays){
         int length = 0;
@@ -22,6 +28,11 @@ public final class ArrayTools{
         return result;
     }
     
+    /**
+     * 
+     * @param arrays
+     * @return
+     */
     public static int[] mergerArrays(int[]...arrays){
         int length = 0;
         for(int[] array : arrays) length += array.length;
@@ -30,6 +41,11 @@ public final class ArrayTools{
         return result;
     }
     
+    /**
+     * 
+     * @param arrays
+     * @return
+     */
     public static byte[] mergerArrays(byte[]...arrays){
         int length = 0;
         for(byte[] array : arrays) length += array.length;
@@ -38,6 +54,11 @@ public final class ArrayTools{
         return result;
     }
     
+    /**
+     * 
+     * @param arrays
+     * @return
+     */
     public static char[] mergerArrays(char[]...arrays){
         int length = 0;
         for(char[] array : arrays) length += array.length;
@@ -46,6 +67,11 @@ public final class ArrayTools{
         return result;
     }
     
+    /**
+     * 
+     * @param arrays
+     * @return
+     */
     public static short[] mergerArrays(short[]...arrays){
         int length = 0;
         for(short[] array : arrays) length += array.length;
@@ -54,6 +80,11 @@ public final class ArrayTools{
         return result;
     }
     
+    /**
+     * 
+     * @param arrays
+     * @return
+     */
     public static float[] mergerArrays(float[]...arrays){
         int length = 0;
         for(float[] array : arrays) length += array.length;
@@ -62,6 +93,11 @@ public final class ArrayTools{
         return result;
     }
     
+    /**
+     * 
+     * @param arrays
+     * @return
+     */
     public static long[] mergerArrays(long[]...arrays){
         int length = 0;
         for(long[] array : arrays) length += array.length;
@@ -70,6 +106,11 @@ public final class ArrayTools{
         return result;
     }
     
+    /**
+     * 
+     * @param arrays
+     * @return
+     */
     public static double[] mergerArrays(double[]...arrays){
         int length = 0;
         for(double[] array : arrays) length += array.length;
