@@ -1,5 +1,6 @@
 package andy.shao.util;
 
+import java.lang.reflect.Field;
 import java.lang.reflect.Method;
 
 /**
@@ -39,6 +40,21 @@ public final class Reflects {
         try {
             return clazz.getMethod(method_name , parameterTypes);
         } catch (NoSuchMethodException | SecurityException e) {
+            // TODO Auto-generated catch block
+            throw new RuntimeException(e);
+        }
+    }
+    
+    /**
+     * 
+     * @param clazz
+     * @param field_name
+     * @return
+     */
+    public static Field getField(Class<?> clazz, String field_name){
+        try {
+            return clazz.getField(field_name);
+        } catch (NoSuchFieldException | SecurityException e) {
             // TODO Auto-generated catch block
             throw new RuntimeException(e);
         }
