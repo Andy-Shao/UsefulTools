@@ -1,5 +1,7 @@
 package andy.shao.util;
 
+import java.util.Objects;
+
 /**
  * 
  * Title:<br>
@@ -17,7 +19,7 @@ public final class HashCodes{
      * @return
      */
     public static <T> int hashCode(T t){
-        return t.hashCode();
+        return Objects.hashCode(t);
     }
     
     /**
