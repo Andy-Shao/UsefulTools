@@ -12,6 +12,10 @@ import java.lang.reflect.Array;
  *
  */
 public final class ArrayTools{
+    private ArrayTools() {
+        // TODO Auto-generated constructor stub
+        throw new AssertionError("No support instance " + ArrayTools.class.getName());
+    }
     
     /**
      * 

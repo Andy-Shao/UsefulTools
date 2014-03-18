@@ -21,46 +21,6 @@ import andy.shao.util.Reflects;
  */
 public abstract class DynamicProxyFactory<T> implements ProxyFactory<T>{
 
-    @Override
-    public T getProxy(T target) {
-        // TODO Auto-generated method stub
-        return getProxy(target, new DefaultInvocationHandler(target));
-    }
-    
-    /**
-     * 
-     * @param target
-     * @param invocationHandler
-     * @return
-     */
-    @SuppressWarnings("unchecked")
-    public T getProxy(T target, InvocationHandler invocationHandler){
-       return (T) Proxy.newProxyInstance(target.getClass().getClassLoader() , this.getInterfaces(target) , invocationHandler); 
-    }
-    
-    /**
-     * 
-     * @param target
-     * @return
-     */
-    protected abstract Collection<Method> proxyMethods(T target);
-    
-    /**
-     * 
-     * @param target
-     * @param method
-     * @param args
-     * @return
-     * @throws Throwable
-     */
-    protected abstract Object invoke(T target, Method method, Object[] args) throws Throwable;
-    
-    protected Class<?>[] getInterfaces(T target){
-        Set<Class<?>> set = new HashSet<>();
-        Reflects.getInterfaces(target.getClass() , set);
-        return set.toArray(new Class<?>[set.size()]);
-    }
-    
     /**
      * 
      * Title:<br>
@@ -85,6 +45,46 @@ public abstract class DynamicProxyFactory<T> implements ProxyFactory<T>{
             return method.invoke(this.proxied , args);
         }
         
-    } 
+    }
+    
+    protected Class<?>[] getInterfaces(T target){
+        Set<Class<?>> set = new HashSet<>();
+        Reflects.getInterfaces(target.getClass() , set);
+        return set.toArray(new Class<?>[set.size()]);
+    }
+    
+    @Override
+    public T getProxy(T target) {
+        // TODO Auto-generated method stub
+        return getProxy(target, new DefaultInvocationHandler(target));
+    }
+    
+    /**
+     * 
+     * @param target
+     * @param invocationHandler
+     * @return
+     */
+    @SuppressWarnings("unchecked")
+    public T getProxy(T target, InvocationHandler invocationHandler){
+       return (T) Proxy.newProxyInstance(target.getClass().getClassLoader() , this.getInterfaces(target) , invocationHandler); 
+    }
+    
+    /**
+     * 
+     * @param target
+     * @param method
+     * @param args
+     * @return
+     * @throws Throwable
+     */
+    protected abstract Object invoke(T target, Method method, Object[] args) throws Throwable;
+    
+    /**
+     * 
+     * @param target
+     * @return
+     */
+    protected abstract Collection<Method> proxyMethods(T target); 
 
 }

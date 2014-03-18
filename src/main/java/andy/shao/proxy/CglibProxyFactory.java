@@ -22,50 +22,6 @@ import net.sf.cglib.proxy.InvocationHandler;
  */
 public abstract class CglibProxyFactory<T> implements ProxyFactory<T> {
 
-    @Override
-    public T getProxy(T target) {
-        // TODO Auto-generated method stub
-        return getProxy(target , new DefaultInvocationHandler(target));
-    }
-    
-    /**
-     * 
-     * @param target
-     * @param invocationHandler
-     * @return
-     */
-    @SuppressWarnings("unchecked")
-    public T getProxy(T target, InvocationHandler invocationHandler){
-        Enhancer enhancer = new Enhancer();
-        enhancer.setSuperclass(target.getClass());
-        enhancer.setInterfaces(this.getInterfaces(target));
-        enhancer.setCallback(invocationHandler);
-        return (T) enhancer.create();
-    }
-    
-    /**
-     * 
-     * @param target
-     * @return
-     */
-    protected abstract Collection<Method> proxyMethods(T target);
-    
-    protected Class<?>[] getInterfaces(T target){
-        Set<Class<?>> set = new HashSet<>();
-        Reflects.getInterfaces(target.getClass() , set);
-        return set.toArray(new Class<?>[set.size()]);
-    }
-    
-    /**
-     * 
-     * @param target
-     * @param method
-     * @param args
-     * @return
-     * @throws Throwable
-     */
-    protected abstract Object invoke(T target, Method method, Object[] args) throws Throwable;
-
     /**
      * 
      * Title:<br>
@@ -91,4 +47,48 @@ public abstract class CglibProxyFactory<T> implements ProxyFactory<T> {
         }
         
     }
+    
+    protected Class<?>[] getInterfaces(T target){
+        Set<Class<?>> set = new HashSet<>();
+        Reflects.getInterfaces(target.getClass() , set);
+        return set.toArray(new Class<?>[set.size()]);
+    }
+    
+    @Override
+    public T getProxy(T target) {
+        // TODO Auto-generated method stub
+        return getProxy(target , new DefaultInvocationHandler(target));
+    }
+    
+    /**
+     * 
+     * @param target
+     * @param invocationHandler
+     * @return
+     */
+    @SuppressWarnings("unchecked")
+    public T getProxy(T target, InvocationHandler invocationHandler){
+        Enhancer enhancer = new Enhancer();
+        enhancer.setSuperclass(target.getClass());
+        enhancer.setInterfaces(this.getInterfaces(target));
+        enhancer.setCallback(invocationHandler);
+        return (T) enhancer.create();
+    }
+    
+    /**
+     * 
+     * @param target
+     * @param method
+     * @param args
+     * @return
+     * @throws Throwable
+     */
+    protected abstract Object invoke(T target, Method method, Object[] args) throws Throwable;
+
+    /**
+     * 
+     * @param target
+     * @return
+     */
+    protected abstract Collection<Method> proxyMethods(T target);
 }

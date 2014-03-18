@@ -12,32 +12,9 @@ import java.util.Objects;
  *
  */
 public final class HashCodes{
-    
-    /**
-     * 
-     * @param t
-     * @return
-     */
-    public static <T> int hashCode(T t){
-        return Objects.hashCode(t);
-    }
-    
-    /**
-     * 
-     * @param t
-     * @return
-     */
-    public static int hashCode(int t){
-        return t;
-    }
-    
-    /**
-     * 
-     * @param t
-     * @return
-     */
-    public static int hashCode(short t){
-        return (int)t;
+    private HashCodes() {
+        // TODO Auto-generated constructor stub
+        throw new AssertionError("No support instance " + HashCodes.class.getName());
     }
     
     /**
@@ -63,8 +40,9 @@ public final class HashCodes{
      * @param t
      * @return
      */
-    public static int hashCode(long t){
-        return (int)(t ^ (t >>> 32));
+    public static int hashCode(double t){
+        long l = Double.doubleToLongBits(t);
+        return hashCode(l);
     }
     
     /**
@@ -81,8 +59,34 @@ public final class HashCodes{
      * @param t
      * @return
      */
-    public static int hashCode(double t){
-        long l = Double.doubleToLongBits(t);
-        return hashCode(l);
+    public static int hashCode(int t){
+        return t;
+    }
+    
+    /**
+     * 
+     * @param t
+     * @return
+     */
+    public static int hashCode(long t){
+        return (int)(t ^ (t >>> 32));
+    }
+    
+    /**
+     * 
+     * @param t
+     * @return
+     */
+    public static int hashCode(short t){
+        return (int)t;
+    }
+    
+    /**
+     * 
+     * @param t
+     * @return
+     */
+    public static <T> int hashCode(T t){
+        return Objects.hashCode(t);
     }
 }

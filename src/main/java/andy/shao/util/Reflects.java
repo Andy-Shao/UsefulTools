@@ -17,6 +17,10 @@ import java.util.Set;
  *
  */
 public final class Reflects {
+    private Reflects() {
+        // TODO Auto-generated constructor stub
+        throw new AssertionError("No support instance " + Reflects.class.getName());
+    }
 
     /**
      * 
@@ -65,35 +69,19 @@ public final class Reflects {
     
     /**
      * 
-     * @param constructor
-     * @param values
+     * @param clazz
+     * @param field_name
      * @return
      */
-    public static <T> T newInstance(Constructor<T> constructor, Object...values){
+    public static Field getDeclaredField(Class<?> clazz, String field_name){
         try {
-            return constructor.newInstance(values);
-        } catch (InstantiationException | IllegalAccessException | IllegalArgumentException | InvocationTargetException e) {
+            return clazz.getDeclaredField(field_name);
+        } catch (NoSuchFieldException | SecurityException e) {
             // TODO Auto-generated catch block
             throw new RuntimeException(e);
         }
     }
 
-    /**
-     * 
-     * @param clazz
-     * @param method_name
-     * @param parameterTypes
-     * @return
-     */
-    public static Method getMethod(Class<?> clazz, String method_name, Class<?>...parameterTypes){
-        try {
-            return clazz.getMethod(method_name , parameterTypes);
-        } catch (NoSuchMethodException | SecurityException e) {
-            // TODO Auto-generated catch block
-            throw new RuntimeException(e);
-        }
-    }
-    
     /**
      * 
      * @param clazz
@@ -113,16 +101,6 @@ public final class Reflects {
     /**
      * 
      * @param clazz
-     * @param set
-     */
-    public static void getInterfaces(Class<?> clazz , Set<Class<?>> set){
-        set.addAll(Arrays.asList(clazz.getInterfaces()));
-        if(clazz.getSuperclass() != null) getInterfaces(clazz.getSuperclass() , set);
-    }
-    
-    /**
-     * 
-     * @param clazz
      * @param field_name
      * @return
      */
@@ -137,14 +115,87 @@ public final class Reflects {
     
     /**
      * 
-     * @param clazz
-     * @param field_name
+     * @param target
+     * @param field
      * @return
      */
-    public static Field getDeclaredField(Class<?> clazz, String field_name){
+    @SuppressWarnings("unchecked")
+    public static <T> T getFieldValue(Object target, Field field){
         try {
-            return clazz.getDeclaredField(field_name);
-        } catch (NoSuchFieldException | SecurityException e) {
+            return (T) field.get(target);
+        } catch (IllegalArgumentException | IllegalAccessException e) {
+            // TODO Auto-generated catch block
+            throw new RuntimeException(e);
+        }
+    }
+    
+    /**
+     * 
+     * @param clazz
+     * @param set
+     */
+    public static void getInterfaces(Class<?> clazz , Set<Class<?>> set){
+        set.addAll(Arrays.asList(clazz.getInterfaces()));
+        if(clazz.getSuperclass() != null) getInterfaces(clazz.getSuperclass() , set);
+    }
+    
+    /**
+     * 
+     * @param clazz
+     * @param method_name
+     * @param parameterTypes
+     * @return
+     */
+    public static Method getMethod(Class<?> clazz, String method_name, Class<?>...parameterTypes){
+        try {
+            return clazz.getMethod(method_name , parameterTypes);
+        } catch (NoSuchMethodException | SecurityException e) {
+            // TODO Auto-generated catch block
+            throw new RuntimeException(e);
+        }
+    }
+    
+    /**
+     * 
+     * @param target
+     * @param method
+     * @param values
+     * @return
+     */
+    public static Object invoked(Object target, Method method, Object...values){
+        try {
+            return method.invoke(target , values);
+        } catch (IllegalAccessException | IllegalArgumentException | InvocationTargetException e) {
+            // TODO Auto-generated catch block
+            throw new RuntimeException(e);
+        }
+    }
+    
+    /**
+     * 
+     * @param constructor
+     * @param values
+     * @return
+     */
+    public static <T> T newInstance(Constructor<T> constructor, Object...values){
+        try {
+            return constructor.newInstance(values);
+        } catch (InstantiationException | IllegalAccessException | IllegalArgumentException | InvocationTargetException e) {
+            // TODO Auto-generated catch block
+            throw new RuntimeException(e);
+        }
+    }
+    
+    /**
+     * 
+     * @param target
+     * @param field
+     * @param value
+     */
+    public static void setFieldValue(Object target, Field field, Object value){
+        try {
+            field.set(target , value);
+        } catch (IllegalArgumentException | IllegalAccessException e) {
             // TODO Auto-generated catch block
             throw new RuntimeException(e);
         }
