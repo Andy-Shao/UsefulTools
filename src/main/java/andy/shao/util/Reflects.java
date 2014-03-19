@@ -76,8 +76,12 @@ public final class Reflects {
     public static Field getDeclaredField(Class<?> clazz, String field_name){
         try {
             return clazz.getDeclaredField(field_name);
-        } catch (NoSuchFieldException | SecurityException e) {
+        } catch (NoSuchFieldException e) {
             // TODO Auto-generated catch block
+            if(clazz.getSuperclass() != null) return getDeclaredField(clazz.getSuperclass() , field_name);
+            throw new RuntimeException(e);
+        } catch (SecurityException e) {
+            // TODO: handle exception
             throw new RuntimeException(e);
         }
     }
@@ -92,8 +96,12 @@ public final class Reflects {
     public static Method getDeclaredMethod(Class<?> clazz, String method_name, Class<?>...parameterTypes){
         try {
             return clazz.getDeclaredMethod(method_name , parameterTypes);
-        } catch (NoSuchMethodException | SecurityException e) {
+        } catch (NoSuchMethodException e) {
             // TODO Auto-generated catch block
+            if(clazz.getSuperclass() != null) return getDeclaredMethod(clazz.getSuperclass() , method_name , parameterTypes);
+            throw new RuntimeException(e);
+        } catch (SecurityException e) {
+            // TODO: handle exception
             throw new RuntimeException(e);
         }
     }
@@ -162,9 +170,10 @@ public final class Reflects {
      * @param values
      * @return
      */
-    public static Object invoked(Object target, Method method, Object...values){
+    @SuppressWarnings("unchecked")
+    public static <T> T invoked(Object target, Method method, Object...values){
         try {
-            return method.invoke(target , values);
+            return (T) method.invoke(target , values);
         } catch (IllegalAccessException | IllegalArgumentException | InvocationTargetException e) {
             // TODO Auto-generated catch block
             throw new RuntimeException(e);
