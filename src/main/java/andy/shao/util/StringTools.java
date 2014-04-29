@@ -10,6 +10,9 @@ package andy.shao.util;
  *
  */
 public final class StringTools {
+    private StringTools() {
+        throw new AssertionError("Not allowed to instance " + StringTools.class.getName());
+    }
 
     /**
      * more efficient
@@ -32,8 +35,7 @@ public final class StringTools {
      * @return
      */
     public static String replaceFirst(String str, String key, String padding){
-        int index = str.indexOf(key);
-        return replace(str , key , padding , index);
+        return replace(str , key , padding , str.indexOf(key));
     }
     
     /**
@@ -44,8 +46,7 @@ public final class StringTools {
      * @return
      */
     public static String replaceLast(String str, String key, String padding){
-        int index = str.lastIndexOf(key);
-        return replace(str , key , padding , index);
+        return replace(str , key , padding , str.lastIndexOf(key));
     }
 
     /**
