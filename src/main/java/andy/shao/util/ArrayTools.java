@@ -108,66 +108,6 @@ public final class ArrayTools {
         return result;
     }
     
-    /**
-	 * 
-	 * @param array
-	 * @return
-	 */
-	public static <T> int getlength(T array){
-		String arrayName = array.getClass().getName();
-		if(arrayName.startsWith("[L")) return ((Object[])array).length;
-		else if(arrayName.equals(int[].class.getName())) return ((int[])array).length;
-		else if(arrayName.equals(char[].class.getName())) return ((char[])array).length;
-		else if(arrayName.equals(short[].class.getName())) return ((short[])array).length;
-		else if(arrayName.equals(byte[].class.getName())) return ((byte[])array).length;
-		else if(arrayName.equals(float[].class.getName())) return ((float[])array).length;
-		else if(arrayName.equals(long[].class.getName())) return ((long[])array).length;
-		else if(arrayName.equals(double[].class.getName())) return ((double[])array).length;
-		return -1;
-	}
-	
-	/**
-	 * 
-	 * @param array
-	 * @param index
-	 * @return
-	 */
-	public static Object getValueByArray(Object array, int index){
-		String arrayName = array.getClass().getName();
-		if(arrayName.startsWith("[L")) return ((Object[])array)[index];
-		else if(arrayName.equals(int[].class.getName())) return ((int[])array)[index];
-		else if(arrayName.equals(char[].class.getName())) return ((char[])array)[index];
-		else if(arrayName.equals(short[].class.getName())) return ((short[])array)[index];
-		else if(arrayName.equals(byte[].class.getName())) return ((byte[])array)[index];
-		else if(arrayName.equals(float[].class.getName())) return ((float[])array)[index];
-		else if(arrayName.equals(long[].class.getName())) return ((long[])array)[index];
-		else if(arrayName.equals(double[].class.getName())) return ((double[])array)[index];
-		return null;
-	}
-	
-	/**
-	 * 
-	 * @param array
-	 * @param index
-	 * @param value
-	 * @return
-	 */
-	public static Object setValueByArray(Object array, int index, Object value){
-		Object result = getValueByArray(array, index);
-		
-		String arrayName = array.getClass().getName();
-		if(arrayName.startsWith("[L")) ((Object[])array)[index] = value;
-		else if(arrayName.equals(int[].class.getName())) ((int[])array)[index] = (int) value;
-		else if(arrayName.equals(char[].class.getName())) ((char[])array)[index] = (char) value;
-		else if(arrayName.equals(short[].class.getName())) ((short[])array)[index] = (short) value;
-		else if(arrayName.equals(byte[].class.getName())) ((byte[])array)[index] = (byte) value;
-		else if(arrayName.equals(float[].class.getName())) ((float[])array)[index] = (float) value;
-		else if(arrayName.equals(long[].class.getName())) ((long[])array)[index] = (long) value;
-		else if(arrayName.equals(double[].class.getName())) ((double[])array)[index] = (double) value;
-		
-		return result;
-	}
-
     private ArrayTools() {
         // TODO Auto-generated constructor stub
         throw new AssertionError("No support instance " + ArrayTools.class.getName());
