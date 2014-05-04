@@ -8,6 +8,6 @@ public class ArrayToolsTest {
 
     @Test
     public void mergeArrays(){
-        System.out.println(Arrays.toString(ArrayTools.mergeArrays(Integer[].class, new Integer[]{1,2,3}, new Integer[]{4,5,6})));
+        System.out.println(Arrays.toString(ArrayTools.mergeArray(Integer[].class , new Integer[]{1,2,3}, new Integer[]{4,5,6})));
     }
 }
