@@ -8,7 +8,7 @@ import java.lang.reflect.Array;
  * At least JDK1.5
  * </p>
  * 
- * @author ws83149
+ * @author Andy
  */
 public final class ArrayTools {
 	private ArrayTools() {
