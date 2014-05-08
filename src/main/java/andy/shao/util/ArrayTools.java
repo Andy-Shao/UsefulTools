@@ -3,17 +3,15 @@ package andy.shao.util;
 import java.lang.reflect.Array;
 
 /**
+ * Some tools of {@link Array}<br>
+ * <p style="color:orange;">
+ * At least JDK1.5
+ * </p>
  * 
- * Title: Some tools of Array<br>
- * Descript:<br>
- * Copyright: Copryright(c) Mar 4, 2014<br>
- * Encoding:UNIX UTF-8
- * 
- * @author Andy.Shao
- *
+ * @author ws83149
  */
 public final class ArrayTools {
-    private ArrayTools() {
+	private ArrayTools() {
 		throw new AssertionError("No ArrayTools instances for you!");
 	}
 
@@ -28,7 +26,8 @@ public final class ArrayTools {
 	 */
 	@SuppressWarnings("unchecked")
 	public static <T> T mergeArray(Class<T> array_type, T... arrays) {
-		if(!array_type.isArray()) throw new IllegalArgumentException("The inputs must be a array");
+		if (!array_type.isArray())
+			throw new IllegalArgumentException("The inputs must be a array");
 		int length = 0;
 		for (T array : arrays)
 			length += Array.getLength(array);
@@ -51,7 +50,8 @@ public final class ArrayTools {
 	 */
 	@SuppressWarnings("unchecked")
 	public static <T> T splitArray(T array, int from, int end) {
-		if(!array.getClass().isArray()) throw new IllegalArgumentException("The array must be a array");
+		if (!array.getClass().isArray())
+			throw new IllegalArgumentException("The array must be a array");
 		T result = (T) Array.newInstance(array.getClass().getComponentType(), end - from);
 		System.arraycopy(array, from, result, 0, end - from);
 		return result;
@@ -84,7 +84,7 @@ public final class ArrayTools {
 	 *            The item which should be remove
 	 * @return a array which has been processed.
 	 */
-	public static <T,I> T removeAllItem(T array, I item) {
+	public static <T, I> T removeAllItem(T array, I item) {
 		ARRAY: for (int i = 0; i < Array.getLength(array); i++) {
 			if (Array.get(array, i).equals(item)) {
 				array = removeItem(array, i);
@@ -104,12 +104,8 @@ public final class ArrayTools {
 	 * @return a array which has been processed.
 	 */
 	public static <T, I> T removeFirstItem(T array, I item) {
-		ARRAY: for (int i = 0; i < Array.getLength(array); i++) {
-			if (Array.get(array, i).equals(item)) {
-				array = removeItem(array, i);
-				break ARRAY;
-			}
-		}
+		int index = findFirstItem(array, item);
+		if(index >= 0) array = removeItem(array, index);
 		return array;
 	}
 
@@ -122,13 +118,43 @@ public final class ArrayTools {
 	 *            the item which should be remove.
 	 * @return a array which has been processed.
 	 */
-	public static <T,I> T removeLastItem(T array, I item) {
-		ARRAY: for (int i = Array.getLength(array) - 1; i >= 0; i--) {
-			if (Array.get(array, i).equals(item)) {
-				array = removeItem(array, i);
-				break ARRAY;
-			}
-		}
+	public static <T, I> T removeLastItem(T array, I item) {
+		int index = findLastItem(array, item);
+		if(index >=0 ) array = removeItem(array, index); 
 		return array;
+	}
+
+	/**
+	 * find out the location of first item.
+	 * 
+	 * @param array
+	 *            the array which be processed
+	 * @param item
+	 *            The item which should be remove
+	 * @return if can't find out anything then return -1
+	 */
+	public static <T> int findFirstItem(T array, Object item) {
+		for (int i = 0; i < Array.getLength(array); i++) {
+			if (Array.get(array, i).equals(item))
+				return i;
+		}
+		return -1;
+	}
+
+	/**
+	 * find out the location of last item.
+	 * 
+	 * @param array
+	 *            the array which be processed
+	 * @param item
+	 *            The item which should be remove
+	 * @return if can't find out anything then return -1
+	 */
+	public static <T> int findLastItem(T array, Object item) {
+		for (int i = Array.getLength(array) - 1; i >= 0; i--) {
+			if (Array.get(array, i).equals(item))
+				return i;
+		}
+		return -1;
 	}
 }
