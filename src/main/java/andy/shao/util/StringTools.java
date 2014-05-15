@@ -68,12 +68,12 @@ public final class StringTools {
         return result;
     }
     
-   /**
-    * more efficient
-    * @param str
-    * @param separator
-    * @return
-    */
+    /**
+     * more efficient
+     * @param str
+     * @param separator
+     * @return
+     */
     public static String[] split(String str, String separator){
 	String[] result = new String[0];
 	for(int index; (index = str.indexOf(separator))!=-1;){
