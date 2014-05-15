@@ -68,20 +68,20 @@ public final class StringTools {
         return result;
     }
     
-    	/**
-	 * more efficient
-	 * @param str
-	 * @param separator
-	 * @return
-	 */
-	public static String[] split(String str, String separator){
-		String[] result = new String[0];
-		for(int index; (index = str.indexOf(separator))!=-1;){
-			result = ArrayTools.mergeArray(String[].class, result, new String[]{str.substring(0, index)});
-			str = str.substring(index+separator.length());
-		}
-		if(str.length() != 0) result = ArrayTools.mergeArray(String[].class, result, new String[]{str});
-		
-		return result;
+   /**
+    * more efficient
+    * @param str
+    * @param separator
+    * @return
+    */
+    public static String[] split(String str, String separator){
+	String[] result = new String[0];
+	for(int index; (index = str.indexOf(separator))!=-1;){
+		result = ArrayTools.mergeArray(String[].class, result, new String[]{str.substring(0, index)});
+		str = str.substring(index+separator.length());
 	}
+	if(str.length() != 0) result = ArrayTools.mergeArray(String[].class, result, new String[]{str});
+	
+	return result;
+    }
 }
