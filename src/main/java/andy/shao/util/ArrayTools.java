@@ -157,4 +157,10 @@ public final class ArrayTools {
 		}
 		return -1;
 	}
+	
+	public static <K,V> Map<K,V> convert(Convert<Object, K> convertK, Convert<Object, V> convertV, Object[]...arrays){
+		Map<K, V> map = new HashMap<K, V>();
+		for(Object[] array : arrays) map.put(convertK.convert(array[0]), convertV.convert(array[1]));
+		return map;
+	}
 }
