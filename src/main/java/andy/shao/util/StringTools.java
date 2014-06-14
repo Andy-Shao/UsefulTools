@@ -6,6 +6,7 @@ package andy.shao.util;
  * Descript:<br>
  * Copyright: Copryright(c) Apr 28, 2014<br>
  * Encoding:UNIX UTF-8
+ * 
  * @author Andy.Shao
  *
  */
@@ -16,41 +17,45 @@ public final class StringTools {
 
     /**
      * more efficient
+     * 
      * @param str
      * @param key
      * @param padding
      * @return
      */
-    public static String replaceAll(String str, String key, String padding){
-        while(str.indexOf(key)!=-1)
+    public static String replaceAll(String str , String key , String padding) {
+        while (str.indexOf(key) != -1)
             str = replaceFirst(str , key , padding);
         return str;
     }
-    
+
     /**
      * more efficient
+     * 
      * @param str
      * @param key
      * @param padding
      * @return
      */
-    public static String replaceFirst(String str, String key, String padding){
+    public static String replaceFirst(String str , String key , String padding) {
         return replace(str , key , padding , str.indexOf(key));
     }
-    
+
     /**
      * more efficient
+     * 
      * @param str
      * @param key
      * @param padding
      * @return
      */
-    public static String replaceLast(String str, String key, String padding){
+    public static String replaceLast(String str , String key , String padding) {
         return replace(str , key , padding , str.lastIndexOf(key));
     }
 
     /**
      * more efficient
+     * 
      * @param str
      * @param key
      * @param padding
@@ -59,29 +64,34 @@ public final class StringTools {
      */
     static String replace(String str , String key , String padding , int index) {
         String result;
-        
-        if(index == -1) result = str;
-        else if(index ==0) result = padding + str.substring(key.length());
-        else if(index+1 >= str.length()) result = str.substring(0 , index) + padding;
-        else result = str.substring(0 , index) + padding + str.substring(index+key.length());
-        
+
+        if (index == -1) result = str;
+        else if (index == 0) result = padding + str.substring(key.length());
+        else if (index + 1 >= str.length()) result = str.substring(0 , index) + padding;
+        else result = str.substring(0 , index) + padding + str.substring(index + key.length());
+
         return result;
     }
-    
+
     /**
      * more efficient
+     * 
      * @param str
      * @param separator
      * @return
      */
-    public static String[] split(String str, String separator){
-	String[] result = new String[0];
-	for(int index; (index = str.indexOf(separator))!=-1;){
-	    result = ArrayTools.mergeArray(String[].class, result, new String[]{str.substring(0, index)});
-	    str = str.substring(index+separator.length());
-	}
-	if(str.length() != 0) result = ArrayTools.mergeArray(String[].class, result, new String[]{str});
-	
-	return result;
+    public static String[] split(String str , String separator) {
+        String[] result = new String[0];
+        for (int index ; (index = str.indexOf(separator)) != -1 ;) {
+            result = ArrayTools.mergeArray(String[].class , result , new String[] {
+                str.substring(0 , index)
+            });
+            str = str.substring(index + separator.length());
+        }
+        if (str.length() != 0) result = ArrayTools.mergeArray(String[].class , result , new String[] {
+            str
+        });
+
+        return result;
     }
 }

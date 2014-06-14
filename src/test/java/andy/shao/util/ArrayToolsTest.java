@@ -1,7 +1,12 @@
 package andy.shao.util;
 
+import java.util.HashMap;
+import java.util.Map;
+
 import org.junit.Assert;
 import org.junit.Test;
+
+import andy.shao.convert.Convert;
 
 /**
  * 
@@ -9,6 +14,22 @@ import org.junit.Test;
  * 
  */
 public class ArrayToolsTest {
+
+    @Test
+    public void convertToMap() {
+        Map<String , String> target =
+            ArrayTools.<String , String> convertToMap(Convert.OB_2_STR , Convert.OB_2_STR , new Object[] {
+                "i" , "2"
+            } , new Object[] {
+                "I" , "3"
+            });
+
+        Map<String , String> answer = new HashMap<>();
+        answer.put("i" , "2");
+        answer.put("I" , "3");
+
+        Assert.assertEquals(answer , target);
+    }
 
     @Test
     public void findFirstItem() {

@@ -22,20 +22,20 @@ import java.nio.channels.WritableByteChannel;
  * 
  */
 public class Resources {
-    
-    public static Reader getReader(InputStream inputStream){
+
+    public static Reader getReader(InputStream inputStream) {
         return new InputStreamReader(inputStream);
     }
-    
-    public static Writer getWriter(OutputStream outputStream){
+
+    public static Writer getWriter(OutputStream outputStream) {
         return new OutputStreamWriter(outputStream);
     }
-    
-    public static ReadableByteChannel getReadableByteChannel(InputStream inputStream){
+
+    public static ReadableByteChannel getReadableByteChannel(InputStream inputStream) {
         return Channels.newChannel(inputStream);
     }
-    
-    public static WritableByteChannel getWritableByteChannel(OutputStream outputStream){
+
+    public static WritableByteChannel getWritableByteChannel(OutputStream outputStream) {
         return Channels.newChannel(outputStream);
     }
 
@@ -50,8 +50,8 @@ public class Resources {
     public static OutputStream getOutputStream(WritableByteChannel channel) {
         return Channels.newOutputStream(channel);
     }
-    
-    public static OutputStream getOutputStream(AsynchronousByteChannel channel){
+
+    public static OutputStream getOutputStream(AsynchronousByteChannel channel) {
         return Channels.newOutputStream(channel);
     }
 
