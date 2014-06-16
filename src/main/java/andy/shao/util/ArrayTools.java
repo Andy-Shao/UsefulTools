@@ -17,6 +17,14 @@ public final class ArrayTools {
     private ArrayTools() {
         throw new AssertionError("No ArrayTools instances for you!");
     }
+    
+    @SuppressWarnings("unchecked")
+	public static <T> T getValue(T[] array, int index, T nullDefault){
+        if(!array.getClass().isArray()) throw new IllegalArgumentException("The input must be a array.");
+		
+		if(Array.getLength(array) <= index) return nullDefault;
+		return (T) Array.get(array, index);
+	}
 
     /**
      * Merge the Arrays.<br>
