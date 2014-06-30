@@ -49,14 +49,11 @@ public interface Convert<IN , OUT> {
         String str = OB_2_STR.convert(in);
         return str == null ? null : Double.valueOf(str);
     };
-    public static final Convert<byte[] , String> BYTES_2_STR = (byte[] keys) -> {
-        char[] cs = new char[keys.length << 1];
-        for(int i=keys.length; i>=1; i--){
-            int temp = i << 1;
-            cs[--temp] = ARRAY[0x0F & keys[i-1]];
-            cs[--temp] = ARRAY[(0xF0 & keys[i-1]) >> 4];
-        }
-        return new String(cs);
+    public static final Convert<Byte , char[]> BYTE_2_CHARS = (Byte b) -> {
+        char[] cs = new char[2];
+        cs[0] = ARRAY[0x0F & b];
+        cs[1] = ARRAY[0xF0 & b >> 4];
+        return cs;
     };
     static final char[] ARRAY = new char[] {
         '0', '1', '2', '3',
