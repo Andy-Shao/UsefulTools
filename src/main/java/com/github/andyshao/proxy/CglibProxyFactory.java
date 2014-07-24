@@ -1,11 +1,11 @@
-package andy.shao.proxy;
+package com.github.andyshao.proxy;
 
 import java.lang.reflect.Method;
 import java.util.Collection;
 import java.util.HashSet;
 import java.util.Set;
 
-import andy.shao.util.Reflects;
+import com.github.andyshao.util.Reflects;
 
 import net.sf.cglib.proxy.Enhancer;
 import net.sf.cglib.proxy.InvocationHandler;

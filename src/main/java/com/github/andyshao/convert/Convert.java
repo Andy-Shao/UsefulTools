@@ -1,4 +1,4 @@
-package andy.shao.convert;
+package com.github.andyshao.convert;
 
 import java.util.Objects;
 
@@ -48,17 +48,5 @@ public interface Convert<IN , OUT> {
     public static final Convert<Object , Double> OB_2_DOUBLE = (Object in) -> {
         String str = OB_2_STR.convert(in);
         return str == null ? null : Double.valueOf(str);
-    };
-    static final char[] ARRAY = new char[] {
-        '0', '1', '2', '3',
-        '4', '5', '6', '7',
-        '8', '9', 'a', 'b',
-        'c', 'd', 'e', 'f'
-    };
-    public static final Convert<Byte , char[]> BYTE_2_CHARS = (Byte b) -> {
-        char[] cs = new char[2];
-        cs[0] = ARRAY[0x0F & b];
-        cs[1] = ARRAY[0xF0 & b >> 4];
-        return cs;
     };
 }

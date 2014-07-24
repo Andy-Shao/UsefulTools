@@ -1,4 +1,4 @@
-package andy.shao.util;
+package com.github.andyshao.util;
 
 import java.lang.reflect.Constructor;
 import java.lang.reflect.Field;

@@ -1,4 +1,4 @@
-package andy.shao.util;
+package com.github.andyshao.util;
 
 import java.io.InputStream;
 import java.io.InputStreamReader;

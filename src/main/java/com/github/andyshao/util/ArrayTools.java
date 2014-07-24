@@ -1,9 +1,9 @@
-package andy.shao.util;
+package com.github.andyshao.util;
 
 import java.lang.reflect.Array;
 import java.util.*;
 
-import andy.shao.convert.Convert;
+import com.github.andyshao.convert.Convert;
 
 /**
  * Some tools of {@link Array}<br>

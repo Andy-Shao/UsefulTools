@@ -1,4 +1,4 @@
-package andy.shao.proxy;
+package com.github.andyshao.proxy;
 
 import java.lang.reflect.InvocationHandler;
 import java.lang.reflect.Method;
@@ -7,7 +7,7 @@ import java.util.Collection;
 import java.util.HashSet;
 import java.util.Set;
 
-import andy.shao.util.Reflects;
+import com.github.andyshao.util.Reflects;
 
 /**
  * 

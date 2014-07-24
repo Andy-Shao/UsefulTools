@@ -1,4 +1,4 @@
-package andy.shao.proxy;
+package com.github.andyshao.proxy;
 
 /**
  * 

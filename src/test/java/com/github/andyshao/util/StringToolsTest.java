@@ -1,7 +1,9 @@
-package andy.shao.util;
+package com.github.andyshao.util;
 
 import org.junit.Assert;
 import org.junit.Test;
+
+import com.github.andyshao.util.StringTools;
 
 public class StringToolsTest {
 

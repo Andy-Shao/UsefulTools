@@ -1,4 +1,4 @@
-package andy.shao.basetest;
+package com.github.andyshao.basetest;
 
 import org.junit.*;
 

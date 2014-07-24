@@ -1,4 +1,4 @@
-package andy.shao.util;
+package com.github.andyshao.util;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -6,7 +6,8 @@ import java.util.Map;
 import org.junit.Assert;
 import org.junit.Test;
 
-import andy.shao.convert.Convert;
+import com.github.andyshao.convert.Convert;
+import com.github.andyshao.util.ArrayTools;
 
 /**
  * 
