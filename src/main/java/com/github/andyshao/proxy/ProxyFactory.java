@@ -2,21 +2,21 @@ package com.github.andyshao.proxy;
 
 /**
  * 
- * Title:<br>
+ * Title:public proxy factory interface<br>
  * Descript:<br>
  * Copyright: Copryright(c) Mar 17, 2014<br>
  * Encoding:UNIX UTF-8
  * 
  * @author Andy.Shao
  *
- * @param <T>
+ * @param <T> the type of target which will be proxy
  */
 public interface ProxyFactory<T> {
 
     /**
-     * 
-     * @param target
-     * @return
+     * get the proxy
+     * @param target the target which will be proxy
+     * @return the proxy
      */
     T getProxy(T target);
 }

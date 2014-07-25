@@ -25,6 +25,7 @@ public final class Reflects {
     /**
      * 
      * @param className the name of class
+     * @param <T> the type of class
      * @return the type of class
      */
     @SuppressWarnings("unchecked")
@@ -40,6 +41,7 @@ public final class Reflects {
      * 
      * @param clazz the type of class
      * @param parameterTypes the type of parameters of constructor of class
+     * @param <T> the type of class
      * @return the constructor of class
      */
     public static <T> Constructor<T> getConstructor(Class<T> clazz , Class<?>... parameterTypes) {
@@ -54,6 +56,7 @@ public final class Reflects {
      * 
      * @param clazz the type of class
      * @param parameterTypes the typ of parameters of constructor of class
+     * @param <T> the type of class
      * @return the constructor of class
      */
     public static <T> Constructor<T> getDeclaredConstructor(Class<T> clazz , Class<?>... parameterTypes) {

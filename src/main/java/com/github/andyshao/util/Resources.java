@@ -56,7 +56,6 @@ public class Resources {
     }
 
     private Resources() {
-        // TODO Auto-generated constructor stub
         throw new AssertionError("No support instance " + Reflects.class.getName());
     }
 }

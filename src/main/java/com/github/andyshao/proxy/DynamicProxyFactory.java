@@ -11,14 +11,14 @@ import com.github.andyshao.util.Reflects;
 
 /**
  * 
- * Title:<br>
+ * Title:the proxy of java core API<br>
  * Descript:<br>
  * Copyright: Copryright(c) Mar 17, 2014<br>
  * Encoding:UNIX UTF-8
  * 
  * @author Andy.Shao
  *
- * @param <T>
+ * @param <T> the type of target
  */
 public abstract class DynamicProxyFactory<T> implements ProxyFactory<T> {
 
@@ -36,13 +36,11 @@ public abstract class DynamicProxyFactory<T> implements ProxyFactory<T> {
         private final T proxied;
 
         public DefaultInvocationHandler(T proxied) {
-            // TODO Auto-generated constructor stub
             this.proxied = proxied;
         }
 
         @Override
         public Object invoke(Object proxy , Method method , Object[] args) throws Throwable {
-            // TODO Auto-generated method stub
             if (DynamicProxyFactory.this.proxyMethods(this.proxied).contains(method)) DynamicProxyFactory.this.invoke(
                 this.proxied , method , args);
             return method.invoke(this.proxied , args);
@@ -58,16 +56,9 @@ public abstract class DynamicProxyFactory<T> implements ProxyFactory<T> {
 
     @Override
     public T getProxy(T target) {
-        // TODO Auto-generated method stub
         return getProxy(target , new DefaultInvocationHandler(target));
     }
 
-    /**
-     * 
-     * @param target
-     * @param invocationHandler
-     * @return
-     */
     @SuppressWarnings("unchecked")
     public T getProxy(T target , InvocationHandler invocationHandler) {
         return (T) Proxy.newProxyInstance(target.getClass().getClassLoader() , this.getInterfaces(target) ,
@@ -75,19 +66,20 @@ public abstract class DynamicProxyFactory<T> implements ProxyFactory<T> {
     }
 
     /**
-     * 
-     * @param target
-     * @param method
-     * @param args
-     * @return
-     * @throws Throwable
+     * when the method which will be invoke should be proxy. 
+     * this method will be run.
+     * @param target the target which will be proxy
+     * @param method the method which will be invoke
+     * @param args the args of method
+     * @return the answer of method
+     * @throws Throwable andy exception when run this method
      */
     protected abstract Object invoke(T target , Method method , Object[] args) throws Throwable;
 
     /**
-     * 
-     * @param target
-     * @return
+     * the methods which will be proxied
+     * @param target the target which will be proxy
+     * @return the methods collection
      */
     protected abstract Collection<Method> proxyMethods(T target);
 
