@@ -2,7 +2,7 @@ package com.github.andyshao.util;
 
 /**
  * 
- * Title:<br>
+ * Title: some usefu tools of java.lang.String<br>
  * Descript:<br>
  * Copyright: Copryright(c) Apr 28, 2014<br>
  * Encoding:UNIX UTF-8
@@ -16,12 +16,13 @@ public final class StringTools {
     }
 
     /**
-     * more efficient
+     * more efficient<br>
+     * replace all of the key words
      * 
-     * @param str
-     * @param key
-     * @param padding
-     * @return
+     * @param str the string which will be process
+     * @param key the key words will be instead
+     * @param padding the right words will be inputed
+     * @return the end of the string
      */
     public static String replaceAll(String str , String key , String padding) {
         while (str.indexOf(key) != -1)
@@ -30,37 +31,40 @@ public final class StringTools {
     }
 
     /**
-     * more efficient
+     * more efficient<br>
+     * only replace the first time occur
      * 
-     * @param str
-     * @param key
-     * @param padding
-     * @return
+     * @param str the string which will be process
+     * @param key the key words will be insted
+     * @param padding the right words will be inputed
+     * @return the end of the string
      */
     public static String replaceFirst(String str , String key , String padding) {
         return replace(str , key , padding , str.indexOf(key));
     }
 
     /**
-     * more efficient
+     * more efficient<br>
+     * only replace the last time occur
      * 
-     * @param str
-     * @param key
-     * @param padding
-     * @return
+     * @param str the string which will be process
+     * @param key the key words will be insted
+     * @param padding the right words will be inputed
+     * @return the end of the string
      */
     public static String replaceLast(String str , String key , String padding) {
         return replace(str , key , padding , str.lastIndexOf(key));
     }
 
     /**
-     * more efficient
+     * more efficient<br>
+     * replace the string
      * 
-     * @param str
-     * @param key
-     * @param padding
-     * @param index
-     * @return
+     * @param str the string which will be process
+     * @param key the key words will be insted
+     * @param padding the right words will be inputed
+     * @param index the start sight
+     * @return the end of the string
      */
     static String replace(String str , String key , String padding , int index) {
         String result;
@@ -74,11 +78,12 @@ public final class StringTools {
     }
 
     /**
-     * more efficient
+     * more efficient<br>
+     * split the string by separator
      * 
-     * @param str
-     * @param separator
-     * @return
+     * @param str the string which will be process
+     * @param separator the str will be splited by it
+     * @return the end of string
      */
     public static String[] split(String str , String separator) {
         String[] result = new String[0];

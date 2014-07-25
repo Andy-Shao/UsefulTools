@@ -11,8 +11,8 @@ import java.util.Objects;
  * 
  * @author Andy.Shao
  *
- * @param <IN>
- * @param <OUT>
+ * @param <IN> the input
+ * @param <OUT> the output
  */
 @FunctionalInterface
 public interface Convert<IN , OUT> {
