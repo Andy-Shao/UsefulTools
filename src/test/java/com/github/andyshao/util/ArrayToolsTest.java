@@ -3,7 +3,8 @@ package com.github.andyshao.util;
 import java.util.HashMap;
 import java.util.Map;
 
-import org.junit.Assert;
+import static org.junit.Assert.assertThat;
+import static org.hamcrest.Matchers.*;
 import org.junit.Test;
 
 import com.github.andyshao.convert.Convert;
@@ -29,7 +30,7 @@ public class ArrayToolsTest {
         answer.put("i" , "2");
         answer.put("I" , "3");
 
-        Assert.assertEquals(answer , target);
+        assertThat(answer, is(target));
     }
 
     @Test
@@ -37,7 +38,7 @@ public class ArrayToolsTest {
         int[] array = new int[] {
             1 , 2 , 3 , 4 , 3 , 6 , 7 , 3 , 9
         };
-        Assert.assertEquals(3 , ArrayTools.findFirstItem(array , 4));
+        assertThat(ArrayTools.findFirstItem(array, 4), is(3));
     }
 
     @Test
@@ -45,19 +46,32 @@ public class ArrayToolsTest {
         int[] array = new int[] {
             1 , 2 , 3 , 4 , 3 , 6 , 7 , 3 , 9
         };
-        Assert.assertEquals(3 , ArrayTools.findFirstItem(array , 4));
+        assertThat(ArrayTools.findFirstItem(array, 4), is(3));
     }
 
     @Test
     public void mergeArray() {
-        int[] array = ArrayTools.mergeArray(int[].class , new int[] {
-            1 , 2 , 3 , 4
-        } , new int[] {
-            5 , 6 , 7 , 8 , 9
-        });
-        Assert.assertArrayEquals(array , new int[] {
-            1 , 2 , 3 , 4 , 5 , 6 , 7 , 8 , 9
-        });
+    	{
+    		int[] array = ArrayTools.mergeArray(int[].class , new int[] {
+    			1 , 2 , 3 , 4
+    		} , new int[] {
+    			5 , 6 , 7 , 8 , 9
+    		});
+    		assertThat(array , is(new int[] {
+    				1 , 2 , 3 , 4 , 5 , 6 , 7 , 8 , 9
+    		}));
+    	}
+    	{
+    		char[] cs = new char[]{'b','c'};
+			char[] array = ArrayTools.mergeArray(char[].class, cs, new char[0]);
+    		assertThat(array, is(cs));
+    		
+    		array = ArrayTools.mergeArray(char[].class, new char[0], cs);
+    		assertThat(array, is(cs));
+    		
+    		array = ArrayTools.mergeArray(char[].class, new char[0], new char[0]);
+    		assertThat(array, is(new char[0]));
+    	}
     }
 
     @Test
@@ -65,9 +79,9 @@ public class ArrayToolsTest {
         int[] array = new int[] {
             1 , 2 , 3 , 4 , 3 , 6 , 7 , 3 , 9
         };
-        Assert.assertArrayEquals(new int[] {
-            1 , 2 , 4 , 6 , 7 , 9
-        } , ArrayTools.removeAllItem(array , 3));
+        assertThat(ArrayTools.removeAllItem(array , 3), is(new int[] {
+                1 , 2 , 4 , 6 , 7 , 9
+            }));
     }
 
     @Test
@@ -75,8 +89,8 @@ public class ArrayToolsTest {
         int[] array = new int[] {
             1 , 2 , 3 , 4 , 5 , 6 , 7 , 8 , 9
         };
-        Assert.assertArrayEquals(new int[] {
-            1 , 2 , 3 , 5 , 6 , 7 , 8 , 9
-        } , ArrayTools.removeItem(array , 3));
+        assertThat(ArrayTools.removeItem(array , 3), is(new int[] {
+                1 , 2 , 3 , 5 , 6 , 7 , 8 , 9
+            }));
     }
 }

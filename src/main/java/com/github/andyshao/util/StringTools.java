@@ -40,7 +40,7 @@ public final class StringTools {
      * @return the end of the string
      */
     public static String replaceFirst(String str , String key , String padding) {
-        return replace(str , key , padding , str.indexOf(key));
+        return replace(str, padding, str.indexOf(key), key.length());
     }
 
     /**
@@ -53,29 +53,30 @@ public final class StringTools {
      * @return the end of the string
      */
     public static String replaceLast(String str , String key , String padding) {
-        return replace(str , key , padding , str.lastIndexOf(key));
+        return replace(str, padding, str.lastIndexOf(key), key.length());
     }
 
     /**
-     * more efficient<br>
+     *  more efficient<br>
      * replace the string
      * 
      * @param str the string which will be process
-     * @param key the key words will be insted
      * @param padding the right words will be inputed
-     * @param index the start sight
+     * @param index the right words will be inputed
+     * @param length the length of string which should be replaced
      * @return the end of the string
      */
-    static String replace(String str , String key , String padding , int index) {
-        String result;
-
-        if (index == -1) result = str;
-        else if (index == 0) result = padding + str.substring(key.length());
-        else if (index + 1 >= str.length()) result = str.substring(0 , index) + padding;
-        else result = str.substring(0 , index) + padding + str.substring(index + key.length());
+	static String replace(String str, String padding, int index, int length) {
+		String result;
+		if (index == -1) result = str;
+		else {
+			if (index == 0) result = padding + str.substring(length);
+			else if (index + 1 >= str.length()) result = str.substring(0 , index) + padding;
+			else result = str.substring(0 , index) + padding + str.substring(index + length);
+		}
 
         return result;
-    }
+	}
 
     /**
      * more efficient<br>
