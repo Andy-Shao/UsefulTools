@@ -86,7 +86,8 @@ public final class ArrayTools {
      * @return the finally array which contain all of information of arrays.
      */
     @SuppressWarnings("unchecked")
-    public static <T> T mergeArray(Class<T> array_type , T... arrays) {
+    @SafeVarargs
+	public static <T> T mergeArray(Class<T> array_type , T... arrays) {
         if (!array_type.isArray()) { throw new IllegalArgumentException("The inputs must be a array"); }
         int length = 0;
         for (T array : arrays) {
@@ -98,7 +99,7 @@ public final class ArrayTools {
         }
         return result;
     }
-
+    
     /**
      * Remove all of item which be included in array.
      * 
@@ -191,6 +192,16 @@ public final class ArrayTools {
         T result = (T) Array.newInstance(array.getClass().getComponentType() , end - from);
         System.arraycopy(array , from , result , 0 , end - from);
         return result;
+    }
+
+    /**
+     * It is a easy way could create a array.
+     * @param targets the method what you want to return
+     * @return just return the targets
+     */
+    @SafeVarargs
+	public static <T> T[] toArray(T... targets){
+    	return targets;
     }
 
     private ArrayTools() {

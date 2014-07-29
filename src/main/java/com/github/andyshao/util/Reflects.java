@@ -11,6 +11,45 @@ import java.util.Set;
  * 
  * Title:the tool of java.lang.reflect<br>
  * Descript:<br>
+ * With a easy way to use java.lang.reflect.*; For this class could avoid some exception which is
+ * the subclass of {@link Exception}.<br>
+ * Convert the {@link Exception} or the subclass of {@link Exception} to {@link RuntimeException}.
+ * For example:
+ * <p>
+ * <blockquote>
+ * 
+ * <pre>
+ * try {
+ * 	return (Class&lt;T&gt;) Class.forName(className);
+ * } catch (ClassNotFoundException e) {
+ * 	throw new RuntimeException(e);
+ * }
+ * </pre>
+ * 
+ * </blockquote>
+ * <p>
+ * Any necessary about take the original exception, you could use this way:
+ * <p>
+ * <blockquote>
+ * 
+ * <pre>
+ * try {
+ * 	Class&lt;String&gt; clazz = Reflects.forName(&quot;java.lang.String&quot;);
+ * } catch (RuntimeException e) {
+ * 	Throwable throwable = e.getCause();
+ * 	if (throwable instanceof ClassNotFoundException) {
+ * 		// Do something
+ * 	}
+ * 	// For other things:
+ * 	throw e;
+ * }
+ * </pre>
+ * 
+ * </blockquote>
+ * <p>
+ * <p style="color:orange;">
+ * At least JDK1.5
+ * </p>
  * Copyright: Copryright(c) Mar 7, 2014<br>
  * Encoding:UNIX UTF-8
  * 
