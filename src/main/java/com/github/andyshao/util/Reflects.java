@@ -1,5 +1,6 @@
 package com.github.andyshao.util;
 
+import java.lang.annotation.Annotation;
 import java.lang.reflect.Constructor;
 import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
@@ -47,9 +48,6 @@ import java.util.Set;
  * 
  * </blockquote>
  * <p>
- * <p style="color:orange;">
- * At least JDK1.5
- * </p>
  * Copyright: Copryright(c) Mar 7, 2014<br>
  * Encoding:UNIX UTF-8
  * 
@@ -59,6 +57,33 @@ import java.util.Set;
 public final class Reflects {
     private Reflects() {
         throw new AssertionError("No support instance " + Reflects.class.getName());
+    }
+    
+    public static <T extends Annotation> T superGetAnnotation(Class<? extends Object> target, Class<T> clazz){
+		T annotation = target.getAnnotation(clazz);
+    	if(annotation != null) return annotation;
+    	
+    	if(target.isInterface()){
+    		Class<?>[] interfaces = target.getInterfaces();
+    		for(Class<?> _interface : interfaces){
+    			annotation = superGetAnnotation(_interface, clazz);
+    			if(annotation != null) return annotation;
+    		}
+    	} else{
+    		Class<? extends Object> superClass = target.getSuperclass();
+    		if(superClass != null){
+    			annotation = superGetAnnotation(superClass, clazz);
+    			if(annotation != null) return annotation;
+    		}
+    		
+    		Class<?>[] interfaces = target.getInterfaces();
+    		for(Class<?> _interface : interfaces){
+    			annotation = superGetAnnotation(_interface, clazz);
+    			if(annotation != null) return annotation;
+    		}
+    	}
+    	
+    	return annotation;
     }
 
     /**

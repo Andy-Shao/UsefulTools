@@ -11,6 +11,7 @@ package com.github.andyshao.proxy;
  *
  * @param <T> the type of target which will be proxy
  */
+@FunctionalInterface
 public interface ProxyFactory<T> {
 
     /**
