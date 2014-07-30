@@ -7,6 +7,20 @@
     <artifactId>Useful-Tools</artifactId>
     <version>1.0</version>
     <name>UsefulTools</name>
+    <description>Some thing about the useful tools of the JDK 1.8.</description>
+    <url>https://github.com/Andy-Shao/UsefulTools</url>
+    <licenses>
+    	<license>
+    		<name>The Apache Software License, Version 2.0</name>
+    		<url>http://www.apache.org/licenses/LICENSE-2.0.txt</url>
+    		<distribution>repo</distribution>
+    	</license>
+    </licenses>
+    <scm>
+    	<connection>scm:git:https://github.com/Andy-Shao/UsefulTools.git</connection>
+    	<developerConnection>scm:git:https://github.com/Andy-Shao/UsefulTools.git</developerConnection>
+    	<url>https://github.com/Andy-Shao/UsefulTools.git</url>
+    </scm>
 
     <dependencies>
         <dependency>
