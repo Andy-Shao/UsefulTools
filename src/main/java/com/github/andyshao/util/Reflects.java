@@ -16,7 +16,7 @@ import java.util.Set;
  * the subclass of {@link Exception}.<br>
  * Convert the {@link Exception} or the subclass of {@link Exception} to {@link RuntimeException}.
  * For example:
- * <p>
+ * <br>
  * <blockquote>
  * 
  * <pre>
@@ -28,9 +28,9 @@ import java.util.Set;
  * </pre>
  * 
  * </blockquote>
- * <p>
+ * <br>
  * Any necessary about take the original exception, you could use this way:
- * <p>
+ * <br>
  * <blockquote>
  * 
  * <pre>

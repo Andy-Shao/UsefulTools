@@ -49,4 +49,7 @@ public interface Convert<IN , OUT> {
         String str = OB_2_STR.convert(in);
         return str == null ? null : Double.valueOf(str);
     };
+    public static final Convert<Object , Object> OB_2_OB = (Object in) -> {
+    	return in;
+    };
 }

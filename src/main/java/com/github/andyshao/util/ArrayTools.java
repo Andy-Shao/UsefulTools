@@ -197,6 +197,7 @@ public final class ArrayTools {
     /**
      * It is a easy way could create a array.
      * @param targets the method what you want to return
+     * @param <T> the type of array
      * @return just return the targets
      */
     @SafeVarargs
