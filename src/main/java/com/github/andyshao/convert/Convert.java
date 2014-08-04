@@ -52,4 +52,21 @@ public interface Convert<IN , OUT> {
     public static final Convert<Object , Object> OB_2_OB = (Object in) -> {
     	return in;
     };
+    
+    static final String[] BYTE_HEX = new String[]{
+    	"0", "1", "2", "3",
+    	"4", "5", "6", "7",
+    	"8", "9", "a", "b",
+    	"c", "d", "e", "f"
+    };
+    public static final Convert<Byte, String> BYTE_2_HEX = byte2Char(BYTE_HEX);
+    
+    public static Convert<Byte, String> byte2Char(String[] format){
+    	return (Byte in) -> {
+    		int head = (in & 0xF0) >> 4;
+    		int tail = in & 0x0F;
+			return format[head] + format[tail];
+		};
+    }
+    
 }
