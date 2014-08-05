@@ -18,9 +18,7 @@ import java.util.Objects;
 public interface Convert<IN , OUT> {
     OUT convert(IN in);
 
-    public static final Convert<Object , String> OB_2_STR = (Object in) -> {
-        return Objects.toString(in , null);
-    };
+    public static final Convert<Object , String> OB_2_STR = (Object in) -> { return Objects.toString(in , null); };
     public static final Convert<Object , Character> OB_2_CHAR = (Object in) -> {
         String str = OB_2_STR.convert(in);
         return str.charAt(0);
@@ -49,24 +47,8 @@ public interface Convert<IN , OUT> {
         String str = OB_2_STR.convert(in);
         return str == null ? null : Double.valueOf(str);
     };
-    public static final Convert<Object , Object> OB_2_OB = (Object in) -> {
-    	return in;
-    };
-    
-    static final String[] BYTE_HEX = new String[]{
-    	"0", "1", "2", "3",
-    	"4", "5", "6", "7",
-    	"8", "9", "a", "b",
-    	"c", "d", "e", "f"
-    };
-    public static final Convert<Byte, String> BYTE_2_HEX = byte2Char(BYTE_HEX);
-    
-    public static Convert<Byte, String> byte2Char(String[] format){
-    	return (Byte in) -> {
-    		int head = (in & 0xF0) >> 4;
-    		int tail = in & 0x0F;
-			return format[head] + format[tail];
-		};
-    }
+    public static final Convert<Object , Object> OB_2_OB = (Object in) -> { return in; };
+    public static final Convert<Byte, String> BYTE_2_HEX = ConvertByte2Str.byte2Char(ConvertByte2Str.BYTE_HEX);
+    public static final Convert<String, Byte[]> HEX_2_BYTE = new ConvertStr2Byte();
     
 }

@@ -25,6 +25,7 @@ public final class ByteBuffereTools {
 	public static byte[] usedArray(ByteBuffer buffer){
 		return ArrayTools.splitArray(buffer.array(), buffer.position(), buffer.limit());
 	}
+	
 
 	public static String byte2Hex(byte[] bs){
 		StringBuilder builder = new StringBuilder();
