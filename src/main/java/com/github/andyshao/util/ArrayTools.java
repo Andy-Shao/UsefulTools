@@ -101,6 +101,26 @@ public final class ArrayTools {
     }
     
     /**
+     * Try to convert the array.<br>
+     * eg.<br>
+     * int[] <--> Integer[]<br>
+     * int[] --> long[]<br>
+     * Take Note: long[] can't convert to int[]
+     * @param in input array
+     * @param outClazz output array type
+     * @return output array
+     */
+    @SuppressWarnings("unchecked")
+	public static <IN, OUT> OUT pack_unpack(IN in, Class<OUT> outClazz){
+    	if(!in.getClass().isArray() || !outClazz.isArray()) throw new IllegalArgumentException("in or outClazz is not array");
+    	
+    	OUT result = (OUT) Array.newInstance(outClazz.getComponentType(), Array.getLength(in));
+    	for(int i=0; i<Array.getLength(in); i++) Array.set(result, i, Array.get(in, i));
+    	
+    	return result;
+    }
+
+    /**
      * Remove all of item which be included in array.
      * 
      * @param array
@@ -204,7 +224,7 @@ public final class ArrayTools {
 	public static <T> T[] toArray(T... targets){
     	return targets;
     }
-
+    
     private ArrayTools() {
         throw new AssertionError("No ArrayTools instances for you!");
     }

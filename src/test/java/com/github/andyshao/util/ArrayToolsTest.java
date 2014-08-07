@@ -5,6 +5,7 @@ import java.util.Map;
 
 import static org.junit.Assert.assertThat;
 import static org.hamcrest.Matchers.*;
+
 import org.junit.Test;
 
 import com.github.andyshao.convert.Convert;
@@ -75,6 +76,24 @@ public class ArrayToolsTest {
     }
 
     @Test
+    public void pack_unpack(){
+    	{
+    		Integer[] integers = ArrayTools.pack_unpack(new int[]{1,2,3}, Integer[].class);
+    		assertThat(integers, is(new Integer[]{1,2,3}));
+    	}
+
+    	{
+    		int[] is = ArrayTools.pack_unpack(new Integer[]{1, 2, 3}, int[].class);
+    		assertThat(is, is(new int[]{1, 2, 3}));
+    	}
+
+    	{
+    		long[] ls = ArrayTools.pack_unpack(new int[]{1}, long[].class);
+    		assertThat(ls, is(new long[]{1}));
+    	}
+    }
+
+    @Test
     public void removeAllItem() {
         int[] array = new int[] {
             1 , 2 , 3 , 4 , 3 , 6 , 7 , 3 , 9
@@ -83,7 +102,7 @@ public class ArrayToolsTest {
                 1 , 2 , 4 , 6 , 7 , 9
             }));
     }
-
+    
     @Test
     public void removeItem() {
         int[] array = new int[] {
