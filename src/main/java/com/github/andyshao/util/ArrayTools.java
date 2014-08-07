@@ -87,7 +87,7 @@ public final class ArrayTools {
      */
     @SuppressWarnings("unchecked")
     @SafeVarargs
-	public static <T> T mergeArray(Class<T> array_type , T... arrays) {
+    public static <T> T mergeArray(Class<T> array_type , T... arrays) {
         if (!array_type.isArray()) { throw new IllegalArgumentException("The inputs must be a array"); }
         int length = 0;
         for (T array : arrays) {
@@ -103,21 +103,23 @@ public final class ArrayTools {
     /**
      * Try to convert the array.<br>
      * eg.<br>
-     * int[] <--> Integer[]<br>
-     * int[] --> long[]<br>
+     * int[] -- Integer[]<br>
+     * int[] -- long[]<br>
      * Take Note: long[] can't convert to int[]
      * @param in input array
      * @param outClazz output array type
+     * @param <IN> Input array type
+     * @param <OUT> Ouput array type
      * @return output array
      */
     @SuppressWarnings("unchecked")
-	public static <IN, OUT> OUT pack_unpack(IN in, Class<OUT> outClazz){
-    	if(!in.getClass().isArray() || !outClazz.isArray()) throw new IllegalArgumentException("in or outClazz is not array");
-    	
-    	OUT result = (OUT) Array.newInstance(outClazz.getComponentType(), Array.getLength(in));
-    	for(int i=0; i<Array.getLength(in); i++) Array.set(result, i, Array.get(in, i));
-    	
-    	return result;
+    public static <IN, OUT> OUT pack_unpack(IN in, Class<OUT> outClazz){
+        if(!in.getClass().isArray() || !outClazz.isArray()) throw new IllegalArgumentException("in or outClazz is not array");
+        
+        OUT result = (OUT) Array.newInstance(outClazz.getComponentType(), Array.getLength(in));
+        for(int i=0; i<Array.getLength(in); i++) Array.set(result, i, Array.get(in, i));
+        
+        return result;
     }
 
     /**
@@ -221,8 +223,8 @@ public final class ArrayTools {
      * @return just return the targets
      */
     @SafeVarargs
-	public static <T> T[] toArray(T... targets){
-    	return targets;
+    public static <T> T[] toArray(T... targets){
+        return targets;
     }
     
     private ArrayTools() {
