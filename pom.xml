@@ -6,6 +6,7 @@
     <groupId>com.github.Andy-Shao</groupId>
     <artifactId>Useful-Tools</artifactId>
     <version>1.0</version>
+    <packaging>pom</packaging>
     <name>UsefulTools</name>
     <description>Some thing about the useful tools of the JDK 1.8.</description>
     <url>https://github.com/Andy-Shao/UsefulTools</url>
