@@ -18,6 +18,14 @@
             <distribution>repo</distribution>
         </license>
     </licenses>
+    <developers>
+        <developer>
+            <name>Andy-Shao</name>
+            <email>hj13035952619@126.com</email>
+            <organization>github</organization>
+            <organizationUrl>https://github.com/Andy-Shao</organizationUrl>
+        </developer>
+    </developers>
     <scm>
         <connection>scm:git:https://github.com/Andy-Shao/UsefulTools.git</connection>
         <developerConnection>scm:git:https://github.com/Andy-Shao/UsefulTools.git</developerConnection>
