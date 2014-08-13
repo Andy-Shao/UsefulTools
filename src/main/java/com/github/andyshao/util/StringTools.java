@@ -100,4 +100,13 @@ public final class StringTools {
 
         return result;
     }
+    
+    /**
+     * 
+     * @param str a string which should be tested.
+     * @return if the str is null or "", return the true
+     */
+    public static boolean isEmptyOrNull(String str) {
+		return str == null || str.isEmpty();
+	}
 }
