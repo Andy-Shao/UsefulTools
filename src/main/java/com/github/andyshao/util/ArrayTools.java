@@ -105,7 +105,8 @@ public final class ArrayTools {
      * eg.<br>
      * int[] -- Integer[]<br>
      * int[] -- long[]<br>
-     * Take Note: long[] can't convert to int[]
+     * Take Note: long[] can't convert to int[].
+     * It is low efficient. It need use a for loop copy array.
      * @param in input array
      * @param outClazz output array type
      * @param <IN> Input array type

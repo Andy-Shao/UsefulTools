@@ -49,6 +49,11 @@ public interface Convert<IN , OUT> {
     };
     public static final Convert<Object , Object> OB_2_OB = (Object in) -> { return in; };
     public static final Convert<Byte, String> BYTE_2_HEX = ConvertByte2Str.byte2Char(ConvertByte2Str.BYTE_HEX);
-    public static final Convert<String, Byte[]> HEX_2_BYTE = new ConvertStr2Byte();
+    public static final Convert<String, Byte[]> HEX_2_BYTES = new ConvertStr2Byte();
+    public static final Convert<Byte[], String> BYTES_2_HEX = (Byte[] in) -> {
+    	StringBuilder builder = new StringBuilder();
+    	for(Byte b : in) builder.append(BYTE_2_HEX.convert(b));
+    	return builder.toString();
+    };
     
 }
