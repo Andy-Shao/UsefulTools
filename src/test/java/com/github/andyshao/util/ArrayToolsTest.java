@@ -111,5 +111,8 @@ public class ArrayToolsTest {
         assertThat(ArrayTools.removeItem(array , 3), is(new int[] {
                 1 , 2 , 3 , 5 , 6 , 7 , 8 , 9
             }));
+        assertThat(ArrayTools.removeItem(array, 1, 4), is(new int[]{
+        		1 , 5 , 6 , 7 , 8 , 9
+        }));
     }
 }

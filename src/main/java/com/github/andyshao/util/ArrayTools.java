@@ -170,14 +170,28 @@ public final class ArrayTools {
      * @param <T> the type of array
      * @return a array which has been processed.
      */
-    @SuppressWarnings("unchecked")
     public static <T> T removeItem(T array , int i) {
-        if (i >= Array.getLength(array)) { return array; }
+    	return removeItem(array, i, i+1);
+    }
+    
+    /**
+     * Remove the array from start to end. the end is not include.
+     * @param array the array be processed.
+     * @param start start index
+     * @param end end index
+     * @return a array which has been processed.
+     */
+    @SuppressWarnings("unchecked")
+	public static <T> T removeItem(T array, int start, int end){
+    	if(!array.getClass().isArray()) throw new IllegalArgumentException("The array is not the ARRAY type.");
+    	if(start<0 || end<0 || end <= start) throw new IllegalArgumentException("The argument that start or end is not right.");
+    	if (start >= Array.getLength(array)) { return array; }
 
-        array =
-            ArrayTools.mergeArray((Class<T>) array.getClass() , ArrayTools.splitArray(array , 0 , i) ,
-                ArrayTools.splitArray(array , i + 1 , Array.getLength(array)));
-        return array;
+    	T head = start==0 ? ArrayTools.splitArray(array, end, Array.getLength(array)) : ArrayTools.splitArray(array, 0, start);
+    	T tail = start==0 ? (T) Array.newInstance(array.getClass().getComponentType(), 0) : ArrayTools.splitArray(array, end, Array.getLength(array));
+    	array = ArrayTools.mergeArray((Class<T>) array.getClass(), head, tail);
+    	
+    	return array;
     }
 
     /**
