@@ -27,6 +27,7 @@ public final class ByteBuffereTools {
 	}
 	
 
+	@Deprecated
 	public static String byte2Hex(byte[] bs){
 		StringBuilder builder = new StringBuilder();
 		

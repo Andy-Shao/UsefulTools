@@ -21,6 +21,7 @@ import java.nio.channels.WritableByteChannel;
  * @author Andy.Shao
  * 
  */
+@Deprecated
 public class Resources {
 
     public static Reader getReader(InputStream inputStream) {

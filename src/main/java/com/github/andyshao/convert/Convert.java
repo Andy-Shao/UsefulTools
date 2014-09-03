@@ -48,6 +48,8 @@ public interface Convert<IN , OUT> {
         return str == null ? null : Double.valueOf(str);
     };
     public static final Convert<Object , Object> OB_2_OB = (Object in) -> { return in; };
+    /**Will change it become private*/
+    @Deprecated
     public static final Convert<Byte, String> BYTE_2_HEX = ConvertByte2Str.byte2Char(ConvertByte2Str.BYTE_HEX);
     public static final Convert<String, Byte[]> HEX_2_BYTES = new ConvertStr2Byte();
     public static final Convert<Byte[], String> BYTES_2_HEX = (Byte[] in) -> {
