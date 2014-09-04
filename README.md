@@ -11,8 +11,8 @@ If you want to let it into the eclipse. Try to use the command:
 mvn eclipse:eclipse
 
 You could download from the maven repository, now!
-&lt;dependency&gt;
-	&lt;groupId&gt;com.github.Andy-Shao&lt;/groupId&gt;
-	&lt;artifactId&gt;Useful-Tools&lt;/artifactId&gt;
-	&lt;version&gt;${Your.Version.Number}&lt;/version&gt;
-&lt;/dependency&gt;
+&lt;dependency&gt;<br>
+	&lt;groupId&gt;com.github.Andy-Shao&lt;/groupId&gt;i<br>
+	&lt;artifactId&gt;Useful-Tools&lt;/artifactId&gt;<br>
+	&lt;version&gt;${Your.Version.Number}&lt;/version&gt;<br>
+&lt;/dependency&gt;<br>
