@@ -9,3 +9,10 @@ If there any problems then send the email to **hj13035952619@126.com**
 
 If you want to let it into the eclipse. Try to use the command:
 mvn eclipse:eclipse
+
+You could download from the maven repository, now!
+<dependency>
+	<groupId>com.github.Andy-Shao</groupId>
+	<artifactId>Useful-Tools</artifactId>
+	<version>${Your.Version.Number}</version>
+</dependency>
