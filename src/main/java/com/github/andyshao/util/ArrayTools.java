@@ -179,6 +179,7 @@ public final class ArrayTools {
      * @param array the array be processed.
      * @param start start index
      * @param end end index
+     * @param <T> the type of array
      * @return a array which has been processed.
      */
     @SuppressWarnings("unchecked")
