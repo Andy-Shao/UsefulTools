@@ -49,6 +49,17 @@ public class ArrayToolsTest {
     }
 
     @Test
+    public void flipArray() {
+        int[] array = new int[] {
+            1 , 2 , 3 , 4 , 5 , 6 , 7 , 8 , 9
+        };
+        int[] array2 = new int[] {
+            9 , 8 , 7 , 6 , 5 , 4 , 3 , 2 , 1
+        };
+        Assert.assertThat(ArrayTools.flipArray(array) , Matchers.is(array2));
+    }
+
+    @Test
     public void mergeArray() {
         {
             int[] array = ArrayTools.mergeArray(int[].class , new int[] {

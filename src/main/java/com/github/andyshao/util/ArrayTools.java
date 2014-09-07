@@ -68,6 +68,26 @@ public final class ArrayTools {
         return -1;
     }
 
+    /**
+     * 
+     * @param array the array which is processed.
+     * @param <T> the type of array
+     * @return A flip array.
+     */
+    @SuppressWarnings("unchecked")
+    public static <T> T flipArray(T array) {
+        if (!array.getClass().isArray()) { throw new IllegalArgumentException("The array must be a array"); }
+
+        int length = Array.getLength(array);
+        if (length == 0) { return array; }
+
+        T temp = (T) Array.newInstance(array.getClass().getComponentType() , length);
+        for (int i = length - 1 , b = 0 ; i >= 0 ; i-- , b++) {
+            Array.set(temp , b , Array.get(array , i));
+        }
+        return temp;
+    }
+
     @SuppressWarnings("unchecked")
     public static <T> T getValue(T[] array , int index , T nullDefault) {
         if (!array.getClass().isArray()) { throw new IllegalArgumentException("The input must be a array."); }
