@@ -24,22 +24,6 @@ import java.nio.channels.WritableByteChannel;
 @Deprecated
 public class Resources {
 
-    public static Reader getReader(InputStream inputStream) {
-        return new InputStreamReader(inputStream);
-    }
-
-    public static Writer getWriter(OutputStream outputStream) {
-        return new OutputStreamWriter(outputStream);
-    }
-
-    public static ReadableByteChannel getReadableByteChannel(InputStream inputStream) {
-        return Channels.newChannel(inputStream);
-    }
-
-    public static WritableByteChannel getWritableByteChannel(OutputStream outputStream) {
-        return Channels.newChannel(outputStream);
-    }
-
     public static InputStream getInputStream(AsynchronousByteChannel channel) {
         return Channels.newInputStream(channel);
     }
@@ -48,12 +32,28 @@ public class Resources {
         return Channels.newInputStream(channel);
     }
 
+    public static OutputStream getOutputStream(AsynchronousByteChannel channel) {
+        return Channels.newOutputStream(channel);
+    }
+
     public static OutputStream getOutputStream(WritableByteChannel channel) {
         return Channels.newOutputStream(channel);
     }
 
-    public static OutputStream getOutputStream(AsynchronousByteChannel channel) {
-        return Channels.newOutputStream(channel);
+    public static ReadableByteChannel getReadableByteChannel(InputStream inputStream) {
+        return Channels.newChannel(inputStream);
+    }
+
+    public static Reader getReader(InputStream inputStream) {
+        return new InputStreamReader(inputStream);
+    }
+
+    public static WritableByteChannel getWritableByteChannel(OutputStream outputStream) {
+        return Channels.newChannel(outputStream);
+    }
+
+    public static Writer getWriter(OutputStream outputStream) {
+        return new OutputStreamWriter(outputStream);
     }
 
     private Resources() {

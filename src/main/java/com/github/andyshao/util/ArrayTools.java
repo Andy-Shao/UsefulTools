@@ -99,7 +99,7 @@ public final class ArrayTools {
         }
         return result;
     }
-    
+
     /**
      * Try to convert the array.<br>
      * eg.<br>
@@ -107,6 +107,7 @@ public final class ArrayTools {
      * int[] -- long[]<br>
      * Take Note: long[] can't convert to int[].
      * It is low efficient. It need use a for loop copy array.
+     * 
      * @param in input array
      * @param outClazz output array type
      * @param <IN> Input array type
@@ -114,12 +115,15 @@ public final class ArrayTools {
      * @return output array
      */
     @SuppressWarnings("unchecked")
-    public static <IN, OUT> OUT pack_unpack(IN in, Class<OUT> outClazz){
-        if(!in.getClass().isArray() || !outClazz.isArray()) throw new IllegalArgumentException("in or outClazz is not array");
-        
-        OUT result = (OUT) Array.newInstance(outClazz.getComponentType(), Array.getLength(in));
-        for(int i=0; i<Array.getLength(in); i++) Array.set(result, i, Array.get(in, i));
-        
+    public static <IN , OUT> OUT pack_unpack(IN in , Class<OUT> outClazz) {
+        if (!in.getClass().isArray() || !outClazz.isArray()) { throw new IllegalArgumentException(
+            "in or outClazz is not array"); }
+
+        OUT result = (OUT) Array.newInstance(outClazz.getComponentType() , Array.getLength(in));
+        for (int i = 0 ; i < Array.getLength(in) ; i++) {
+            Array.set(result , i , Array.get(in , i));
+        }
+
         return result;
     }
 
@@ -130,7 +134,7 @@ public final class ArrayTools {
      *            The array be processed.
      * @param item The item which should be remove
      * @param <T> the type of array
-     * @param <I> the type of member of array 
+     * @param <I> the type of member of array
      * @return a array which has been processed.
      */
     public static <T , I> T removeAllItem(T array , I item) {
@@ -171,11 +175,12 @@ public final class ArrayTools {
      * @return a array which has been processed.
      */
     public static <T> T removeItem(T array , int i) {
-    	return removeItem(array, i, i+1);
+        return ArrayTools.removeItem(array , i , i + 1);
     }
-    
+
     /**
      * Remove the array from start to end. the end is not include.
+     * 
      * @param array the array be processed.
      * @param start start index
      * @param end end index
@@ -183,16 +188,21 @@ public final class ArrayTools {
      * @return a array which has been processed.
      */
     @SuppressWarnings("unchecked")
-	public static <T> T removeItem(T array, int start, int end){
-    	if(!array.getClass().isArray()) throw new IllegalArgumentException("The array is not the ARRAY type.");
-    	if(start<0 || end<0 || end <= start) throw new IllegalArgumentException("The argument that start or end is not right.");
-    	if (start >= Array.getLength(array)) { return array; }
+    public static <T> T removeItem(T array , int start , int end) {
+        if (!array.getClass().isArray()) { throw new IllegalArgumentException("The array is not the ARRAY type."); }
+        if (start < 0 || end < 0 || end <= start) { throw new IllegalArgumentException(
+            "The argument that start or end is not right."); }
+        if (start >= Array.getLength(array)) { return array; }
 
-    	T head = start==0 ? ArrayTools.splitArray(array, end, Array.getLength(array)) : ArrayTools.splitArray(array, 0, start);
-    	T tail = start==0 ? (T) Array.newInstance(array.getClass().getComponentType(), 0) : ArrayTools.splitArray(array, end, Array.getLength(array));
-    	array = ArrayTools.mergeArray((Class<T>) array.getClass(), head, tail);
-    	
-    	return array;
+        T head =
+            start == 0 ? ArrayTools.splitArray(array , end , Array.getLength(array)) : ArrayTools.splitArray(array , 0 ,
+                start);
+        T tail =
+            start == 0 ? (T) Array.newInstance(array.getClass().getComponentType() , 0) : ArrayTools.splitArray(array ,
+                end , Array.getLength(array));
+        array = ArrayTools.mergeArray((Class<T>) array.getClass() , head , tail);
+
+        return array;
     }
 
     /**
@@ -234,15 +244,16 @@ public final class ArrayTools {
 
     /**
      * It is a easy way could create a array.
+     * 
      * @param targets the method what you want to return
      * @param <T> the type of array
      * @return just return the targets
      */
     @SafeVarargs
-    public static <T> T[] toArray(T... targets){
+    public static <T> T[] toArray(T... targets) {
         return targets;
     }
-    
+
     private ArrayTools() {
         throw new AssertionError("No ArrayTools instances for you!");
     }

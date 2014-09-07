@@ -12,37 +12,36 @@ import java.util.Set;
  * 
  * Title:the tool of java.lang.reflect<br>
  * Descript:<br>
- * With a easy way to use java.lang.reflect.*; For this class could avoid some exception which is
+ * With a easy way to use java.lang.reflect.*; For this class could avoid some
+ * exception which is
  * the subclass of {@link Exception}.<br>
- * Convert the {@link Exception} or the subclass of {@link Exception} to {@link RuntimeException}.
- * For example:
- * <br>
+ * Convert the {@link Exception} or the subclass of {@link Exception} to
+ * {@link RuntimeException}.
+ * For example: <br>
  * <blockquote>
  * 
  * <pre>
  * try {
- * 	return (Class&lt;T&gt;) Class.forName(className);
+ *     return (Class&lt;T&gt;) Class.forName(className);
  * } catch (ClassNotFoundException e) {
- * 	throw new RuntimeException(e);
+ *     throw new RuntimeException(e);
  * }
  * </pre>
  * 
- * </blockquote>
- * <br>
- * Any necessary about take the original exception, you could use this way:
- * <br>
+ * </blockquote> <br>
+ * Any necessary about take the original exception, you could use this way: <br>
  * <blockquote>
  * 
  * <pre>
  * try {
- * 	Class&lt;String&gt; clazz = Reflects.forName(&quot;java.lang.String&quot;);
+ *     Class&lt;String&gt; clazz = Reflects.forName(&quot;java.lang.String&quot;);
  * } catch (RuntimeException e) {
- * 	Throwable throwable = e.getCause();
- * 	if (throwable instanceof ClassNotFoundException) {
- * 		// Do something
- * 	}
- * 	// For other things:
- * 	throw e;
+ *     Throwable throwable = e.getCause();
+ *     if (throwable instanceof ClassNotFoundException) {
+ *         // Do something
+ *     }
+ *     // For other things:
+ *     throw e;
  * }
  * </pre>
  * 
@@ -55,37 +54,6 @@ import java.util.Set;
  *
  */
 public final class Reflects {
-    private Reflects() {
-        throw new AssertionError("No support instance " + Reflects.class.getName());
-    }
-    
-    public static <T extends Annotation> T superGetAnnotation(Class<? extends Object> target, Class<T> clazz){
-		T annotation = target.getAnnotation(clazz);
-    	if(annotation != null) return annotation;
-    	
-    	if(target.isInterface()){
-    		Class<?>[] interfaces = target.getInterfaces();
-    		for(Class<?> _interface : interfaces){
-    			annotation = superGetAnnotation(_interface, clazz);
-    			if(annotation != null) return annotation;
-    		}
-    	} else{
-    		Class<? extends Object> superClass = target.getSuperclass();
-    		if(superClass != null){
-    			annotation = superGetAnnotation(superClass, clazz);
-    			if(annotation != null) return annotation;
-    		}
-    		
-    		Class<?>[] interfaces = target.getInterfaces();
-    		for(Class<?> _interface : interfaces){
-    			annotation = superGetAnnotation(_interface, clazz);
-    			if(annotation != null) return annotation;
-    		}
-    	}
-    	
-    	return annotation;
-    }
-
     /**
      * 
      * @param className the name of class
@@ -141,7 +109,7 @@ public final class Reflects {
         try {
             return clazz.getDeclaredField(field_name);
         } catch (NoSuchFieldException e) {
-            if (clazz.getSuperclass() != null) return getDeclaredField(clazz.getSuperclass() , field_name);
+            if (clazz.getSuperclass() != null) { return Reflects.getDeclaredField(clazz.getSuperclass() , field_name); }
             throw new RuntimeException(e);
         } catch (SecurityException e) {
             throw new RuntimeException(e);
@@ -150,6 +118,7 @@ public final class Reflects {
 
     /**
      * if the clazz doesn't include the mtheod, it will check the super class.
+     * 
      * @param clazz the type of class
      * @param method_name the name of method
      * @param parameterTypes the type of parameters
@@ -159,8 +128,8 @@ public final class Reflects {
         try {
             return clazz.getDeclaredMethod(method_name , parameterTypes);
         } catch (NoSuchMethodException e) {
-            if (clazz.getSuperclass() != null) return getDeclaredMethod(clazz.getSuperclass() , method_name ,
-                parameterTypes);
+            if (clazz.getSuperclass() != null) { return Reflects.getDeclaredMethod(clazz.getSuperclass() , method_name ,
+                parameterTypes); }
             throw new RuntimeException(e);
         } catch (SecurityException e) {
             throw new RuntimeException(e);
@@ -186,7 +155,9 @@ public final class Reflects {
 
     public static void getInterfaces(Class<?> clazz , Set<Class<?>> set) {
         set.addAll(Arrays.asList(clazz.getInterfaces()));
-        if (clazz.getSuperclass() != null) getInterfaces(clazz.getSuperclass() , set);
+        if (clazz.getSuperclass() != null) {
+            Reflects.getInterfaces(clazz.getSuperclass() , set);
+        }
     }
 
     public static Method getMethod(Class<?> clazz , String method_name , Class<?>... parameterTypes) {
@@ -220,5 +191,36 @@ public final class Reflects {
         } catch (IllegalArgumentException | IllegalAccessException e) {
             throw new RuntimeException(e);
         }
+    }
+
+    public static <T extends Annotation> T superGetAnnotation(Class<? extends Object> target , Class<T> clazz) {
+        T annotation = target.getAnnotation(clazz);
+        if (annotation != null) { return annotation; }
+
+        if (target.isInterface()) {
+            Class<?>[] interfaces = target.getInterfaces();
+            for (Class<?> _interface : interfaces) {
+                annotation = Reflects.superGetAnnotation(_interface , clazz);
+                if (annotation != null) { return annotation; }
+            }
+        } else {
+            Class<? extends Object> superClass = target.getSuperclass();
+            if (superClass != null) {
+                annotation = Reflects.superGetAnnotation(superClass , clazz);
+                if (annotation != null) { return annotation; }
+            }
+
+            Class<?>[] interfaces = target.getInterfaces();
+            for (Class<?> _interface : interfaces) {
+                annotation = Reflects.superGetAnnotation(_interface , clazz);
+                if (annotation != null) { return annotation; }
+            }
+        }
+
+        return annotation;
+    }
+
+    private Reflects() {
+        throw new AssertionError("No support instance " + Reflects.class.getName());
     }
 }

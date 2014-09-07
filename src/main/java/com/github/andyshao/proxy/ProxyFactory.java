@@ -16,6 +16,7 @@ public interface ProxyFactory<T> {
 
     /**
      * get the proxy
+     * 
      * @param target the target which will be proxy
      * @return the proxy
      */

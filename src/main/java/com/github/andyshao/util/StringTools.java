@@ -11,8 +11,40 @@ package com.github.andyshao.util;
  *
  */
 public final class StringTools {
-    private StringTools() {
-        throw new AssertionError("Not allowed to instance " + StringTools.class.getName());
+    /**
+     * 
+     * @param str a string which should be tested.
+     * @return if the str is null or "", return the true
+     */
+    public static boolean isEmptyOrNull(String str) {
+        return str == null || str.isEmpty();
+    }
+
+    /**
+     * more efficient<br>
+     * replace the string
+     * 
+     * @param str the string which will be process
+     * @param padding the right words will be inputed
+     * @param index the right words will be inputed
+     * @param length the length of string which should be replaced
+     * @return the end of the string
+     */
+    static String replace(String str , String padding , int index , int length) {
+        String result;
+        if (index == -1) {
+            result = str;
+        } else {
+            if (index == 0) {
+                result = padding + str.substring(length);
+            } else if (index + 1 >= str.length()) {
+                result = str.substring(0 , index) + padding;
+            } else {
+                result = str.substring(0 , index) + padding + str.substring(index + length);
+            }
+        }
+
+        return result;
     }
 
     /**
@@ -25,8 +57,9 @@ public final class StringTools {
      * @return the end of the string
      */
     public static String replaceAll(String str , String key , String padding) {
-        while (str.indexOf(key) != -1)
-            str = replaceFirst(str , key , padding);
+        while (str.indexOf(key) != -1) {
+            str = StringTools.replaceFirst(str , key , padding);
+        }
         return str;
     }
 
@@ -40,7 +73,7 @@ public final class StringTools {
      * @return the end of the string
      */
     public static String replaceFirst(String str , String key , String padding) {
-        return replace(str, padding, str.indexOf(key), key.length());
+        return StringTools.replace(str , padding , str.indexOf(key) , key.length());
     }
 
     /**
@@ -53,30 +86,8 @@ public final class StringTools {
      * @return the end of the string
      */
     public static String replaceLast(String str , String key , String padding) {
-        return replace(str, padding, str.lastIndexOf(key), key.length());
+        return StringTools.replace(str , padding , str.lastIndexOf(key) , key.length());
     }
-
-    /**
-     *  more efficient<br>
-     * replace the string
-     * 
-     * @param str the string which will be process
-     * @param padding the right words will be inputed
-     * @param index the right words will be inputed
-     * @param length the length of string which should be replaced
-     * @return the end of the string
-     */
-	static String replace(String str, String padding, int index, int length) {
-		String result;
-		if (index == -1) result = str;
-		else {
-			if (index == 0) result = padding + str.substring(length);
-			else if (index + 1 >= str.length()) result = str.substring(0 , index) + padding;
-			else result = str.substring(0 , index) + padding + str.substring(index + length);
-		}
-
-        return result;
-	}
 
     /**
      * more efficient<br>
@@ -94,19 +105,16 @@ public final class StringTools {
             });
             str = str.substring(index + separator.length());
         }
-        if (str.length() != 0) result = ArrayTools.mergeArray(String[].class , result , new String[] {
-            str
-        });
+        if (str.length() != 0) {
+            result = ArrayTools.mergeArray(String[].class , result , new String[] {
+                str
+            });
+        }
 
         return result;
     }
-    
-    /**
-     * 
-     * @param str a string which should be tested.
-     * @return if the str is null or "", return the true
-     */
-    public static boolean isEmptyOrNull(String str) {
-		return str == null || str.isEmpty();
-	}
+
+    private StringTools() {
+        throw new AssertionError("Not allowed to instance " + StringTools.class.getName());
+    }
 }

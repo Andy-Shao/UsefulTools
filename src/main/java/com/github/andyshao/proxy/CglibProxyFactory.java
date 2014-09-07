@@ -5,10 +5,10 @@ import java.util.Collection;
 import java.util.HashSet;
 import java.util.Set;
 
-import com.github.andyshao.util.Reflects;
-
 import net.sf.cglib.proxy.Enhancer;
 import net.sf.cglib.proxy.InvocationHandler;
+
+import com.github.andyshao.util.Reflects;
 
 /**
  * 
@@ -42,8 +42,9 @@ public abstract class CglibProxyFactory<T> implements ProxyFactory<T> {
 
         @Override
         public Object invoke(Object obj , Method method , Object[] args) throws Throwable {
-            if (CglibProxyFactory.this.proxyMethods(this.proxied).contains(method)) CglibProxyFactory.this.invoke(
-                this.proxied , method , args);
+            if (CglibProxyFactory.this.proxyMethods(this.proxied).contains(method)) {
+                CglibProxyFactory.this.invoke(this.proxied , method , args);
+            }
             return method.invoke(this.proxied , args);
         }
 
@@ -57,7 +58,7 @@ public abstract class CglibProxyFactory<T> implements ProxyFactory<T> {
 
     @Override
     public T getProxy(T target) {
-        return getProxy(target , new DefaultInvocationHandler(target));
+        return this.getProxy(target , new DefaultInvocationHandler(target));
     }
 
     @SuppressWarnings("unchecked")
@@ -70,8 +71,9 @@ public abstract class CglibProxyFactory<T> implements ProxyFactory<T> {
     }
 
     /**
-     * when the method which will be invoke should be proxy. 
+     * when the method which will be invoke should be proxy.
      * this method will be run.
+     * 
      * @param target the target which will be proxy
      * @param method the method which will be invoke
      * @param args the args of method
@@ -82,6 +84,7 @@ public abstract class CglibProxyFactory<T> implements ProxyFactory<T> {
 
     /**
      * the methods which will be proxied
+     * 
      * @param target the target which will be proxy
      * @return the methods collection
      */

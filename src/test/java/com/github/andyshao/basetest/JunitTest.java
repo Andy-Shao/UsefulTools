@@ -1,6 +1,6 @@
 package com.github.andyshao.basetest;
 
-import org.junit.*;
+import org.junit.Test;
 
 public class JunitTest {
 

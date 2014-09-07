@@ -41,8 +41,9 @@ public abstract class DynamicProxyFactory<T> implements ProxyFactory<T> {
 
         @Override
         public Object invoke(Object proxy , Method method , Object[] args) throws Throwable {
-            if (DynamicProxyFactory.this.proxyMethods(this.proxied).contains(method)) DynamicProxyFactory.this.invoke(
-                this.proxied , method , args);
+            if (DynamicProxyFactory.this.proxyMethods(this.proxied).contains(method)) {
+                DynamicProxyFactory.this.invoke(this.proxied , method , args);
+            }
             return method.invoke(this.proxied , args);
         }
 
@@ -56,7 +57,7 @@ public abstract class DynamicProxyFactory<T> implements ProxyFactory<T> {
 
     @Override
     public T getProxy(T target) {
-        return getProxy(target , new DefaultInvocationHandler(target));
+        return this.getProxy(target , new DefaultInvocationHandler(target));
     }
 
     @SuppressWarnings("unchecked")
@@ -66,8 +67,9 @@ public abstract class DynamicProxyFactory<T> implements ProxyFactory<T> {
     }
 
     /**
-     * when the method which will be invoke should be proxy. 
+     * when the method which will be invoke should be proxy.
      * this method will be run.
+     * 
      * @param target the target which will be proxy
      * @param method the method which will be invoke
      * @param args the args of method
@@ -78,6 +80,7 @@ public abstract class DynamicProxyFactory<T> implements ProxyFactory<T> {
 
     /**
      * the methods which will be proxied
+     * 
      * @param target the target which will be proxy
      * @return the methods collection
      */
