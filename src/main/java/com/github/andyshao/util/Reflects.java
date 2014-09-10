@@ -115,6 +115,23 @@ public final class Reflects {
             throw new RuntimeException(e);
         }
     }
+    
+    /**
+     * 
+     * @param clazz the type of class
+     * @return the fields of class
+     */
+    public static Field[] superGetDeclaredFields(Class<?> clazz){
+    	Field[] result = new Field[0];
+    	if(clazz.getSuperclass() != null){
+    		Field[] fields = superGetDeclaredFields(clazz.getSuperclass());
+    		result = ArrayTools.mergeArray(Field[].class, result, fields);
+    	}
+    	Field[] fields = clazz.getDeclaredFields();
+    	result = ArrayTools.mergeArray(Field[].class, result, fields);
+    	
+    	return result;
+    }
 
     /**
      * if the clazz doesn't include the mtheod, it will check the super class.
@@ -135,7 +152,7 @@ public final class Reflects {
             throw new RuntimeException(e);
         }
     }
-
+    
     public static Field getField(Class<?> clazz , String field_name) {
         try {
             return clazz.getField(field_name);
