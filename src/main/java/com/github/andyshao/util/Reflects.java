@@ -100,20 +100,35 @@ public final class Reflects {
     }
 
     /**
+     * if the clazz doesn't include the mtheod, it will check the super class.
      * 
      * @param clazz the type of class
      * @param field_name the name of field
      * @return the field of class
      */
-    public static Field getDeclaredField(Class<?> clazz , String field_name) {
+    public static Field superGetDeclaredField(Class<?> clazz , String field_name) {
         try {
             return clazz.getDeclaredField(field_name);
         } catch (NoSuchFieldException e) {
-            if (clazz.getSuperclass() != null) { return Reflects.getDeclaredField(clazz.getSuperclass() , field_name); }
+            if (clazz.getSuperclass() != null) { return Reflects.superGetDeclaredField(clazz.getSuperclass() , field_name); }
             throw new RuntimeException(e);
         } catch (SecurityException e) {
             throw new RuntimeException(e);
         }
+    }
+    
+    /**
+     * 
+     * @param clazz the type of class
+     * @param field_name the name of field
+     * @return the field of class
+     */
+    public static Field getDeclaredField(Class<?> clazz , String field_name){
+    	try {
+			return clazz.getDeclaredField(field_name);
+		} catch (NoSuchFieldException | SecurityException e) {
+			throw new RuntimeException(e);
+		}
     }
     
     /**
@@ -141,11 +156,11 @@ public final class Reflects {
      * @param parameterTypes the type of parameters
      * @return the method of class
      */
-    public static Method getDeclaredMethod(Class<?> clazz , String method_name , Class<?>... parameterTypes) {
+    public static Method superGetDeclaredMethod(Class<?> clazz , String method_name , Class<?>... parameterTypes) {
         try {
             return clazz.getDeclaredMethod(method_name , parameterTypes);
         } catch (NoSuchMethodException e) {
-            if (clazz.getSuperclass() != null) { return Reflects.getDeclaredMethod(clazz.getSuperclass() , method_name ,
+            if (clazz.getSuperclass() != null) { return Reflects.superGetDeclaredMethod(clazz.getSuperclass() , method_name ,
                 parameterTypes); }
             throw new RuntimeException(e);
         } catch (SecurityException e) {
@@ -153,6 +168,27 @@ public final class Reflects {
         }
     }
     
+    /**
+     * 
+     * @param clazz the type of class
+     * @param method_name the name of method
+     * @param parameterTypes the type of parameters
+     * @return the method of class
+     */
+    public static Method getDeclaredMethod(Class<?> clazz , String method_name , Class<?>... parameterTypes){
+    	try {
+			return clazz.getDeclaredMethod(method_name , parameterTypes);
+		} catch (NoSuchMethodException | SecurityException e) {
+			throw new RuntimeException(e);
+		}
+    }
+    
+    /**
+     * 
+     * @param clazz the type of class
+     * @param field_name the name of field
+     * @return the fields of class
+     */
     public static Field getField(Class<?> clazz , String field_name) {
         try {
             return clazz.getField(field_name);
