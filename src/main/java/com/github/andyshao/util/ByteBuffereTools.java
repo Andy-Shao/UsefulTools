@@ -2,8 +2,6 @@ package com.github.andyshao.util;
 
 import java.nio.ByteBuffer;
 
-import com.github.andyshao.convert.Convert;
-
 /**
  * 
  * Descript:<br>
@@ -14,17 +12,6 @@ import com.github.andyshao.convert.Convert;
  *
  */
 public final class ByteBuffereTools {
-    @Deprecated
-    public static String byte2Hex(byte[] bs) {
-        StringBuilder builder = new StringBuilder();
-
-        for (byte b : bs) {
-            builder.append(Convert.BYTE_2_HEX.convert(b));
-        }
-
-        return builder.toString();
-    }
-
     /**
      * Only return a space which great than buffer.position() and less than
      * buffer.limit()
