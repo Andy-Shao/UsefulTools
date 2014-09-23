@@ -19,15 +19,14 @@ public class ArrayToolsTest {
     @Test
     public void convertToMap() {
         Map<String , String> target =
-            ArrayTools.<String , String> convertToMap(Convert.OB_2_STR , Convert.OB_2_STR , new Object[] {
-                "i" , "2"
-            } , new Object[] {
-                "I" , "3"
+            ArrayTools.<String , String> convertToMap(Convert.OB_2_STR , Convert.OB_2_STR , new Object[][]{
+            		{"i", "2"}, {"I", "3"}, {"key", "value"}
             });
 
         Map<String , String> answer = new HashMap<>();
         answer.put("i" , "2");
         answer.put("I" , "3");
+        answer.put("key", "value");
 
         Assert.assertThat(answer , Matchers.is(target));
     }
