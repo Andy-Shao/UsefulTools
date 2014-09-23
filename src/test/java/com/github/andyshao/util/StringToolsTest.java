@@ -41,4 +41,9 @@ public class StringToolsTest {
             "178" , "785178"
         });
     }
+    
+    @Test
+    public void testFlipString(){
+    	Assert.assertThat(StringTools.flipString("123"), Matchers.is("321"));
+    }
 }

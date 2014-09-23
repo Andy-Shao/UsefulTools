@@ -13,6 +13,15 @@ package com.github.andyshao.util;
 public final class StringTools {
     /**
      * 
+     * @param str a string which should be flipped
+     * @return A string which has flipped.
+     */
+    public static String flipString(String str){
+    	return new String(ArrayTools.flipArray(str.toCharArray()));
+    }
+    
+    /**
+     * 
      * @param str a string which should be tested.
      * @return if the str is null or "", return the true
      */
