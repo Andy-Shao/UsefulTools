@@ -1,5 +1,8 @@
 package com.github.andyshao.proxy;
 
+import java.lang.reflect.Method;
+import java.util.Arrays;
+
 /**
  * 
  * Title:public proxy factory interface<br>
@@ -21,4 +24,12 @@ public interface ProxyFactory<T> {
      * @return the proxy
      */
     T getProxy(T target);
+    
+    public static String buildMethodKey(Method method){
+    	StringBuilder stringBuilder = new StringBuilder();
+    	stringBuilder.append(method.getReturnType()).append(":");
+    	stringBuilder.append(method.getName()).append(":");
+    	stringBuilder.append(Arrays.toString(method.getParameterTypes()));
+    	return stringBuilder.toString();
+    }
 }

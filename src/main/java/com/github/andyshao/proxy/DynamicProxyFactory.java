@@ -3,7 +3,6 @@ package com.github.andyshao.proxy;
 import java.lang.reflect.InvocationHandler;
 import java.lang.reflect.Method;
 import java.lang.reflect.Proxy;
-import java.util.Collection;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -41,8 +40,8 @@ public abstract class DynamicProxyFactory<T> implements ProxyFactory<T> {
 
         @Override
         public Object invoke(Object proxy , Method method , Object[] args) throws Throwable {
-            if (DynamicProxyFactory.this.proxyMethods(this.proxied).contains(method)) {
-                DynamicProxyFactory.this.invoke(this.proxied , method , args);
+			if (DynamicProxyFactory.this.proxyMethods(this.proxied, method, args)) {
+                return DynamicProxyFactory.this.invoke(this.proxied , method , args);
             }
             return method.invoke(this.proxied , args);
         }
@@ -82,8 +81,10 @@ public abstract class DynamicProxyFactory<T> implements ProxyFactory<T> {
      * the methods which will be proxied
      * 
      * @param target the target which will be proxy
+     * @param method the method which will be invoke
+     * @param args the args of method
      * @return the methods collection
      */
-    protected abstract Collection<Method> proxyMethods(T target);
+    protected abstract boolean proxyMethods(T target , Method method , Object[] args);
 
 }
