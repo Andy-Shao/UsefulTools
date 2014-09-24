@@ -1,6 +1,7 @@
 package com.github.andyshao.convert;
 
 import java.math.BigDecimal;
+import java.math.BigInteger;
 import java.util.Arrays;
 import java.util.List;
 
@@ -49,8 +50,12 @@ public class ConvertTest {
 	public void testFloat(){
 		float f = 1.23F;
 		String fStr = "1.23";
+		BigDecimal bigDecimal = new BigDecimal(fStr);
 		
 		float myFloat = Convert.OB_2_FLOAT.convert(fStr);
+		Assert.assertThat(myFloat, Matchers.is(f));
+		
+		myFloat = Convert.OB_2_FLOAT.convert(bigDecimal);
 		Assert.assertThat(myFloat, Matchers.is(f));
 	}
 	
@@ -58,8 +63,16 @@ public class ConvertTest {
 	public void testInt(){
 		int i = 15_000;
 		String iStr = "15000";
+		BigInteger bigInteger = new BigInteger(iStr);
+		BigDecimal bigDecimal = new BigDecimal(iStr);
 		
 		int myInt = Convert.OB_2_INT.convert(iStr);
+		Assert.assertThat(myInt, Matchers.is(i));
+		
+		myInt = Convert.OB_2_INT.convert(bigDecimal);
+		Assert.assertThat(myInt, Matchers.is(i));
+		
+		myInt = Convert.OB_2_INT.convert(bigInteger);
 		Assert.assertThat(myInt, Matchers.is(i));
 	}
 	
@@ -67,8 +80,16 @@ public class ConvertTest {
 	public void testLong(){
 		long l = 15_000_000L;
 		String lStr = "15000000";
+		BigInteger bigInteger = new BigInteger(lStr);
+		BigDecimal bigDecimal = new BigDecimal(lStr);
 		
 		long myLong = Convert.OB_2_LONG.convert(lStr);
+		Assert.assertThat(myLong, Matchers.is(l));
+		
+		myLong = Convert.OB_2_LONG.convert(bigDecimal);
+		Assert.assertThat(myLong, Matchers.is(l));
+		
+		myLong = Convert.OB_2_LONG.convert(bigInteger);
 		Assert.assertThat(myLong, Matchers.is(l));
 	}
 	
@@ -76,8 +97,16 @@ public class ConvertTest {
 	public void testShort(){
 		short s = 150;
 		String sStr = "150";
+		BigInteger bigInteger = new BigInteger(sStr);
+		BigDecimal bigDecimal = new BigDecimal(sStr);
 		
 		short myShort = Convert.OB_2_SHORT.convert(sStr);
+		Assert.assertThat(myShort, Matchers.is(s));
+		
+		myShort = Convert.OB_2_SHORT.convert(bigInteger);
+		Assert.assertThat(myShort, Matchers.is(s));
+		
+		myShort = Convert.OB_2_SHORT.convert(bigDecimal);
 		Assert.assertThat(myShort, Matchers.is(s));
 	}
 	
