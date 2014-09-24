@@ -197,6 +197,12 @@ public final class Reflects {
         }
     }
 
+    /**
+     * 
+     * @param target the Object which store the value of field
+     * @param field the define of field
+     * @return the value of field
+     */
     @SuppressWarnings("unchecked")
     public static <T> T getFieldValue(Object target , Field field) {
         try {
@@ -206,13 +212,25 @@ public final class Reflects {
         }
     }
 
-    public static void getInterfaces(Class<?> clazz , Set<Class<?>> set) {
+    /**
+     * if the clazz has the super class then find the intefaces from super class. 
+     * @param clazz The type of Object's
+     * @param set the collection which store all of interfaces about the clazz.
+     */
+    public static void superGetInterfaces(Class<?> clazz , Set<Class<?>> set) {
         set.addAll(Arrays.asList(clazz.getInterfaces()));
         if (clazz.getSuperclass() != null) {
-            Reflects.getInterfaces(clazz.getSuperclass() , set);
+            Reflects.superGetInterfaces(clazz.getSuperclass() , set);
         }
     }
 
+    /**
+     * Only could find out the permission of method is public.
+     * @param clazz the type of object
+     * @param method_name the name of method
+     * @param parameterTypes the parameter types list
+     * @return the define of method
+     */
     public static Method getMethod(Class<?> clazz , String method_name , Class<?>... parameterTypes) {
         try {
             return clazz.getMethod(method_name , parameterTypes);
@@ -221,6 +239,13 @@ public final class Reflects {
         }
     }
 
+    /**
+     * 
+     * @param target the object which should run the method
+     * @param method the define of method
+     * @param values the values of parameters of method's
+     * @return the result of method's
+     */
     @SuppressWarnings("unchecked")
     public static <T> T invoked(Object target , Method method , Object... values) {
         try {
@@ -230,6 +255,12 @@ public final class Reflects {
         }
     }
 
+    /**
+     * 
+     * @param constructor the define of class' constructor
+     * @param values the values of parameters of constructor's
+     * @return the object which is builded from constructor
+     */
     public static <T> T newInstance(Constructor<T> constructor , Object... values) {
         try {
             return constructor.newInstance(values);
@@ -238,6 +269,12 @@ public final class Reflects {
         }
     }
 
+    /**
+     * 
+     * @param target the object which has define and value about field
+     * @param field the define of field
+     * @param value
+     */
     public static void setFieldValue(Object target , Field field , Object value) {
         try {
             field.set(target , value);
@@ -246,6 +283,12 @@ public final class Reflects {
         }
     }
 
+    /**
+     * 
+     * @param target
+     * @param clazz
+     * @return
+     */
     public static <T extends Annotation> T superGetAnnotation(Class<? extends Object> target , Class<T> clazz) {
         T annotation = target.getAnnotation(clazz);
         if (annotation != null) { return annotation; }

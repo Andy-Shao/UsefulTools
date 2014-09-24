@@ -52,7 +52,7 @@ public abstract class CglibProxyFactory<T> implements ProxyFactory<T> {
 
     protected Class<?>[] getInterfaces(T target) {
         Set<Class<?>> set = new HashSet<>();
-        Reflects.getInterfaces(target.getClass() , set);
+        Reflects.superGetInterfaces(target.getClass() , set);
         return set.toArray(new Class<?>[set.size()]);
     }
 
