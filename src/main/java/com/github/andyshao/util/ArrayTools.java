@@ -1,7 +1,6 @@
 package com.github.andyshao.util;
 
 import java.lang.reflect.Array;
-import java.util.HashMap;
 import java.util.Map;
 
 import com.github.andyshao.convert.Convert;
@@ -21,14 +20,14 @@ public final class ArrayTools {
      * 
      * @param convertK the convert of key's
      * @param convertV the convert of value's
+     * @param map the input map which is result
      * @param arrays the information
      * @param <K> the type of key
      * @param <V> the type of value
      * @return the Map what you want to get
      */
     public static <K , V> Map<K , V> convertToMap(
-        Convert<Object , K> convertK , Convert<Object , V> convertV , Object[]... arrays) {
-        Map<K , V> map = new HashMap<K , V>();
+        Convert<Object , K> convertK , Convert<Object , V> convertV , Map<K , V> map , Object[]... arrays) {
         for (Object[] array : arrays) {
             map.put(convertK.convert(array[0]) , convertV.convert(array[1]));
         }

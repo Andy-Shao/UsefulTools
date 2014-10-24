@@ -19,7 +19,7 @@ public class ArrayToolsTest {
     @Test
     public void convertToMap() {
         Map<String , String> target =
-            ArrayTools.<String , String> convertToMap(Convert.OB_2_STR , Convert.OB_2_STR , new Object[][]{
+            ArrayTools.<String , String> convertToMap(Convert.OB_2_STR , Convert.OB_2_STR , new HashMap<String, String>(), new Object[][]{
             		{"i", "2"}, {"I", "3"}, {"key", "value"}
             });
 
