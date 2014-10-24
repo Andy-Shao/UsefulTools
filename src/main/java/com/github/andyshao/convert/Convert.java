@@ -61,4 +61,7 @@ public interface Convert<IN , OUT> {
 
     OUT convert(IN in);
 
+    public static <IN, OUT> OUT converting(IN in, Convert<IN, OUT> convert){
+    	return convert.convert(in);
+    }
 }

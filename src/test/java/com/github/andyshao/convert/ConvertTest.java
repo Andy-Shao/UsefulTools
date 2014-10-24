@@ -12,6 +12,13 @@ import org.junit.Test;
 import com.github.andyshao.util.ArrayTools;
 
 public class ConvertTest {
+	
+	@Test
+	public void testConverting(){
+		Object in = new BigDecimal("12.34");
+		String out = Convert.<Object, String> converting(in, (Object input) -> { return input.toString();});
+		Assert.assertThat(out, Matchers.is("12.34"));
+	}
 
 	@Test
 	public void testByteArray(){
