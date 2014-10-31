@@ -8,7 +8,7 @@ import org.junit.Test;
 import com.github.andyshao.proxy.CglibProxyFactoryTest.MyClass;
 import com.github.andyshao.util.Reflects;
 
-public class CglibProxyFTest {
+public class CglibPFTest {
 
 	@Test
 	public void test(){
@@ -16,7 +16,7 @@ public class CglibProxyFTest {
 		
 		Assert.assertFalse(myClass.isAllow());
 		
-		CglibProxyF<CglibProxyFactoryTest.MyClass> cglibProxyF = new CglibProxyF<CglibProxyFactoryTest.MyClass>() {
+		CglibPF<CglibProxyFactoryTest.MyClass> cglibProxyF = new CglibPF<CglibProxyFactoryTest.MyClass>() {
 			private final String methodName = ProxyFactory.buildMethodKey(Reflects.getMethod(MyClass.class, "isAllow"));
 			
 			@Override

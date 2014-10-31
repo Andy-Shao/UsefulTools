@@ -5,7 +5,7 @@ import java.lang.reflect.Method;
 import net.sf.cglib.proxy.Enhancer;
 import net.sf.cglib.proxy.InvocationHandler;
 
-public interface CglibProxyF<T> {
+public interface CglibPF<T> {
 	public abstract Class<?>[] implInterfaces(); 
 
 	/**
@@ -43,7 +43,7 @@ public interface CglibProxyF<T> {
     	return new ProxyFactory<T>() {
 			@Override
 			public T getProxy(T target) {
-				return CglibProxyF.this.getProxy(target, new InvocationHandler() {
+				return CglibPF.this.getProxy(target, new InvocationHandler() {
 					private volatile T proxy;
 					
 					public InvocationHandler setProxy(T proxy) {
@@ -53,8 +53,8 @@ public interface CglibProxyF<T> {
 
 					@Override
 					public Object invoke(Object target, Method method, Object[] args) throws Throwable {
-						if(CglibProxyF.this.proxyMethods(this.proxy, method, args)){
-							return CglibProxyF.this.invoke(this.proxy, method, args);
+						if(CglibPF.this.proxyMethods(this.proxy, method, args)){
+							return CglibPF.this.invoke(this.proxy, method, args);
 						}
 						
 						return method.invoke(this.proxy, args);

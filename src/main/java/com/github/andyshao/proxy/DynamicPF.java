@@ -4,7 +4,7 @@ import java.lang.reflect.InvocationHandler;
 import java.lang.reflect.Method;
 import java.lang.reflect.Proxy;
 
-public interface DynamicProxyF<T> {
+public interface DynamicPF<T> {
 	Class<?>[] proxyInterfaces(T target);
 	/**
      * when the method which will be invoke should be proxy.
@@ -38,13 +38,13 @@ public interface DynamicProxyF<T> {
 
 			@Override
 			public T getProxy(T target) {
-				return DynamicProxyF.this.getProxy(target, new InvocationHandler() {
+				return DynamicPF.this.getProxy(target, new InvocationHandler() {
 					private volatile T proxy;
 					
 					@Override
 					public Object invoke(Object proxy, Method method, Object[] args) throws Throwable {
-						if(DynamicProxyF.this.proxyMethods(this.proxy, method, args)){
-							return DynamicProxyF.this.invoke(this.proxy, method, args);
+						if(DynamicPF.this.proxyMethods(this.proxy, method, args)){
+							return DynamicPF.this.invoke(this.proxy, method, args);
 						}
 						
 						return method.invoke(this.proxy, args);

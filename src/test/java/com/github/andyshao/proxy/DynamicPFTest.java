@@ -8,7 +8,7 @@ import org.junit.Test;
 import com.github.andyshao.proxy.DynamicProxyFactoryTest.MyInterface;
 import com.github.andyshao.util.Reflects;
 
-public class DynamicProxyFTest {
+public class DynamicPFTest {
 
 	@Test
 	public void test(){
@@ -22,7 +22,7 @@ public class DynamicProxyFTest {
 		
 		Assert.assertFalse(myInterface.isAllow());
 		
-		DynamicProxyF<DynamicProxyFactoryTest.MyInterface> dynamicProxyF = new DynamicProxyF<DynamicProxyFactoryTest.MyInterface>() {
+		DynamicPF<DynamicProxyFactoryTest.MyInterface> dynamicProxyF = new DynamicPF<DynamicProxyFactoryTest.MyInterface>() {
 			private final String key = ProxyFactory.buildMethodKey(Reflects.getMethod(DynamicProxyFactoryTest.MyInterface.class, "isAllow"));
 			
 			@Override
