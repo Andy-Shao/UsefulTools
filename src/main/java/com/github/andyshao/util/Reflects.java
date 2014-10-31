@@ -273,7 +273,7 @@ public final class Reflects {
      * 
      * @param target the object which has define and value about field
      * @param field the define of field
-     * @param value
+     * @param value the values of parameters of constructor's
      */
     public static void setFieldValue(Object target , Field field , Object value) {
         try {
@@ -285,9 +285,9 @@ public final class Reflects {
 
     /**
      * 
-     * @param target
-     * @param clazz
-     * @return
+     * @param target the object which has define and value about field
+     * @param clazz the type of object
+     * @return all of annotation
      */
     public static <T extends Annotation> T superGetAnnotation(Class<? extends Object> target , Class<T> clazz) {
         T annotation = target.getAnnotation(clazz);
