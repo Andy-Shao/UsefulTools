@@ -1,13 +1,8 @@
 package com.github.andyshao.proxy;
 
 import java.lang.reflect.Method;
-import java.util.HashSet;
-import java.util.Set;
-
 import net.sf.cglib.proxy.Enhancer;
 import net.sf.cglib.proxy.InvocationHandler;
-
-import com.github.andyshao.util.Reflects;
 
 /**
  * 
