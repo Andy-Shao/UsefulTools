@@ -35,7 +35,7 @@ public class CglibPFTest {
 				return new Class<?>[0];
 			}
 		};
-		myClass = cglibProxyF.toProxyFactroy().getProxy(myClass);
+		myClass = cglibProxyF.toProxyFactroy().apply(myClass);
 		
 		Assert.assertTrue(myClass.isAllow());
 	}

@@ -35,7 +35,7 @@ public class CglibProxyFactoryTest {
 				return true;
 			}
 		};
-		myClass = cglibProxyFactory.getProxy(myClass);
+		myClass = cglibProxyFactory.apply(myClass);
 		
 		Assert.assertTrue(myClass.isAllow());
 	}

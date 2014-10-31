@@ -42,7 +42,7 @@ public interface CglibPF<T> {
     public default ProxyFactory<T> toProxyFactroy(){
     	return new ProxyFactory<T>() {
 			@Override
-			public T getProxy(T target) {
+			public T apply(T target) {
 				return CglibPF.this.getProxy(target, new InvocationHandler() {
 					private volatile T proxy;
 					

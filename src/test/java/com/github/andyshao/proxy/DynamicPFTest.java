@@ -41,7 +41,7 @@ public class DynamicPFTest {
 				return ProxyFactory.<MyInterface>allInterfaces(target);
 			}
 		};
-		myInterface = dynamicProxyF.toProxyFactory().getProxy(myInterface);
+		myInterface = dynamicProxyF.toProxyFactory().apply(myInterface);
 		
 		Assert.assertTrue(myInterface.isAllow());
 	}

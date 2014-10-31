@@ -28,7 +28,7 @@ public class ConvertByte2Str implements Convert<Byte , String> {
             Convert<Byte , String> byte2char = ConvertByte2Str.byte2Char(format);
             StringBuilder stringBuilder = new StringBuilder();
             for (Byte b : in) {
-                stringBuilder.append(byte2char.convert(b));
+                stringBuilder.append(byte2char.apply(b));
             }
 
             return stringBuilder.toString();
@@ -40,8 +40,8 @@ public class ConvertByte2Str implements Convert<Byte , String> {
     private volatile Convert<Byte , String> proxy;
 
     @Override
-    public String convert(Byte in) {
-        return this.proxy.convert(in);
+    public String apply(Byte in) {
+        return this.proxy.apply(in);
     }
 
     public void setByte2Char(String[] byte2Char) {
