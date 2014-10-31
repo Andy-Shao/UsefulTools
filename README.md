@@ -16,3 +16,18 @@ You could download from the maven repository, now!<br>
 	&lt;artifactId&gt;Useful-Tools&lt;/artifactId&gt;<br>
 	&lt;version&gt;${Useful-Tools.Version.Number}&lt;/version&gt;<br>
 &lt;/dependency&gt;<br>
+###############################################################################
+
+**The update of v4.0**
+
+*Support JDK8 interface functional*<br>
+Adjust the com.github.andyshao.convert.Convert &
+com.github.andyshao.proxy.ProxyFactory support the JDK8 interface functional
+
+*Use the interface build ProxyFactory*<br>
+Now, you can use the com.github.andyshao.proxy.DynamicPF &
+com.github.andyshao.proxy.CglibPF interface build the ProxyFactory.
+
+*Improve Java System property*<br>
+The com.github.andyshao.lang.GeneralSystemProperty that can get the Java System
+Property more convenient is a Enum class. 
