@@ -3,10 +3,6 @@ package com.github.andyshao.proxy;
 import java.lang.reflect.InvocationHandler;
 import java.lang.reflect.Method;
 import java.lang.reflect.Proxy;
-import java.util.HashSet;
-import java.util.Set;
-
-import com.github.andyshao.util.Reflects;
 
 /**
  * 
@@ -48,12 +44,6 @@ public abstract class DynamicProxyFactory<T> implements ProxyFactory<T> {
 
     }
 
-    protected Class<?>[] getInterfaces(T target) {
-        Set<Class<?>> set = new HashSet<>();
-        Reflects.superGetInterfaces(target.getClass() , set);
-        return set.toArray(new Class<?>[set.size()]);
-    }
-
     @Override
     public T getProxy(T target) {
         return this.getProxy(target , new DefaultInvocationHandler(target));
@@ -61,7 +51,7 @@ public abstract class DynamicProxyFactory<T> implements ProxyFactory<T> {
 
     @SuppressWarnings("unchecked")
     public T getProxy(T target , InvocationHandler invocationHandler) {
-        return (T) Proxy.newProxyInstance(target.getClass().getClassLoader() , this.getInterfaces(target) ,
+        return (T) Proxy.newProxyInstance(target.getClass().getClassLoader() , ProxyFactory.<T>allInterfaces(target) ,
             invocationHandler);
     }
 

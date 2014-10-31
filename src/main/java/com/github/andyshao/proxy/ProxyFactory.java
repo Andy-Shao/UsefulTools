@@ -2,6 +2,10 @@ package com.github.andyshao.proxy;
 
 import java.lang.reflect.Method;
 import java.util.Arrays;
+import java.util.HashSet;
+import java.util.Set;
+
+import com.github.andyshao.util.Reflects;
 
 /**
  * 
@@ -25,7 +29,13 @@ public interface ProxyFactory<T> {
      */
     T getProxy(T target);
     
-    public static String buildMethodKey(Method method){
+    public static <T> Class<?>[] allInterfaces(T target){
+		Set<Class<?>> set = new HashSet<>();
+	    Reflects.superGetInterfaces(target.getClass() , set);
+	    return set.toArray(new Class<?>[set.size()]);
+	}
+
+	public static String buildMethodKey(Method method){
     	StringBuilder stringBuilder = new StringBuilder();
     	stringBuilder.append(method.getReturnType()).append(":");
     	stringBuilder.append(method.getName()).append(":");

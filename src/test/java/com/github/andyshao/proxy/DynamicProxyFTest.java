@@ -1,0 +1,48 @@
+package com.github.andyshao.proxy;
+
+import java.lang.reflect.Method;
+
+import org.junit.Assert;
+import org.junit.Test;
+
+import com.github.andyshao.proxy.DynamicProxyFactoryTest.MyInterface;
+import com.github.andyshao.util.Reflects;
+
+public class DynamicProxyFTest {
+
+	@Test
+	public void test(){
+		DynamicProxyFactoryTest.MyInterface myInterface = new DynamicProxyFactoryTest.MyInterface() {
+			
+			@Override
+			public boolean isAllow() {
+				return false;
+			}
+		};
+		
+		Assert.assertFalse(myInterface.isAllow());
+		
+		DynamicProxyF<DynamicProxyFactoryTest.MyInterface> dynamicProxyF = new DynamicProxyF<DynamicProxyFactoryTest.MyInterface>() {
+			private final String key = ProxyFactory.buildMethodKey(Reflects.getMethod(DynamicProxyFactoryTest.MyInterface.class, "isAllow"));
+			
+			@Override
+			public boolean proxyMethods(MyInterface target, Method method, Object[] args) {
+				if(ProxyFactory.buildMethodKey(method).equals(this.key)) return true;
+				return false;
+			}
+			
+			@Override
+			public Object invoke(MyInterface target, Method method, Object[] args) throws Throwable {
+				return true;
+			}
+			
+			@Override
+			public Class<?>[] proxyInterfaces(MyInterface target) {
+				return ProxyFactory.<MyInterface>allInterfaces(target);
+			}
+		};
+		myInterface = dynamicProxyF.toProxyFactory().getProxy(myInterface);
+		
+		Assert.assertTrue(myInterface.isAllow());
+	}
+}

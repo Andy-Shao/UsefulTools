@@ -49,12 +49,6 @@ public abstract class CglibProxyFactory<T> implements ProxyFactory<T> {
 
     }
 
-    protected Class<?>[] getInterfaces(T target) {
-        Set<Class<?>> set = new HashSet<>();
-        Reflects.superGetInterfaces(target.getClass() , set);
-        return set.toArray(new Class<?>[set.size()]);
-    }
-
     @Override
     public T getProxy(T target) {
         return this.getProxy(target , new DefaultInvocationHandler(target));
@@ -64,7 +58,7 @@ public abstract class CglibProxyFactory<T> implements ProxyFactory<T> {
     public T getProxy(T target , InvocationHandler invocationHandler) {
         Enhancer enhancer = new Enhancer();
         enhancer.setSuperclass(target.getClass());
-        enhancer.setInterfaces(this.getInterfaces(target));
+        enhancer.setInterfaces(ProxyFactory.<T>allInterfaces(target));
         enhancer.setCallback(invocationHandler);
         return (T) enhancer.create();
     }
