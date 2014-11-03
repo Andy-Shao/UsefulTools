@@ -59,6 +59,7 @@ public final class Reflects {
      * @param className the name of class
      * @param <T> the type of class
      * @return the type of class
+     * @see Class#forName(String)
      */
     @SuppressWarnings("unchecked")
     public static <T> Class<T> forName(String className) {
@@ -75,6 +76,7 @@ public final class Reflects {
      * @param parameterTypes the type of parameters of constructor of class
      * @param <T> the type of class
      * @return the constructor of class
+     * @see Class#getConstructor(Class...)
      */
     public static <T> Constructor<T> getConstructor(Class<T> clazz , Class<?>... parameterTypes) {
         try {
@@ -90,6 +92,7 @@ public final class Reflects {
      * @param parameterTypes the typ of parameters of constructor of class
      * @param <T> the type of class
      * @return the constructor of class
+     * @see Class#getDeclaredConstructor(Class...)
      */
     public static <T> Constructor<T> getDeclaredConstructor(Class<T> clazz , Class<?>... parameterTypes) {
         try {
@@ -105,6 +108,7 @@ public final class Reflects {
      * @param clazz the type of class
      * @param field_name the name of field
      * @return the field of class
+     * @see Class#getDeclaredField(String)
      */
     public static Field superGetDeclaredField(Class<?> clazz , String field_name) {
         try {
@@ -122,6 +126,7 @@ public final class Reflects {
      * @param clazz the type of class
      * @param field_name the name of field
      * @return the field of class
+     * @see Class#getDeclaredField(String)
      */
     public static Field getDeclaredField(Class<?> clazz , String field_name){
     	try {
@@ -135,6 +140,7 @@ public final class Reflects {
      * 
      * @param clazz the type of class
      * @return the fields of class
+     * @see Class#getDeclaredField(String)
      */
     public static Field[] superGetDeclaredFields(Class<?> clazz){
     	Field[] result = new Field[0];
@@ -155,6 +161,7 @@ public final class Reflects {
      * @param method_name the name of method
      * @param parameterTypes the type of parameters
      * @return the method of class
+     * @see Class#getDeclaredMethod(String, Class...)
      */
     public static Method superGetDeclaredMethod(Class<?> clazz , String method_name , Class<?>... parameterTypes) {
         try {
@@ -174,6 +181,7 @@ public final class Reflects {
      * @param method_name the name of method
      * @param parameterTypes the type of parameters
      * @return the method of class
+     * @see Class#getDeclaredMethod(String, Class...)
      */
     public static Method getDeclaredMethod(Class<?> clazz , String method_name , Class<?>... parameterTypes){
     	try {
@@ -188,6 +196,7 @@ public final class Reflects {
      * @param clazz the type of class
      * @param field_name the name of field
      * @return the fields of class
+     * @see Class#getField(String)
      */
     public static Field getField(Class<?> clazz , String field_name) {
         try {
@@ -202,6 +211,7 @@ public final class Reflects {
      * @param target the Object which store the value of field
      * @param field the define of field
      * @return the value of field
+     * @see Field#get(Object)
      */
     @SuppressWarnings("unchecked")
     public static <T> T getFieldValue(Object target , Field field) {
@@ -216,6 +226,7 @@ public final class Reflects {
      * if the clazz has the super class then find the intefaces from super class. 
      * @param clazz The type of Object's
      * @param set the collection which store all of interfaces about the clazz.
+     * @see Class#getInterfaces()
      */
     public static void superGetInterfaces(Class<?> clazz , Set<Class<?>> set) {
         set.addAll(Arrays.asList(clazz.getInterfaces()));
@@ -230,6 +241,7 @@ public final class Reflects {
      * @param method_name the name of method
      * @param parameterTypes the parameter types list
      * @return the define of method
+     * @see Class#getMethod(String, Class...)
      */
     public static Method getMethod(Class<?> clazz , String method_name , Class<?>... parameterTypes) {
         try {
@@ -245,6 +257,7 @@ public final class Reflects {
      * @param method the define of method
      * @param values the values of parameters of method's
      * @return the result of method's
+     * @see Method#invoke(Object, Object...)
      */
     @SuppressWarnings("unchecked")
     public static <T> T invoked(Object target , Method method , Object... values) {
@@ -260,6 +273,7 @@ public final class Reflects {
      * @param constructor the define of class' constructor
      * @param values the values of parameters of constructor's
      * @return the object which is builded from constructor
+     * @see Constructor#newInstance(Object...)
      */
     public static <T> T newInstance(Constructor<T> constructor , Object... values) {
         try {
@@ -274,6 +288,7 @@ public final class Reflects {
      * @param target the object which has define and value about field
      * @param field the define of field
      * @param value the values of parameters of constructor's
+     * @see Field#set(Object, Object)
      */
     public static void setFieldValue(Object target , Field field , Object value) {
         try {
@@ -288,6 +303,7 @@ public final class Reflects {
      * @param target the object which has define and value about field
      * @param clazz the type of object
      * @return all of annotation
+     * @see Class#getAnnotation(Class)
      */
     public static <T extends Annotation> T superGetAnnotation(Class<? extends Object> target , Class<T> clazz) {
         T annotation = target.getAnnotation(clazz);
