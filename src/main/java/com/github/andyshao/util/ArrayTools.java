@@ -38,8 +38,8 @@ public final class ArrayTools {
      * find out the location of first item.
      * 
      * @param array
-     *            the array which be processed
-     * @param item The item which should be remove
+     *            the array which is processed
+     * @param item The item which should be removed
      * @param <T> the type of array
      * @return if can't find out anything then return -1
      */
@@ -54,9 +54,9 @@ public final class ArrayTools {
      * find out the location of last item.
      * 
      * @param array
-     *            the array which be processed
+     *            the array which is processed
      * @param item
-     *            The item which should be remove
+     *            The item which should be removed
      * @param <T> the type of array
      * @return if can't find out anything then return -1
      */
@@ -75,8 +75,6 @@ public final class ArrayTools {
      */
     @SuppressWarnings("unchecked")
     public static <T> T flipArray(T array) {
-        if (!array.getClass().isArray()) { throw new IllegalArgumentException("The array must be a array"); }
-
         int length = Array.getLength(array);
         if (length == 0) { return array; }
 
@@ -87,12 +85,39 @@ public final class ArrayTools {
         return temp;
     }
 
+    /**
+     * 
+     * @param array the array which is processed.
+     * @param index the address of value
+     * @param nullDefault the default value
+     * @param <T> the type of array
+     * @return the value which index is {@value index}.
+     */
     @SuppressWarnings("unchecked")
-    public static <T> T getValue(T[] array , int index , T nullDefault) {
-        if (!array.getClass().isArray()) { throw new IllegalArgumentException("The input must be a array."); }
-
-        if (Array.getLength(array) <= index) { return nullDefault; }
+    public static <T> T getValue(T array , int index , T nullDefault) {
+        if (isAbove(array, index)) { return nullDefault; }
         return (T) Array.get(array , index);
+    }
+
+    /**
+     * 
+     * @param array the array which is processed.
+     * @param index the address of value
+     * @param <T> the type of array
+     * @return if the index above array then return true
+     */
+	private static <T> boolean isAbove(T array, int index) {
+		return Array.getLength(array) <= index;
+	}
+    
+	/**
+	 * 
+	 * @param array the array which is processed.
+	 * @param index the address of value
+	 * @return if the index doesn't above array and the value is null , return true
+	 */
+    public static <T> boolean isEmpty(T array, int index){
+    	return isAbove(array, index) ? false : Array.get(array, index) == null;
     }
 
     /**
@@ -107,7 +132,6 @@ public final class ArrayTools {
     @SuppressWarnings("unchecked")
     @SafeVarargs
     public static <T> T mergeArray(Class<T> array_type , T... arrays) {
-        if (!array_type.isArray()) { throw new IllegalArgumentException("The inputs must be a array"); }
         int length = 0;
         for (T array : arrays) {
             length += Array.getLength(array);
@@ -135,9 +159,6 @@ public final class ArrayTools {
      */
     @SuppressWarnings("unchecked")
     public static <IN , OUT> OUT pack_unpack(IN in , Class<OUT> outClazz) {
-        if (!in.getClass().isArray() || !outClazz.isArray()) { throw new IllegalArgumentException(
-            "in or outClazz is not array"); }
-
         OUT result = (OUT) Array.newInstance(outClazz.getComponentType() , Array.getLength(in));
         for (int i = 0 ; i < Array.getLength(in) ; i++) {
             Array.set(result , i , Array.get(in , i));
@@ -150,7 +171,7 @@ public final class ArrayTools {
      * Remove all of item which be included in array.
      * 
      * @param array
-     *            The array be processed.
+     *            The array is processed.
      * @param item The item which should be remove
      * @param <T> the type of array
      * @param <I> the type of member of array
@@ -170,7 +191,7 @@ public final class ArrayTools {
      * Remove the first location which included the item in array.
      * 
      * @param array
-     *            the array which be processed.
+     *            the array which is processed.
      * @param item the item which should be remove.
      * @param <T> the type of array
      * @param <I> the type of member of array
@@ -188,7 +209,7 @@ public final class ArrayTools {
      * Remove the array[i] from the array.
      * 
      * @param array
-     *            the array be processed.
+     *            the array is processed
      * @param i the location which should be removed.
      * @param <T> the type of array
      * @return a array which has been processed.
@@ -200,7 +221,7 @@ public final class ArrayTools {
     /**
      * Remove the array from start to end. the end is not include.
      * 
-     * @param array the array be processed.
+     * @param array the array is processed
      * @param start start index
      * @param end end index
      * @param <T> the type of array
@@ -208,7 +229,6 @@ public final class ArrayTools {
      */
     @SuppressWarnings("unchecked")
     public static <T> T removeItem(T array , int start , int end) {
-        if (!array.getClass().isArray()) { throw new IllegalArgumentException("The array is not the ARRAY type."); }
         if (start < 0 || end < 0 || end <= start) { throw new IllegalArgumentException(
             "The argument that start or end is not right."); }
         if (start >= Array.getLength(array)) { return array; }
@@ -228,8 +248,8 @@ public final class ArrayTools {
      * Remove the last location of item from array.
      * 
      * @param array
-     *            the array which be processed.
-     * @param item the item which should be remove.
+     *            the array which is processed.
+     * @param item the item which should be removed.
      * @param <T> the type of array
      * @param <I> the type of member of array
      * @return a array which has been processed.
@@ -246,7 +266,7 @@ public final class ArrayTools {
      * Get a small array from the array.
      * 
      * @param array
-     *            the array be processed.
+     *            the array is processed
      * @param from
      *            the start of location of array
      * @param end the end of location of array. NOTE: never include itself.
