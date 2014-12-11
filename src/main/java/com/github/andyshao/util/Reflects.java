@@ -210,6 +210,7 @@ public final class Reflects {
      * 
      * @param target the Object which store the value of field
      * @param field the define of field
+     * @param <T> the type of return 
      * @return the value of field
      * @see Field#get(Object)
      */
@@ -256,6 +257,7 @@ public final class Reflects {
      * @param target the object which should run the method
      * @param method the define of method
      * @param values the values of parameters of method's
+     * @param <T> the type of return
      * @return the result of method's
      * @see Method#invoke(Object, Object...)
      */
@@ -272,6 +274,7 @@ public final class Reflects {
      * 
      * @param constructor the define of class' constructor
      * @param values the values of parameters of constructor's
+     * @param <T> the type of return
      * @return the object which is builded from constructor
      * @see Constructor#newInstance(Object...)
      */
@@ -302,6 +305,7 @@ public final class Reflects {
      * 
      * @param target the object which has define and value about field
      * @param clazz the type of object
+     * @param <T> the type of return
      * @return all of annotation
      * @see Class#getAnnotation(Class)
      */

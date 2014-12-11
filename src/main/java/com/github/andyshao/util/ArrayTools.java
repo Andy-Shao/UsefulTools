@@ -91,7 +91,7 @@ public final class ArrayTools {
      * @param index the address of value
      * @param nullDefault the default value
      * @param <T> the type of array
-     * @return the value which index is {@value index}.
+     * @return the value which index is index.
      */
     @SuppressWarnings("unchecked")
     public static <T> T getValue(T array , int index , T nullDefault) {
@@ -106,18 +106,19 @@ public final class ArrayTools {
      * @param <T> the type of array
      * @return if the index above array then return true
      */
-	private static <T> boolean isAbove(T array, int index) {
-		return Array.getLength(array) <= index;
-	}
+    private static <T> boolean isAbove(T array, int index) {
+        return Array.getLength(array) <= index;
+    }
     
-	/**
-	 * 
-	 * @param array the array which is processed.
-	 * @param index the address of value
-	 * @return if the index doesn't above array and the value is null , return true
-	 */
+    /**
+     * 
+     * @param array the array which is processed.
+     * @param index the address of value
+     * @param <T> the type of array
+     * @return if the index doesn't above array and the value is null , return true
+     */
     public static <T> boolean isEmpty(T array, int index){
-    	return isAbove(array, index) ? false : Array.get(array, index) == null;
+        return isAbove(array, index) ? false : Array.get(array, index) == null;
     }
 
     /**
