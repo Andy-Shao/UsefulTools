@@ -82,7 +82,15 @@ public interface DoubleLinked<D> extends List<D , DoubleLinked.DoubleLinkedElmt<
 
             @Override
             public boolean clean() {
-                // TODO Auto-generated method stub
+                do
+                    if (this.size == 0) return true;
+                    else if (this.size == 1) {
+                        this.head.free();
+                        this.head = null;
+                        this.tail = null;
+                    } else this.dlist_remove(this.head);
+                while (this.size != 0);
+
                 return false;
             }
 

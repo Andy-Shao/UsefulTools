@@ -75,6 +75,7 @@ public interface SingleLinked<D> extends List<D , SingleLinked.SingleLinkedElmt<
                         return true;
                     } else this.list_rem_next(this.head);
                 while (this.size != 0);
+                
                 return false;
             }
 
