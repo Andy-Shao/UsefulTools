@@ -28,9 +28,8 @@ public final class ArrayTools {
      */
     public static <K , V> Map<K , V> convertToMap(
         Convert<Object , K> convertK , Convert<Object , V> convertV , Map<K , V> map , Object[]... arrays) {
-        for (Object[] array : arrays) {
+        for (Object[] array : arrays)
             map.put(convertK.apply(array[0]) , convertV.apply(array[1]));
-        }
         return map;
     }
 
@@ -44,9 +43,8 @@ public final class ArrayTools {
      * @return if can't find out anything then return -1
      */
     public static <T> int findFirstItem(T array , Object item) {
-        for (int i = 0 ; i < Array.getLength(array) ; i++) {
-            if (Array.get(array , i).equals(item)) { return i; }
-        }
+        for (int i = 0 ; i < Array.getLength(array) ; i++)
+            if (Array.get(array , i).equals(item)) return i;
         return -1;
     }
 
@@ -61,9 +59,8 @@ public final class ArrayTools {
      * @return if can't find out anything then return -1
      */
     public static <T> int findLastItem(T array , Object item) {
-        for (int i = Array.getLength(array) - 1 ; i >= 0 ; i--) {
-            if (Array.get(array , i).equals(item)) { return i; }
-        }
+        for (int i = Array.getLength(array) - 1 ; i >= 0 ; i--)
+            if (Array.get(array , i).equals(item)) return i;
         return -1;
     }
 
@@ -76,12 +73,11 @@ public final class ArrayTools {
     @SuppressWarnings("unchecked")
     public static <T> T flipArray(T array) {
         int length = Array.getLength(array);
-        if (length == 0) { return array; }
+        if (length == 0) return array;
 
         T temp = (T) Array.newInstance(array.getClass().getComponentType() , length);
-        for (int i = length - 1 , b = 0 ; i >= 0 ; i-- , b++) {
+        for (int i = length - 1 , b = 0 ; i >= 0 ; i-- , b++)
             Array.set(temp , b , Array.get(array , i));
-        }
         return temp;
     }
 
@@ -95,7 +91,7 @@ public final class ArrayTools {
      */
     @SuppressWarnings("unchecked")
     public static <T> T getValue(T array , int index , T nullDefault) {
-        if (isAbove(array, index)) { return nullDefault; }
+        if (ArrayTools.isAbove(array , index)) return nullDefault;
         return (T) Array.get(array , index);
     }
 
@@ -106,19 +102,20 @@ public final class ArrayTools {
      * @param <T> the type of array
      * @return if the index above array then return true
      */
-    private static <T> boolean isAbove(T array, int index) {
+    private static <T> boolean isAbove(T array , int index) {
         return Array.getLength(array) <= index;
     }
-    
+
     /**
      * 
      * @param array the array which is processed.
      * @param index the address of value
      * @param <T> the type of array
-     * @return if the index doesn't above array and the value is null , return true
+     * @return if the index doesn't above array and the value is null , return
+     *         true
      */
-    public static <T> boolean isEmpty(T array, int index){
-        return isAbove(array, index) ? false : Array.get(array, index) == null;
+    public static <T> boolean isEmpty(T array , int index) {
+        return ArrayTools.isAbove(array , index) ? false : Array.get(array , index) == null;
     }
 
     /**
@@ -134,13 +131,11 @@ public final class ArrayTools {
     @SafeVarargs
     public static <T> T mergeArray(Class<T> array_type , T... arrays) {
         int length = 0;
-        for (T array : arrays) {
+        for (T array : arrays)
             length += Array.getLength(array);
-        }
         T result = (T) Array.newInstance(array_type.getComponentType() , length);
-        for (int i = 0 , point = 0 ; i < arrays.length ; point += Array.getLength(arrays[i]) , i++) {
+        for (int i = 0 , point = 0 ; i < arrays.length ; point += Array.getLength(arrays[i]) , i++)
             System.arraycopy(arrays[i] , 0 , result , point , Array.getLength(arrays[i]));
-        }
         return result;
     }
 
@@ -161,9 +156,8 @@ public final class ArrayTools {
     @SuppressWarnings("unchecked")
     public static <IN , OUT> OUT pack_unpack(IN in , Class<OUT> outClazz) {
         OUT result = (OUT) Array.newInstance(outClazz.getComponentType() , Array.getLength(in));
-        for (int i = 0 ; i < Array.getLength(in) ; i++) {
+        for (int i = 0 ; i < Array.getLength(in) ; i++)
             Array.set(result , i , Array.get(in , i));
-        }
 
         return result;
     }
@@ -179,12 +173,11 @@ public final class ArrayTools {
      * @return a array which has been processed.
      */
     public static <T , I> T removeAllItem(T array , I item) {
-        ARRAY: for (int i = 0 ; i < Array.getLength(array) ; i++) {
+        ARRAY: for (int i = 0 ; i < Array.getLength(array) ; i++)
             if (Array.get(array , i).equals(item)) {
                 array = ArrayTools.removeItem(array , i);
                 continue ARRAY;
             }
-        }
         return array;
     }
 
@@ -200,9 +193,7 @@ public final class ArrayTools {
      */
     public static <T , I> T removeFirstItem(T array , I item) {
         int index = ArrayTools.findFirstItem(array , item);
-        if (index >= 0) {
-            array = ArrayTools.removeItem(array , index);
-        }
+        if (index >= 0) array = ArrayTools.removeItem(array , index);
         return array;
     }
 
@@ -230,9 +221,9 @@ public final class ArrayTools {
      */
     @SuppressWarnings("unchecked")
     public static <T> T removeItem(T array , int start , int end) {
-        if (start < 0 || end < 0 || end <= start) { throw new IllegalArgumentException(
-            "The argument that start or end is not right."); }
-        if (start >= Array.getLength(array)) { return array; }
+        if (start < 0 || end < 0 || end <= start) throw new IllegalArgumentException(
+            "The argument that start or end is not right.");
+        if (start >= Array.getLength(array)) return array;
 
         T head =
             start == 0 ? ArrayTools.splitArray(array , end , Array.getLength(array)) : ArrayTools.splitArray(array , 0 ,
@@ -257,9 +248,7 @@ public final class ArrayTools {
      */
     public static <T , I> T removeLastItem(T array , I item) {
         int index = ArrayTools.findLastItem(array , item);
-        if (index >= 0) {
-            array = ArrayTools.removeItem(array , index);
-        }
+        if (index >= 0) array = ArrayTools.removeItem(array , index);
         return array;
     }
 
@@ -276,7 +265,7 @@ public final class ArrayTools {
      */
     @SuppressWarnings("unchecked")
     public static <T> T splitArray(T array , int from , int end) {
-        if (!array.getClass().isArray()) { throw new IllegalArgumentException("The array must be a array"); }
+        if (!array.getClass().isArray()) throw new IllegalArgumentException("The array must be a array");
         T result = (T) Array.newInstance(array.getClass().getComponentType() , end - from);
         System.arraycopy(array , from , result , 0 , end - from);
         return result;

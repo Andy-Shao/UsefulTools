@@ -5,8 +5,13 @@ import java.lang.reflect.Method;
 import java.lang.reflect.Proxy;
 
 public interface DynamicPF<T> {
-	Class<?>[] proxyInterfaces(T target);
-	/**
+    @SuppressWarnings("unchecked")
+    public default T getProxy(T target , InvocationHandler invocationHandler) {
+        return (T) Proxy.newProxyInstance(target.getClass().getClassLoader() , this.proxyInterfaces(target) ,
+            invocationHandler);
+    }
+
+    /**
      * when the method which will be invoke should be proxy.
      * this method will be run.
      * 
@@ -16,8 +21,11 @@ public interface DynamicPF<T> {
      * @return the answer of method
      * @throws Throwable andy exception when run this method
      */
-	Object invoke(T target , Method method , Object[] args) throws Throwable;
-	/**
+    Object invoke(T target , Method method , Object[] args) throws Throwable;
+
+    Class<?>[] proxyInterfaces(T target);
+
+    /**
      * the methods which will be proxied
      * 
      * @param target the target which will be proxy
@@ -25,37 +33,30 @@ public interface DynamicPF<T> {
      * @param args the args of method
      * @return the methods collection
      */
-	boolean proxyMethods(T target , Method method , Object[] args);
-	
-	@SuppressWarnings("unchecked")
-    public default T getProxy(T target , InvocationHandler invocationHandler) {
-        return (T) Proxy.newProxyInstance(target.getClass().getClassLoader() , this.proxyInterfaces(target) ,
-            invocationHandler);
-    }
-    
-    public default ProxyFactory<T> toProxyFactory(){
-    	return new ProxyFactory<T>() {
+    boolean proxyMethods(T target , Method method , Object[] args);
 
-			@Override
-			public T apply(T target) {
-				return DynamicPF.this.getProxy(target, new InvocationHandler() {
-					private volatile T proxy;
-					
-					@Override
-					public Object invoke(Object proxy, Method method, Object[] args) throws Throwable {
-						if(DynamicPF.this.proxyMethods(this.proxy, method, args)){
-							return DynamicPF.this.invoke(this.proxy, method, args);
-						}
-						
-						return method.invoke(this.proxy, args);
-					}
+    public default ProxyFactory<T> toProxyFactory() {
+        return new ProxyFactory<T>() {
 
-					public InvocationHandler setProxy(T proxy) {
-						this.proxy = proxy;
-						return this;
-					}
-				}.setProxy(target));
-			}
-		};
+            @Override
+            public T apply(T target) {
+                return DynamicPF.this.getProxy(target , new InvocationHandler() {
+                    private volatile T proxy;
+
+                    @Override
+                    public Object invoke(Object proxy , Method method , Object[] args) throws Throwable {
+                        if (DynamicPF.this.proxyMethods(this.proxy , method , args)) return DynamicPF.this.invoke(
+                            this.proxy , method , args);
+
+                        return method.invoke(this.proxy , args);
+                    }
+
+                    public InvocationHandler setProxy(T proxy) {
+                        this.proxy = proxy;
+                        return this;
+                    }
+                }.setProxy(target));
+            }
+        };
     }
 }

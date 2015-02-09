@@ -1,5 +1,7 @@
 package com.github.andyshao.data.structure;
 
+import com.github.andyshao.lang.Cleanable;
+
 /**
  * 
  * Title: Linked list interface<br>
@@ -14,7 +16,7 @@ package com.github.andyshao.data.structure;
  * @param <D> data
  * @param <T> element type
  */
-public interface List<D , T extends List.ListElmt<D , T>> {
+public interface List<D , T extends List.ListElmt<D , T>> extends Cleanable {
 
     public interface ListElmt<DATA , T extends List.ListElmt<DATA , T>> {
 
@@ -32,13 +34,7 @@ public interface List<D , T extends List.ListElmt<D , T>> {
         public abstract void setNext(T next);
     }
 
-    public default void list_destroy(List<D , T> list) {
-        List.ListElmt<D , T> element = list.head();
-        do {
-            element.free();
-            element = element.getNext();
-        } while (!element.equals(list.tail()));
-    }
+    public T head();
 
     public default boolean list_is_head(ListElmt<D , T> element) {
         return this.head().equals(element);
@@ -47,10 +43,8 @@ public interface List<D , T extends List.ListElmt<D , T>> {
     public default boolean list_is_tail(ListElmt<D , T> element) {
         return this.tail().equals(element);
     }
-    
-    public ListElmt<D , T> head();
 
     public int size();
 
-    public ListElmt<D , T> tail();
+    public T tail();
 }

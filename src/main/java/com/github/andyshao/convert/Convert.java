@@ -16,12 +16,11 @@ import java.util.function.Function;
  * @param <OUT> the output
  */
 @FunctionalInterface
-public interface Convert<IN , OUT> extends Function<IN, OUT>{
+public interface Convert<IN , OUT> extends Function<IN , OUT> {
     public static final Convert<Byte[] , String> BYTES_2_HEX = (Byte[] in) -> {
         StringBuilder builder = new StringBuilder();
-        for (Byte b : in) {
+        for (Byte b : in)
             builder.append(ConvertByte2Str.byte2Char(ConvertByte2Str.BYTE_HEX).apply(b));
-        }
         return builder.toString();
     };
     public static final Convert<String , Byte[]> HEX_2_BYTES = new ConvertStr2Byte();
@@ -60,10 +59,10 @@ public interface Convert<IN , OUT> extends Function<IN, OUT>{
         return Objects.toString(in , null);
     };
 
+    public static <IN , OUT> OUT converting(IN in , Convert<IN , OUT> convert) {
+        return convert.apply(in);
+    }
+
     @Override
     OUT apply(IN in);
-
-    public static <IN, OUT> OUT converting(IN in, Convert<IN, OUT> convert){
-    	return convert.apply(in);
-    }
 }

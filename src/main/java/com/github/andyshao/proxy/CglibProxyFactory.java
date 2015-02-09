@@ -1,6 +1,7 @@
 package com.github.andyshao.proxy;
 
 import java.lang.reflect.Method;
+
 import net.sf.cglib.proxy.Enhancer;
 import net.sf.cglib.proxy.InvocationHandler;
 
@@ -36,9 +37,8 @@ public abstract class CglibProxyFactory<T> implements ProxyFactory<T> {
 
         @Override
         public Object invoke(Object obj , Method method , Object[] args) throws Throwable {
-            if (CglibProxyFactory.this.proxyMethods(this.proxied, method, args)) {
-                return CglibProxyFactory.this.invoke(this.proxied , method , args);
-            }
+            if (CglibProxyFactory.this.proxyMethods(this.proxied , method , args)) return CglibProxyFactory.this
+                .invoke(this.proxied , method , args);
             return method.invoke(this.proxied , args);
         }
 
@@ -53,7 +53,7 @@ public abstract class CglibProxyFactory<T> implements ProxyFactory<T> {
     public T getProxy(T target , InvocationHandler invocationHandler) {
         Enhancer enhancer = new Enhancer();
         enhancer.setSuperclass(target.getClass());
-        enhancer.setInterfaces(ProxyFactory.<T>allInterfaces(target));
+        enhancer.setInterfaces(ProxyFactory.<T> allInterfaces(target));
         enhancer.setCallback(invocationHandler);
         return (T) enhancer.create();
     }

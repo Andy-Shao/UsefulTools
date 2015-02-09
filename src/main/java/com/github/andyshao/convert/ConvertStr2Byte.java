@@ -18,7 +18,7 @@ public class ConvertStr2Byte implements Convert<String , Byte[]> {
     }
 
     public static Byte[] hexStringToBytes(String hexString) {
-        if (Objects.isNull(hexString) || hexString.isEmpty()) { return null; }
+        if (Objects.isNull(hexString) || hexString.isEmpty()) return null;
 
         hexString = hexString.toUpperCase();
         int length = hexString.length() / 2;

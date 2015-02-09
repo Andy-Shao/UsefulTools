@@ -27,9 +27,8 @@ public class ConvertByte2Str implements Convert<Byte , String> {
         return (Byte[] in) -> {
             Convert<Byte , String> byte2char = ConvertByte2Str.byte2Char(format);
             StringBuilder stringBuilder = new StringBuilder();
-            for (Byte b : in) {
+            for (Byte b : in)
                 stringBuilder.append(byte2char.apply(b));
-            }
 
             return stringBuilder.toString();
         };

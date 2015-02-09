@@ -103,59 +103,21 @@ public final class Reflects {
     }
 
     /**
-     * if the clazz doesn't include the mtheod, it will check the super class.
      * 
      * @param clazz the type of class
      * @param field_name the name of field
      * @return the field of class
      * @see Class#getDeclaredField(String)
      */
-    public static Field superGetDeclaredField(Class<?> clazz , String field_name) {
+    public static Field getDeclaredField(Class<?> clazz , String field_name) {
         try {
             return clazz.getDeclaredField(field_name);
-        } catch (NoSuchFieldException e) {
-            if (clazz.getSuperclass() != null) { return Reflects.superGetDeclaredField(clazz.getSuperclass() , field_name); }
-            throw new RuntimeException(e);
-        } catch (SecurityException e) {
+        } catch (NoSuchFieldException | SecurityException e) {
             throw new RuntimeException(e);
         }
-    }
-    
-    /**
-     * 
-     * @param clazz the type of class
-     * @param field_name the name of field
-     * @return the field of class
-     * @see Class#getDeclaredField(String)
-     */
-    public static Field getDeclaredField(Class<?> clazz , String field_name){
-    	try {
-			return clazz.getDeclaredField(field_name);
-		} catch (NoSuchFieldException | SecurityException e) {
-			throw new RuntimeException(e);
-		}
-    }
-    
-    /**
-     * 
-     * @param clazz the type of class
-     * @return the fields of class
-     * @see Class#getDeclaredField(String)
-     */
-    public static Field[] superGetDeclaredFields(Class<?> clazz){
-    	Field[] result = new Field[0];
-    	if(clazz.getSuperclass() != null){
-    		Field[] fields = superGetDeclaredFields(clazz.getSuperclass());
-    		result = ArrayTools.mergeArray(Field[].class, result, fields);
-    	}
-    	Field[] fields = clazz.getDeclaredFields();
-    	result = ArrayTools.mergeArray(Field[].class, result, fields);
-    	
-    	return result;
     }
 
     /**
-     * if the clazz doesn't include the mtheod, it will check the super class.
      * 
      * @param clazz the type of class
      * @param method_name the name of method
@@ -163,34 +125,14 @@ public final class Reflects {
      * @return the method of class
      * @see Class#getDeclaredMethod(String, Class...)
      */
-    public static Method superGetDeclaredMethod(Class<?> clazz , String method_name , Class<?>... parameterTypes) {
+    public static Method getDeclaredMethod(Class<?> clazz , String method_name , Class<?>... parameterTypes) {
         try {
             return clazz.getDeclaredMethod(method_name , parameterTypes);
-        } catch (NoSuchMethodException e) {
-            if (clazz.getSuperclass() != null) { return Reflects.superGetDeclaredMethod(clazz.getSuperclass() , method_name ,
-                parameterTypes); }
-            throw new RuntimeException(e);
-        } catch (SecurityException e) {
+        } catch (NoSuchMethodException | SecurityException e) {
             throw new RuntimeException(e);
         }
     }
-    
-    /**
-     * 
-     * @param clazz the type of class
-     * @param method_name the name of method
-     * @param parameterTypes the type of parameters
-     * @return the method of class
-     * @see Class#getDeclaredMethod(String, Class...)
-     */
-    public static Method getDeclaredMethod(Class<?> clazz , String method_name , Class<?>... parameterTypes){
-    	try {
-			return clazz.getDeclaredMethod(method_name , parameterTypes);
-		} catch (NoSuchMethodException | SecurityException e) {
-			throw new RuntimeException(e);
-		}
-    }
-    
+
     /**
      * 
      * @param clazz the type of class
@@ -210,7 +152,7 @@ public final class Reflects {
      * 
      * @param target the Object which store the value of field
      * @param field the define of field
-     * @param <T> the type of return 
+     * @param <T> the type of return
      * @return the value of field
      * @see Field#get(Object)
      */
@@ -224,20 +166,8 @@ public final class Reflects {
     }
 
     /**
-     * if the clazz has the super class then find the intefaces from super class. 
-     * @param clazz The type of Object's
-     * @param set the collection which store all of interfaces about the clazz.
-     * @see Class#getInterfaces()
-     */
-    public static void superGetInterfaces(Class<?> clazz , Set<Class<?>> set) {
-        set.addAll(Arrays.asList(clazz.getInterfaces()));
-        if (clazz.getSuperclass() != null) {
-            Reflects.superGetInterfaces(clazz.getSuperclass() , set);
-        }
-    }
-
-    /**
      * Only could find out the permission of method is public.
+     * 
      * @param clazz the type of object
      * @param method_name the name of method
      * @param parameterTypes the parameter types list
@@ -311,29 +241,101 @@ public final class Reflects {
      */
     public static <T extends Annotation> T superGetAnnotation(Class<? extends Object> target , Class<T> clazz) {
         T annotation = target.getAnnotation(clazz);
-        if (annotation != null) { return annotation; }
+        if (annotation != null) return annotation;
 
         if (target.isInterface()) {
             Class<?>[] interfaces = target.getInterfaces();
             for (Class<?> _interface : interfaces) {
                 annotation = Reflects.superGetAnnotation(_interface , clazz);
-                if (annotation != null) { return annotation; }
+                if (annotation != null) return annotation;
             }
         } else {
             Class<? extends Object> superClass = target.getSuperclass();
             if (superClass != null) {
                 annotation = Reflects.superGetAnnotation(superClass , clazz);
-                if (annotation != null) { return annotation; }
+                if (annotation != null) return annotation;
             }
 
             Class<?>[] interfaces = target.getInterfaces();
             for (Class<?> _interface : interfaces) {
                 annotation = Reflects.superGetAnnotation(_interface , clazz);
-                if (annotation != null) { return annotation; }
+                if (annotation != null) return annotation;
             }
         }
 
         return annotation;
+    }
+
+    /**
+     * if the clazz doesn't include the mtheod, it will check the super class.
+     * 
+     * @param clazz the type of class
+     * @param field_name the name of field
+     * @return the field of class
+     * @see Class#getDeclaredField(String)
+     */
+    public static Field superGetDeclaredField(Class<?> clazz , String field_name) {
+        try {
+            return clazz.getDeclaredField(field_name);
+        } catch (NoSuchFieldException e) {
+            if (clazz.getSuperclass() != null) return Reflects
+                .superGetDeclaredField(clazz.getSuperclass() , field_name);
+            throw new RuntimeException(e);
+        } catch (SecurityException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    /**
+     * 
+     * @param clazz the type of class
+     * @return the fields of class
+     * @see Class#getDeclaredField(String)
+     */
+    public static Field[] superGetDeclaredFields(Class<?> clazz) {
+        Field[] result = new Field[0];
+        if (clazz.getSuperclass() != null) {
+            Field[] fields = Reflects.superGetDeclaredFields(clazz.getSuperclass());
+            result = ArrayTools.mergeArray(Field[].class , result , fields);
+        }
+        Field[] fields = clazz.getDeclaredFields();
+        result = ArrayTools.mergeArray(Field[].class , result , fields);
+
+        return result;
+    }
+
+    /**
+     * if the clazz doesn't include the mtheod, it will check the super class.
+     * 
+     * @param clazz the type of class
+     * @param method_name the name of method
+     * @param parameterTypes the type of parameters
+     * @return the method of class
+     * @see Class#getDeclaredMethod(String, Class...)
+     */
+    public static Method superGetDeclaredMethod(Class<?> clazz , String method_name , Class<?>... parameterTypes) {
+        try {
+            return clazz.getDeclaredMethod(method_name , parameterTypes);
+        } catch (NoSuchMethodException e) {
+            if (clazz.getSuperclass() != null) return Reflects.superGetDeclaredMethod(clazz.getSuperclass() ,
+                method_name , parameterTypes);
+            throw new RuntimeException(e);
+        } catch (SecurityException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    /**
+     * if the clazz has the super class then find the intefaces from super
+     * class.
+     * 
+     * @param clazz The type of Object's
+     * @param set the collection which store all of interfaces about the clazz.
+     * @see Class#getInterfaces()
+     */
+    public static void superGetInterfaces(Class<?> clazz , Set<Class<?>> set) {
+        set.addAll(Arrays.asList(clazz.getInterfaces()));
+        if (clazz.getSuperclass() != null) Reflects.superGetInterfaces(clazz.getSuperclass() , set);
     }
 
     private Reflects() {

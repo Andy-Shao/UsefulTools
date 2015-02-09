@@ -14,6 +14,11 @@ public class StringToolsTest {
     }
 
     @Test
+    public void testFlipString() {
+        Assert.assertThat(StringTools.flipString("123") , Matchers.is("321"));
+    }
+
+    @Test
     public void testisEmptyOrNull() {
         Assert.assertThat(StringTools.isEmptyOrNull(null) , Matchers.is(true));
         Assert.assertThat(StringTools.isEmptyOrNull("") , Matchers.is(true));
@@ -40,10 +45,5 @@ public class StringToolsTest {
         Assert.assertArrayEquals(StringTools.split(this.str , "231") , new String[] {
             "178" , "785178"
         });
-    }
-    
-    @Test
-    public void testFlipString(){
-    	Assert.assertThat(StringTools.flipString("123"), Matchers.is("321"));
     }
 }

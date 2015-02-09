@@ -16,10 +16,10 @@ public final class StringTools {
      * @param str a string which should be flipped
      * @return A string which has flipped.
      */
-    public static String flipString(String str){
-    	return new String(ArrayTools.flipArray(str.toCharArray()));
+    public static String flipString(String str) {
+        return new String(ArrayTools.flipArray(str.toCharArray()));
     }
-    
+
     /**
      * 
      * @param str a string which should be tested.
@@ -41,17 +41,10 @@ public final class StringTools {
      */
     static String replace(String str , String padding , int index , int length) {
         String result;
-        if (index == -1) {
-            result = str;
-        } else {
-            if (index == 0) {
-                result = padding + str.substring(length);
-            } else if (index + 1 >= str.length()) {
-                result = str.substring(0 , index) + padding;
-            } else {
-                result = str.substring(0 , index) + padding + str.substring(index + length);
-            }
-        }
+        if (index == -1) result = str;
+        else if (index == 0) result = padding + str.substring(length);
+        else if (index + 1 >= str.length()) result = str.substring(0 , index) + padding;
+        else result = str.substring(0 , index) + padding + str.substring(index + length);
 
         return result;
     }
@@ -66,9 +59,8 @@ public final class StringTools {
      * @return the end of the string
      */
     public static String replaceAll(String str , String key , String padding) {
-        while (str.indexOf(key) != -1) {
+        while (str.indexOf(key) != -1)
             str = StringTools.replaceFirst(str , key , padding);
-        }
         return str;
     }
 
@@ -114,11 +106,9 @@ public final class StringTools {
             });
             str = str.substring(index + separator.length());
         }
-        if (str.length() != 0) {
-            result = ArrayTools.mergeArray(String[].class , result , new String[] {
-                str
-            });
-        }
+        if (str.length() != 0) result = ArrayTools.mergeArray(String[].class , result , new String[] {
+            str
+        });
 
         return result;
     }

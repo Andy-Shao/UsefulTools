@@ -20,7 +20,21 @@ import com.github.andyshao.util.Reflects;
  * @param <T> the type of target which will be proxy
  */
 @FunctionalInterface
-public interface ProxyFactory<T> extends Function<T, T>{
+public interface ProxyFactory<T> extends Function<T , T> {
+
+    public static <T> Class<?>[] allInterfaces(T target) {
+        Set<Class<?>> set = new HashSet<>();
+        Reflects.superGetInterfaces(target.getClass() , set);
+        return set.toArray(new Class<?>[set.size()]);
+    }
+
+    public static String buildMethodKey(Method method) {
+        StringBuilder stringBuilder = new StringBuilder();
+        stringBuilder.append(method.getReturnType()).append(":");
+        stringBuilder.append(method.getName()).append(":");
+        stringBuilder.append(Arrays.toString(method.getParameterTypes()));
+        return stringBuilder.toString();
+    }
 
     /**
      * get the proxy
@@ -28,20 +42,6 @@ public interface ProxyFactory<T> extends Function<T, T>{
      * @param target the target which will be proxy
      * @return the proxy
      */
-	@Override
+    @Override
     T apply(T target);
-    
-    public static <T> Class<?>[] allInterfaces(T target){
-		Set<Class<?>> set = new HashSet<>();
-	    Reflects.superGetInterfaces(target.getClass() , set);
-	    return set.toArray(new Class<?>[set.size()]);
-	}
-
-	public static String buildMethodKey(Method method){
-    	StringBuilder stringBuilder = new StringBuilder();
-    	stringBuilder.append(method.getReturnType()).append(":");
-    	stringBuilder.append(method.getName()).append(":");
-    	stringBuilder.append(Arrays.toString(method.getParameterTypes()));
-    	return stringBuilder.toString();
-    }
 }
