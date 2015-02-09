@@ -4,145 +4,194 @@ import java.util.Objects;
 
 /**
  * 
- * Title:<br>
+ * Title:Double Linked interface<br>
  * Descript:<br>
- * Copyright: Copryright(c) Feb 8, 2015<br>
+ * Copyright: Copryright(c) Feb 9, 2015<br>
  * Encoding:UNIX UTF-8
  * 
  * @author Andy.Shao
  *
- * @param <D>
+ * @param <D> data
  */
-public class DoubleLinked<D> implements Dlist<D> {
-    private Dlist.DlistElmt<D> head = null;
-    private int size = 0;
-    private Dlist.DlistElmt<D> tail = null;
+public interface DoubleLinked<D> extends List<D , DoubleLinked.DoubleLinkedElmt<D>> {
+    public interface DoubleLinkedElmt<DATA> extends List.ListElmt<DATA , DoubleLinkedElmt<DATA>> {
+        public DoubleLinkedElmt<DATA> getPrev();
 
-    @Override
-    public void dlist_ins_next(com.github.andyshao.data.structure.Dlist.DlistElmt<D> element , D data) {
-        //Do not allow a NULL element unless the list is empty.
-        if (element == null && Dlist.dlist_size(this) != 0) { return; }
+        public void setPrev(DoubleLinkedElmt<DATA> prev);
 
-        Dlist.DlistElmt<D> new_element = new Dlist.DlistElmt<>();
+        public static <DATA> DoubleLinkedElmt<DATA> DEFAULT_ELMT(DATA data) {
+            return new DoubleLinkedElmt<DATA>() {
+                private DATA data;
+                private DoubleLinkedElmt<DATA> next;
+                private DoubleLinkedElmt<DATA> prev;
 
-        //Insert the new element into the list.
-        new_element.data = data;
+                @Override
+                public DATA getData() {
+                    return this.data;
+                }
 
-        if (Dlist.dlist_size(this) == 0) {
-            //Handle insertion when the list is empty.
-            this.head = new_element;
-            this.head.prev = null;
-            this.head.next = null;
-            this.tail = new_element;
-        } else {
-            //Handle insertion when the list is not empty.
-            new_element.next = element.next;
-            new_element.prev = element;
+                @Override
+                public DoubleLinkedElmt<DATA> getNext() {
+                    return this.next;
+                }
 
-            if (element.next == null) {
-                this.tail = new_element;
-            } else {
-                element.next.prev = new_element;
+                @Override
+                public void setData(DATA data) {
+                    this.data = data;
+                }
+
+                @Override
+                public void setNext(DoubleLinkedElmt<DATA> next) {
+                    this.next = next;
+                }
+
+                @Override
+                public DoubleLinkedElmt<DATA> getPrev() {
+                    return this.prev;
+                }
+
+                @Override
+                public void setPrev(DoubleLinkedElmt<DATA> prev) {
+                    this.prev = prev;
+                }
+
+                @Override
+                public int hashCode() {
+                    return Objects.hash(this.getData() , this.getPrev() , this.getNext());
+                }
+
+                @SuppressWarnings("unchecked")
+                @Override
+                public boolean equals(Object obj) {
+                    DoubleLinkedElmt<DATA> that;
+                    if (obj instanceof DoubleLinkedElmt) {
+                        that = (DoubleLinkedElmt<DATA>) obj;
+                        return this.getData().equals(that.getData()) && this.getNext().equals(that.getNext())
+                            && this.getPrev().equals(that.getPrev());
+                    } else return false;
+                }
+            };
+        }
+    }
+
+    public void dlist_ins_next(DoubleLinkedElmt<D> element , D data);
+
+    public void dlist_ins_prev(DoubleLinkedElmt<D> element , D data);
+
+    public D dlist_remove(DoubleLinkedElmt<D> element);
+
+    public static <DATA> DoubleLinked<DATA> DEFAULT_DOUBLE_LINKED() {
+        return new DoubleLinked<DATA>() {
+            private int size;
+            private DoubleLinked.DoubleLinkedElmt<DATA> head;
+            private DoubleLinked.DoubleLinkedElmt<DATA> tail;
+
+            @Override
+            public DoubleLinked.DoubleLinkedElmt<DATA> head() {
+                return this.head;
             }
-        }
 
-        //Adjust the size of the list to account for the inserted element.
-        this.size++;
-    }
-
-    @Override
-    public void dlist_ins_prev(com.github.andyshao.data.structure.Dlist.DlistElmt<D> element , D data) {
-        //Do not allowed a NULL element unless the list is empty.
-        if (element == null && Dlist.dlist_size(this) != 0) { return; }
-
-        Dlist.DlistElmt<D> new_element = new Dlist.DlistElmt<>();
-
-        //Insert the new element into the list.
-        new_element.data = data;
-        if (Dlist.dlist_size(this) == 0) {
-            //Handle insertion when the list is empty.
-            this.head = new_element;
-            this.head.prev = null;
-            this.head.next = null;
-            this.tail = new_element;
-        } else {
-            //Handle insertion when the list is not empty.
-            new_element.next = element;
-            new_element.prev = element.prev;
-
-            if (element.prev == null) {
-                this.head = new_element;
-            } else {
-                element.prev.next = new_element;
+            @Override
+            public int size() {
+                return this.size;
             }
 
-            element.prev = new_element;
-        }
-
-        //Adjust the size of list to accoutn for the element.
-        this.size++;
-    }
-
-    @Override
-    public D dlist_remove(com.github.andyshao.data.structure.Dlist.DlistElmt<D> element) {
-        D data = null;
-
-        //Do not allow a NULL element or removal from an empty list.
-        if (element == null || Dlist.dlist_size(this) == 0) { return null; }
-
-        //Remove the element from the list.
-        data = element.data;
-
-        if (element.equals(this.head)) {
-            //Handle removal from the head of the list.
-            this.head = element.next;
-
-            if (this.head == null) {
-                this.tail = null;
-            } else {
-                element.next.prev = null;
+            @Override
+            public DoubleLinked.DoubleLinkedElmt<DATA> tail() {
+                return this.tail;
             }
-        }
 
-        //Free the storage allocated by the abstract datatype.
-        element.free();
+            @Override
+            public void dlist_ins_next(DoubleLinked.DoubleLinkedElmt<DATA> element , DATA data) {
+                //Do not allow a NULL element unless the list is empty.
+                if (element == null && this.size() != 0) { return; }
+                
+                DoubleLinked.DoubleLinkedElmt<DATA> new_element = DoubleLinked.DoubleLinkedElmt.<DATA>DEFAULT_ELMT(data);
+                
+                if (this.size() == 0) {
+                    //Handle insertion when the list is empty.
+                    this.head = new_element;
+                    this.head.setPrev(null);
+                    this.head.setNext(null);
+                    this.tail = new_element;
+                } else {
+                    //Handle insertion when the list is not empty.
+                    new_element.setNext(element.getNext());
+                    new_element.setPrev(element);
+                    
+                    if (element.getNext() == null) {
+                        this.tail = new_element;
+                    } else {
+                        element.getNext().setPrev(new_element);
+                    }
+                }
+                
+                //Adjust the size of the list to account for the inserted element.
+                this.size++;
 
-        //Adjust the size of the list to account for the removed element.
-        this.size--;
+            }
 
-        return data;
+            @Override
+            public void dlist_ins_prev(DoubleLinked.DoubleLinkedElmt<DATA> element , DATA data) {
+                //Do not allowed a NULL element unless the list is empty.
+                if (element == null && this.size() != 0) { return; }
+                
+                DoubleLinked.DoubleLinkedElmt<DATA> new_element = DoubleLinked.DoubleLinkedElmt.<DATA>DEFAULT_ELMT(data);
+                
+                if (this.size() == 0) {
+                    //Handle insertion when the list is empty.
+                    this.head = new_element;
+                    this.head.setPrev(null);
+                    this.head.setNext(null);
+                    this.tail = new_element;
+                } else {
+                    //Handle insertion when the list is not empty.
+                    new_element.setNext(element);
+                    new_element.setPrev(element.getPrev());
+                    
+                    if (element.getPrev() == null) {
+                        this.head = new_element;
+                    } else {
+                        element.getPrev().setNext(new_element);
+                    }
+                    
+                    element.setPrev(new_element);
+                }
+                
+                //Adjust the size of list to accoutn for the element.
+                this.size++;
+            }
+
+            @Override
+            public DATA dlist_remove(DoubleLinked.DoubleLinkedElmt<DATA> element) {
+                DATA data = null;
+                
+                //Do not allow a NULL element or removal from an empty list.
+                if (element == null || this.size() == 0) { return null; }
+                
+                //Remove the element from the list.
+                data = element.getData();
+                
+                if (element.equals(this.head)) {
+                    //Handle removal from the head of the list.
+                    this.head = element.getNext();
+                    
+                    if (this.head == null) {
+                        this.tail = null;
+                    } else {
+                        element.getNext().setPrev(null);
+                    }
+                }
+                
+                //Free the storage allocated by the abstract datatype.
+                element.free();
+                
+                //Adjust the size of the list to account for the removed element.
+                this.size--;
+                
+                return data;
+            }
+
+        };
     }
-
-    @SuppressWarnings("unchecked")
-    @Override
-    public boolean equals(Object obj) {
-        DoubleLinked<D> that;
-        if (obj instanceof DoubleLinked) {
-            that = (DoubleLinked<D>) obj;
-            return this.size == that.size && this.head.equals(that.head) && this.tail.equals(that.tail);
-        } else {
-            return false;
-        }
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hash(this.size , this.head , this.tail);
-    }
-
-    @Override
-    public com.github.andyshao.data.structure.Dlist.DlistElmt<D> head() {
-        return this.head;
-    }
-
-    @Override
-    public int size() {
-        return this.size;
-    }
-
-    @Override
-    public com.github.andyshao.data.structure.Dlist.DlistElmt<D> tail() {
-        return this.tail;
-    }
-
 }

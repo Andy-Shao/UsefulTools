@@ -4,7 +4,7 @@ import java.util.Objects;
 
 /**
  * 
- * Title:<br>
+ * Title: Single Linked interface<br>
  * Descript:<br>
  * Copyright: Copryright(c) Feb 8, 2015<br>
  * Encoding:UNIX UTF-8
@@ -13,107 +13,162 @@ import java.util.Objects;
  *
  * @param <D> data
  */
-public class SingleLinked<D> implements List<D> {
-    private List.ListElmt<D> head = null;
-    private int size = 0;
-    private List.ListElmt<D> tail = null;
+public interface SingleLinked<D> extends List<D , SingleLinked.SingleLinkedElmt<D>> {
+    public interface SingleLinkedElmt<D> extends List.ListElmt<D , SingleLinkedElmt<D>> {
+        public static <DATA> SingleLinkedElmt<DATA> DEFAULT_ELMT(DATA data) {
+            return new SingleLinkedElmt<DATA>() {
+                private DATA data;
+                private SingleLinkedElmt<DATA> next;
 
-    @SuppressWarnings("unchecked")
-    @Override
-    public boolean equals(Object obj) {
-        SingleLinked<D> that;
-        if (obj instanceof SingleLinked) {
-            that = (SingleLinked<D>) obj;
-            return this.head.equals(that.head) && this.tail.equals(that.tail) && this.size == that.size;
-        } else {
-            return false;
+                @Override
+                public DATA getData() {
+                    return this.data;
+                }
+
+                @Override
+                public SingleLinkedElmt<DATA> getNext() {
+                    return this.next;
+                }
+
+                @Override
+                public void setData(DATA data) {
+                    this.data = data;
+                }
+
+                @Override
+                public void setNext(SingleLinkedElmt<DATA> next) {
+                    this.next = next;
+                }
+
+                @Override
+                public int hashCode() {
+                    return Objects.hash(this.getData() , this.getNext());
+                }
+
+                @SuppressWarnings("unchecked")
+                @Override
+                public boolean equals(Object obj) {
+                    SingleLinkedElmt<DATA> that;
+                    if (obj instanceof SingleLinkedElmt) {
+                        that = (SingleLinkedElmt<DATA>) obj;
+                        return this.getData().equals(that.getData()) && this.getNext().equals(that.getNext());
+                    } else return false;
+                }
+            };
         }
     }
 
-    @Override
-    public int hashCode() {
-        return Objects.hash(this.size , this.head , this.tail);
-    }
+    public void list_ins_next(SingleLinkedElmt<D> element , D data);
 
-    @Override
-    public com.github.andyshao.data.structure.List.ListElmt<D> head() {
-        return this.head;
-    }
+    /**
+     * remove the next element.<br/>
+     * If the element is the tail, Then it won't remove anything.
+     * 
+     * @param element
+     * @return if something is removed return data. if it doesn't return null.
+     */
+    public D list_rem_next(SingleLinkedElmt<D> element);
 
-    @Override
-    public void list_ins_next(com.github.andyshao.data.structure.List.ListElmt<D> element , D data) {
-        List.ListElmt<D> new_element = new List.ListElmt<>();
-
-        //Insert the element into the list.
-        new_element.data = data;
-        if (element == null) {
-            //Handle insertion at the head of the list.
-            if (List.list_size(this) == 0) {
-                this.tail = new_element;
+    public static <DATA> SingleLinked<DATA> DEFAULT_SINGLE_LINKED() {
+        return new SingleLinked<DATA>() {
+            private int size = 0;
+            private SingleLinkedElmt<DATA> head;
+            private SingleLinkedElmt<DATA> tail;
+            
+            @Override
+            public SingleLinked.SingleLinkedElmt<DATA> head() {
+                return this.head;
             }
 
-            new_element.next = this.head;
-            this.head = new_element;
-        } else {
-            //Handle insertion somewhere other than at the head.
-            if (element.next == null) {
-                this.tail = new_element;
+            @Override
+            public int size() {
+                return this.size;
             }
 
-            new_element.next = element.next;
-            element.next = new_element;
-        }
-
-        //Adjust the size of the list to account for the inserted element.
-        this.size++;
-    }
-
-    @Override
-    public D list_rem_next(com.github.andyshao.data.structure.List.ListElmt<D> element) {
-        List.ListElmt<D> old_element = new List.ListElmt<>();
-        D data = null;
-
-        //Do not allow removal from an empty list.
-        if (List.list_size(this) == 0) { return null; }
-
-        //Remove the element from the list.
-        if (element == null) {
-            //Handle removal from the head of the list.
-            data = this.head.data;
-            old_element = this.head;
-            this.head = this.head.next;
-
-            if (List.list_size(this) == 1) {
-                this.tail = null;
+            @Override
+            public SingleLinked.SingleLinkedElmt<DATA> tail() {
+                return this.tail;
             }
-        } else {
-            if (element.next == null) { return null; }
-
-            data = element.next.data;
-            old_element = element.next;
-            element.next = element.next.next;
-
-            if (element.next == null) {
-                this.tail = element;
+            
+            @Override
+            public int hashCode() {
+                return Objects.hash(this.size() , this.head(), this.tail());
             }
-        }
+            
+            @SuppressWarnings("unchecked")
+            @Override
+            public boolean equals(Object obj) {
+                SingleLinked<DATA> that;
+                if(obj instanceof SingleLinked){
+                    that = (SingleLinked<DATA>) obj;
+                    return this.size() == that.size() && this.head().equals(that.head()) && this.tail().equals(that.tail());
+                } else return false; 
+            }
 
-        //Free the storage allocated by the abstract datatype.
-        old_element.free();
+            @Override
+            public void list_ins_next(SingleLinked.SingleLinkedElmt<DATA> element , DATA data) {
+                SingleLinked.SingleLinkedElmt<DATA> new_element = SingleLinked.SingleLinkedElmt.<DATA>DEFAULT_ELMT(data);
+                
+                if (element == null) {
+                    //Handle insertion at the head of the list.
+                    if (this.size() == 0) {
+                        this.tail = new_element;
+                    }
+                    
+                    new_element.setNext(this.head);
+                    this.head = new_element;
+                } else {
+                    //Handle insertion somewhere other than at the head.
+                    if (element.getNext() == null) {
+                        this.tail = new_element;
+                    }
+                    
+                    new_element.setNext(element.getNext());
+                    element.setNext(new_element);
+                }
+                
+                //Adjust the size of the list to account for the inserted element.
+                this.size++;
+            }
 
-        //Adjust the size of the list of account for the removed element.
-        this.size--;
-
-        return data;
-    }
-
-    @Override
-    public int size() {
-        return this.size;
-    }
-
-    @Override
-    public com.github.andyshao.data.structure.List.ListElmt<D> tail() {
-        return this.tail;
+            @Override
+            public DATA list_rem_next(SingleLinked.SingleLinkedElmt<DATA> element) {
+                SingleLinked.SingleLinkedElmt<DATA> old_element = SingleLinked.SingleLinkedElmt.<DATA>DEFAULT_ELMT(null);
+                DATA data = null;
+                
+                //Do not allow removal from an empty list.
+                if (this.size() == 0) { return null; }
+                
+                //Remove the element from the list.
+                if (element == null) {
+                    //Handle removal from the head of the list.
+                    data = this.head.getData();
+                    old_element = this.head;
+                    this.head = this.head.getNext();
+                    
+                    if (this.size() == 1) {
+                        this.tail = null;
+                    }
+                } else {
+                    if (element.getNext() == null) { return null; }
+                    
+                    data = element.getNext().getData();
+                    old_element = element.getNext();
+                    element.setNext(element.getNext().getNext());
+                    
+                    if (element.getNext() == null) {
+                        this.tail = element;
+                    }
+                }
+                
+                //Free the storage allocated by the abstract datatype.
+                old_element.free();
+                
+                //Adjust the size of the list of account for the removed element.
+                this.size--;
+                
+                return data;
+            }
+        };
     }
 }
