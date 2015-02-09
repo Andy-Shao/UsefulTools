@@ -61,11 +61,11 @@ public interface SingleLinked<D> extends List<D , SingleLinked.SingleLinkedElmt<
     public void list_ins_next(SingleLinkedElmt<D> element , D data);
 
     /**
-     * remove the next element.<br/>
+     * Remove the next element.<br>
      * If the element is the tail, Then it won't remove anything.
      * 
-     * @param element
-     * @return if something is removed return data. if it doesn't return null.
+     * @param element the item of linked's
+     * @return if something is removed return data. If it doesn't return null.
      */
     public D list_rem_next(SingleLinkedElmt<D> element);
 
@@ -74,7 +74,7 @@ public interface SingleLinked<D> extends List<D , SingleLinked.SingleLinkedElmt<
             private int size = 0;
             private SingleLinkedElmt<DATA> head;
             private SingleLinkedElmt<DATA> tail;
-            
+
             @Override
             public SingleLinked.SingleLinkedElmt<DATA> head() {
                 return this.head;
@@ -89,32 +89,34 @@ public interface SingleLinked<D> extends List<D , SingleLinked.SingleLinkedElmt<
             public SingleLinked.SingleLinkedElmt<DATA> tail() {
                 return this.tail;
             }
-            
+
             @Override
             public int hashCode() {
-                return Objects.hash(this.size() , this.head(), this.tail());
+                return Objects.hash(this.size() , this.head() , this.tail());
             }
-            
+
             @SuppressWarnings("unchecked")
             @Override
             public boolean equals(Object obj) {
                 SingleLinked<DATA> that;
-                if(obj instanceof SingleLinked){
+                if (obj instanceof SingleLinked) {
                     that = (SingleLinked<DATA>) obj;
-                    return this.size() == that.size() && this.head().equals(that.head()) && this.tail().equals(that.tail());
-                } else return false; 
+                    return this.size() == that.size() && this.head().equals(that.head())
+                        && this.tail().equals(that.tail());
+                } else return false;
             }
 
             @Override
             public void list_ins_next(SingleLinked.SingleLinkedElmt<DATA> element , DATA data) {
-                SingleLinked.SingleLinkedElmt<DATA> new_element = SingleLinked.SingleLinkedElmt.<DATA>DEFAULT_ELMT(data);
-                
+                SingleLinked.SingleLinkedElmt<DATA> new_element =
+                    SingleLinked.SingleLinkedElmt.<DATA> DEFAULT_ELMT(data);
+
                 if (element == null) {
                     //Handle insertion at the head of the list.
                     if (this.size() == 0) {
                         this.tail = new_element;
                     }
-                    
+
                     new_element.setNext(this.head);
                     this.head = new_element;
                 } else {
@@ -122,51 +124,52 @@ public interface SingleLinked<D> extends List<D , SingleLinked.SingleLinkedElmt<
                     if (element.getNext() == null) {
                         this.tail = new_element;
                     }
-                    
+
                     new_element.setNext(element.getNext());
                     element.setNext(new_element);
                 }
-                
+
                 //Adjust the size of the list to account for the inserted element.
                 this.size++;
             }
 
             @Override
             public DATA list_rem_next(SingleLinked.SingleLinkedElmt<DATA> element) {
-                SingleLinked.SingleLinkedElmt<DATA> old_element = SingleLinked.SingleLinkedElmt.<DATA>DEFAULT_ELMT(null);
+                SingleLinked.SingleLinkedElmt<DATA> old_element =
+                    SingleLinked.SingleLinkedElmt.<DATA> DEFAULT_ELMT(null);
                 DATA data = null;
-                
+
                 //Do not allow removal from an empty list.
                 if (this.size() == 0) { return null; }
-                
+
                 //Remove the element from the list.
                 if (element == null) {
                     //Handle removal from the head of the list.
                     data = this.head.getData();
                     old_element = this.head;
                     this.head = this.head.getNext();
-                    
+
                     if (this.size() == 1) {
                         this.tail = null;
                     }
                 } else {
                     if (element.getNext() == null) { return null; }
-                    
+
                     data = element.getNext().getData();
                     old_element = element.getNext();
                     element.setNext(element.getNext().getNext());
-                    
+
                     if (element.getNext() == null) {
                         this.tail = element;
                     }
                 }
-                
+
                 //Free the storage allocated by the abstract datatype.
                 old_element.free();
-                
+
                 //Adjust the size of the list of account for the removed element.
                 this.size--;
-                
+
                 return data;
             }
         };
