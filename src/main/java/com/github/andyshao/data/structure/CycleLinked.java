@@ -12,7 +12,7 @@ import java.util.Objects;
  *
  * @param <D> data
  */
-public interface CycleLinked<D> extends Linked<D , CycleLinked.CycleLinkedElmt<D>> {
+public interface CycleLinked<D> extends Linked<D , CycleLinked.CycleLinkedElmt<D>>, SingleLinkedOperation<D , CycleLinked.CycleLinkedElmt<D>> {
 
     public interface CycleLinkedElmt<DATA> extends Linked.LinkedElmt<DATA , CycleLinked.CycleLinkedElmt<DATA>> {
         public static <DAT> CycleLinked.CycleLinkedElmt<DAT> DEFAULT_CYCLE_ELMT(DAT data) {
@@ -89,7 +89,7 @@ public interface CycleLinked<D> extends Linked<D , CycleLinked.CycleLinkedElmt<D
             }
 
             @Override
-            public void insNext(CycleLinked.CycleLinkedElmt<DATA> element , DATA data) {
+            public void insNext(CycleLinked.CycleLinkedElmt<DATA> element , final DATA data) {
                 CycleLinked.CycleLinkedElmt<DATA> new_element =
                     CycleLinked.CycleLinkedElmt.<DATA> DEFAULT_CYCLE_ELMT(data);
 
@@ -151,14 +151,9 @@ public interface CycleLinked<D> extends Linked<D , CycleLinked.CycleLinkedElmt<D
         };
     }
 
-    public void insNext(CycleLinked.CycleLinkedElmt<D> element , D data);
+    @Override
+    public void insNext(CycleLinked.CycleLinkedElmt<D> element , final D data);
 
-    /**
-     * Remove the next element.<br>
-     * If the element is the tail, Then it won't remove anything.
-     * 
-     * @param element the item of linked's
-     * @return if something is removed return data. If it doesn't return null.
-     */
+    @Override
     public D remNext(CycleLinked.CycleLinkedElmt<D> element);
 }

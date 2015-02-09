@@ -13,7 +13,7 @@ import java.util.Objects;
  *
  * @param <D> data
  */
-public interface SingleLinked<D> extends Linked<D , SingleLinked.SingleLinkedElmt<D>> {
+public interface SingleLinked<D> extends Linked<D , SingleLinked.SingleLinkedElmt<D>>, SingleLinkedOperation<D , SingleLinked.SingleLinkedElmt<D>> {
     public interface SingleLinkedElmt<D> extends Linked.LinkedElmt<D , SingleLinkedElmt<D>> {
         public static <DATA> SingleLinkedElmt<DATA> DEFAULT_ELMT(DATA data) {
             SingleLinkedElmt<DATA> result = new SingleLinkedElmt<DATA>() {
@@ -106,7 +106,7 @@ public interface SingleLinked<D> extends Linked<D , SingleLinked.SingleLinkedElm
             }
 
             @Override
-            public void insNext(SingleLinked.SingleLinkedElmt<DATA> element , DATA data) {
+            public void insNext(SingleLinked.SingleLinkedElmt<DATA> element , final DATA data) {
                 SingleLinked.SingleLinkedElmt<DATA> new_element =
                     SingleLinked.SingleLinkedElmt.<DATA> DEFAULT_ELMT(data);
 
@@ -176,14 +176,9 @@ public interface SingleLinked<D> extends Linked<D , SingleLinked.SingleLinkedElm
         };
     }
 
-    public void insNext(SingleLinkedElmt<D> element , D data);
+    @Override
+    public void insNext(SingleLinkedElmt<D> element , final D data);
 
-    /**
-     * Remove the next element.<br>
-     * If the element is the tail, Then it won't remove anything.
-     * 
-     * @param element the item of linked's
-     * @return if something is removed return data. If it doesn't return null.
-     */
+    @Override
     public D remNext(SingleLinkedElmt<D> element);
 }

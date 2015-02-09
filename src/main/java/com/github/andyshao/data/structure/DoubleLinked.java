@@ -115,7 +115,7 @@ public interface DoubleLinked<D> extends Linked<D , DoubleLinked.DoubleLinkedElm
             }
 
             @Override
-            public void insNext(DoubleLinked.DoubleLinkedElmt<DATA> element , DATA data) {
+            public void insNext(DoubleLinked.DoubleLinkedElmt<DATA> element , final DATA data) {
                 //Do not allow a NULL element unless the list is empty.
                 if (element == null && this.size() != 0) return;
 
@@ -145,7 +145,7 @@ public interface DoubleLinked<D> extends Linked<D , DoubleLinked.DoubleLinkedElm
             }
 
             @Override
-            public void insPrev(DoubleLinked.DoubleLinkedElmt<DATA> element , DATA data) {
+            public void insPrev(DoubleLinked.DoubleLinkedElmt<DATA> element , final DATA data) {
                 //Do not allowed a NULL element unless the list is empty.
                 if (element == null && this.size() != 0) return;
 
@@ -213,9 +213,9 @@ public interface DoubleLinked<D> extends Linked<D , DoubleLinked.DoubleLinkedElm
         };
     }
 
-    public void insNext(DoubleLinkedElmt<D> element , D data);
+    public void insNext(DoubleLinkedElmt<D> element , final D data);
 
-    public void insPrev(DoubleLinkedElmt<D> element , D data);
+    public void insPrev(DoubleLinkedElmt<D> element , final D data);
 
     public D remove(DoubleLinkedElmt<D> element);
 }
