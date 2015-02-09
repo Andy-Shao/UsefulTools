@@ -30,7 +30,7 @@ public class SingleLinkedTest {
         Assert.assertThat(this.linked.size() , Matchers.is(0));
 
         for (int i = 0 ; i < this.data.length ; i++)
-            this.linked.list_ins_next(this.linked.tail() , this.data[i]);
+            this.linked.insNext(this.linked.tail() , this.data[i]);
 
         Assert.assertThat(this.linked.size() , Matchers.is(2));
     }
@@ -38,5 +38,24 @@ public class SingleLinkedTest {
     @Test
     public void testSize() {
         Assert.assertThat(this.linked.size() , Matchers.is(0));
+        
+        testInsert();
+        
+        Assert.assertThat(this.linked.size() , Matchers.is(2));
+    }
+    
+    @Test
+    public void testRemove(){
+        testInsert();
+        Assert.assertThat(this.linked.size() , Matchers.is(2));
+        
+        this.linked.clean();
+        Assert.assertThat(this.linked.size() , Matchers.is(0));
+        
+        testInsert();
+        Assert.assertThat(this.linked.size() , Matchers.is(2));
+        
+        this.linked.remNext(this.linked.head());
+        Assert.assertThat(this.linked.size() , Matchers.is(1));
     }
 }

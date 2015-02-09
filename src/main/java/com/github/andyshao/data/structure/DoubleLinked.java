@@ -13,10 +13,10 @@ import java.util.Objects;
  *
  * @param <D> data
  */
-public interface DoubleLinked<D> extends List<D , DoubleLinked.DoubleLinkedElmt<D>> {
-    public interface DoubleLinkedElmt<DATA> extends List.ListElmt<DATA , DoubleLinkedElmt<DATA>> {
+public interface DoubleLinked<D> extends Linked<D , DoubleLinked.DoubleLinkedElmt<D>> {
+    public interface DoubleLinkedElmt<DATA> extends Linked.LinkedElmt<DATA , DoubleLinkedElmt<DATA>> {
         public static <DATA> DoubleLinkedElmt<DATA> DEFAULT_ELMT(DATA data) {
-            return new DoubleLinkedElmt<DATA>() {
+            DoubleLinkedElmt<DATA> result = new DoubleLinkedElmt<DATA>() {
                 private DATA data;
                 private DoubleLinkedElmt<DATA> next;
                 private DoubleLinkedElmt<DATA> prev;
@@ -27,8 +27,9 @@ public interface DoubleLinked<D> extends List<D , DoubleLinked.DoubleLinkedElmt<
                     DoubleLinkedElmt<DATA> that;
                     if (obj instanceof DoubleLinkedElmt) {
                         that = (DoubleLinkedElmt<DATA>) obj;
-                        return this.getData().equals(that.getData()) && this.getNext().equals(that.getNext())
-                            && this.getPrev().equals(that.getPrev());
+                        return Objects.equals(this.getData() , that.getData())
+                            && Objects.equals(this.getNext() , that.getNext())
+                            && Objects.equals(this.getPrev() , that.getPrev());
                     } else return false;
                 }
 
@@ -67,6 +68,9 @@ public interface DoubleLinked<D> extends List<D , DoubleLinked.DoubleLinkedElmt<
                     this.prev = prev;
                 }
             };
+            result.setData(data);
+
+            return result;
         }
 
         public DoubleLinkedElmt<DATA> getPrev();
@@ -83,19 +87,35 @@ public interface DoubleLinked<D> extends List<D , DoubleLinked.DoubleLinkedElmt<
             @Override
             public boolean clean() {
                 do
-                    if (this.size == 0) return true;
-                    else if (this.size == 1) {
-                        this.head.free();
-                        this.head = null;
-                        this.tail = null;
-                    } else this.dlist_remove(this.head);
+                    this.remove(this.head);
                 while (this.size != 0);
 
                 return false;
             }
 
+            @SuppressWarnings("unchecked")
             @Override
-            public void dlist_ins_next(DoubleLinked.DoubleLinkedElmt<DATA> element , DATA data) {
+            public boolean equals(Object obj) {
+                DoubleLinked<DATA> that;
+                if (obj instanceof DoubleLinked) {
+                    that = (DoubleLinked<DATA>) obj;
+                    return this.size == that.size() && Objects.equals(this.head() , that.head())
+                        && Objects.equals(this.tail() , that.tail());
+                } else return false;
+            }
+
+            @Override
+            public int hashCode() {
+                return Objects.hash(this.head , this.size , this.tail);
+            }
+
+            @Override
+            public DoubleLinked.DoubleLinkedElmt<DATA> head() {
+                return this.head;
+            }
+
+            @Override
+            public void insNext(DoubleLinked.DoubleLinkedElmt<DATA> element , DATA data) {
                 //Do not allow a NULL element unless the list is empty.
                 if (element == null && this.size() != 0) return;
 
@@ -115,6 +135,8 @@ public interface DoubleLinked<D> extends List<D , DoubleLinked.DoubleLinkedElmt<
 
                     if (element.getNext() == null) this.tail = new_element;
                     else element.getNext().setPrev(new_element);
+
+                    element.setNext(new_element);
                 }
 
                 //Adjust the size of the list to account for the inserted element.
@@ -123,7 +145,7 @@ public interface DoubleLinked<D> extends List<D , DoubleLinked.DoubleLinkedElmt<
             }
 
             @Override
-            public void dlist_ins_prev(DoubleLinked.DoubleLinkedElmt<DATA> element , DATA data) {
+            public void insPrev(DoubleLinked.DoubleLinkedElmt<DATA> element , DATA data) {
                 //Do not allowed a NULL element unless the list is empty.
                 if (element == null && this.size() != 0) return;
 
@@ -152,7 +174,7 @@ public interface DoubleLinked<D> extends List<D , DoubleLinked.DoubleLinkedElmt<
             }
 
             @Override
-            public DATA dlist_remove(DoubleLinked.DoubleLinkedElmt<DATA> element) {
+            public DATA remove(DoubleLinked.DoubleLinkedElmt<DATA> element) {
                 DATA data = null;
 
                 //Do not allow a NULL element or removal from an empty list.
@@ -179,11 +201,6 @@ public interface DoubleLinked<D> extends List<D , DoubleLinked.DoubleLinkedElmt<
             }
 
             @Override
-            public DoubleLinked.DoubleLinkedElmt<DATA> head() {
-                return this.head;
-            }
-
-            @Override
             public int size() {
                 return this.size;
             }
@@ -196,9 +213,9 @@ public interface DoubleLinked<D> extends List<D , DoubleLinked.DoubleLinkedElmt<
         };
     }
 
-    public void dlist_ins_next(DoubleLinkedElmt<D> element , D data);
+    public void insNext(DoubleLinkedElmt<D> element , D data);
 
-    public void dlist_ins_prev(DoubleLinkedElmt<D> element , D data);
+    public void insPrev(DoubleLinkedElmt<D> element , D data);
 
-    public D dlist_remove(DoubleLinkedElmt<D> element);
+    public D remove(DoubleLinkedElmt<D> element);
 }

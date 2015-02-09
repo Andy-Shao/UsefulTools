@@ -13,10 +13,10 @@ import java.util.Objects;
  *
  * @param <D> data
  */
-public interface SingleLinked<D> extends List<D , SingleLinked.SingleLinkedElmt<D>> {
-    public interface SingleLinkedElmt<D> extends List.ListElmt<D , SingleLinkedElmt<D>> {
+public interface SingleLinked<D> extends Linked<D , SingleLinked.SingleLinkedElmt<D>> {
+    public interface SingleLinkedElmt<D> extends Linked.LinkedElmt<D , SingleLinkedElmt<D>> {
         public static <DATA> SingleLinkedElmt<DATA> DEFAULT_ELMT(DATA data) {
-            return new SingleLinkedElmt<DATA>() {
+            SingleLinkedElmt<DATA> result = new SingleLinkedElmt<DATA>() {
                 private DATA data;
                 private SingleLinkedElmt<DATA> next;
 
@@ -26,7 +26,8 @@ public interface SingleLinked<D> extends List<D , SingleLinked.SingleLinkedElmt<
                     SingleLinkedElmt<DATA> that;
                     if (obj instanceof SingleLinkedElmt) {
                         that = (SingleLinkedElmt<DATA>) obj;
-                        return this.getData().equals(that.getData()) && this.getNext().equals(that.getNext());
+                        return Objects.equals(this.getData() , that.getData())
+                            && Objects.equals(this.getNext() , that.getNext());
                     } else return false;
                 }
 
@@ -55,6 +56,9 @@ public interface SingleLinked<D> extends List<D , SingleLinked.SingleLinkedElmt<
                     this.next = next;
                 }
             };
+            result.setData(data);
+            
+            return result;
         }
     }
 
@@ -72,10 +76,11 @@ public interface SingleLinked<D> extends List<D , SingleLinked.SingleLinkedElmt<
                         this.head.free();
                         this.head = null;
                         this.tail = null;
+                        this.size = 0;
                         return true;
-                    } else this.list_rem_next(this.head);
+                    } else this.remNext(this.head);
                 while (this.size != 0);
-                
+
                 return false;
             }
 
@@ -85,8 +90,8 @@ public interface SingleLinked<D> extends List<D , SingleLinked.SingleLinkedElmt<
                 SingleLinked<DATA> that;
                 if (obj instanceof SingleLinked) {
                     that = (SingleLinked<DATA>) obj;
-                    return this.size() == that.size() && this.head().equals(that.head())
-                        && this.tail().equals(that.tail());
+                    return this.size() == that.size() && Objects.equals(this.head() , that.head())
+                        && Objects.equals(this.tail() , that.tail());
                 } else return false;
             }
 
@@ -101,7 +106,7 @@ public interface SingleLinked<D> extends List<D , SingleLinked.SingleLinkedElmt<
             }
 
             @Override
-            public void list_ins_next(SingleLinked.SingleLinkedElmt<DATA> element , DATA data) {
+            public void insNext(SingleLinked.SingleLinkedElmt<DATA> element , DATA data) {
                 SingleLinked.SingleLinkedElmt<DATA> new_element =
                     SingleLinked.SingleLinkedElmt.<DATA> DEFAULT_ELMT(data);
 
@@ -124,7 +129,7 @@ public interface SingleLinked<D> extends List<D , SingleLinked.SingleLinkedElmt<
             }
 
             @Override
-            public DATA list_rem_next(SingleLinked.SingleLinkedElmt<DATA> element) {
+            public DATA remNext(SingleLinked.SingleLinkedElmt<DATA> element) {
                 SingleLinked.SingleLinkedElmt<DATA> old_element =
                     SingleLinked.SingleLinkedElmt.<DATA> DEFAULT_ELMT(null);
                 DATA data = null;
@@ -171,7 +176,7 @@ public interface SingleLinked<D> extends List<D , SingleLinked.SingleLinkedElmt<
         };
     }
 
-    public void list_ins_next(SingleLinkedElmt<D> element , D data);
+    public void insNext(SingleLinkedElmt<D> element , D data);
 
     /**
      * Remove the next element.<br>
@@ -180,5 +185,5 @@ public interface SingleLinked<D> extends List<D , SingleLinked.SingleLinkedElmt<
      * @param element the item of linked's
      * @return if something is removed return data. If it doesn't return null.
      */
-    public D list_rem_next(SingleLinkedElmt<D> element);
+    public D remNext(SingleLinkedElmt<D> element);
 }
