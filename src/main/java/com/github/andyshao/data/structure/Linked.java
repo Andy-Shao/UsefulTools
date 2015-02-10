@@ -36,11 +36,11 @@ public interface Linked<D , T extends Linked.LinkedElmt<D , T>> extends Cleanabl
 
     public T head();
 
-    public default boolean isHead(LinkedElmt<D , T> element) {
+    public default boolean list_is_head(LinkedElmt<D , T> element) {
         return this.head().equals(element);
     }
 
-    public default boolean isTail(LinkedElmt<D , T> element) {
+    public default boolean list_is_tail(LinkedElmt<D , T> element) {
         return this.tail().equals(element);
     }
 

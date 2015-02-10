@@ -87,7 +87,7 @@ public interface DoubleLinked<D> extends Linked<D , DoubleLinked.DoubleLinkedElm
             @Override
             public boolean clean() {
                 do
-                    this.remove(this.head);
+                    this.dlist_remove(this.head);
                 while (this.size != 0);
 
                 return false;
@@ -115,7 +115,7 @@ public interface DoubleLinked<D> extends Linked<D , DoubleLinked.DoubleLinkedElm
             }
 
             @Override
-            public void insNext(DoubleLinked.DoubleLinkedElmt<DATA> element , final DATA data) {
+            public void dlist_ins_next(DoubleLinked.DoubleLinkedElmt<DATA> element , final DATA data) {
                 //Do not allow a NULL element unless the list is empty.
                 if (element == null && this.size() != 0) return;
 
@@ -145,7 +145,7 @@ public interface DoubleLinked<D> extends Linked<D , DoubleLinked.DoubleLinkedElm
             }
 
             @Override
-            public void insPrev(DoubleLinked.DoubleLinkedElmt<DATA> element , final DATA data) {
+            public void dlist_ins_prev(DoubleLinked.DoubleLinkedElmt<DATA> element , final DATA data) {
                 //Do not allowed a NULL element unless the list is empty.
                 if (element == null && this.size() != 0) return;
 
@@ -174,7 +174,7 @@ public interface DoubleLinked<D> extends Linked<D , DoubleLinked.DoubleLinkedElm
             }
 
             @Override
-            public DATA remove(DoubleLinked.DoubleLinkedElmt<DATA> element) {
+            public DATA dlist_remove(DoubleLinked.DoubleLinkedElmt<DATA> element) {
                 DATA data = null;
 
                 //Do not allow a NULL element or removal from an empty list.
@@ -213,9 +213,9 @@ public interface DoubleLinked<D> extends Linked<D , DoubleLinked.DoubleLinkedElm
         };
     }
 
-    public void insNext(DoubleLinkedElmt<D> element , final D data);
+    public void dlist_ins_next(DoubleLinkedElmt<D> element , final D data);
 
-    public void insPrev(DoubleLinkedElmt<D> element , final D data);
+    public void dlist_ins_prev(DoubleLinkedElmt<D> element , final D data);
 
-    public D remove(DoubleLinkedElmt<D> element);
+    public D dlist_remove(DoubleLinkedElmt<D> element);
 }
