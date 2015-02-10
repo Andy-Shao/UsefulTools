@@ -45,7 +45,7 @@ public abstract class CglibProxyFactory<T> implements ProxyFactory<T> {
     }
 
     @Override
-    public T apply(T target) {
+    public T getProxy(T target) {
         return this.getProxy(target , new DefaultInvocationHandler(target));
     }
 

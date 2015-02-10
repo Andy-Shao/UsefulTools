@@ -44,7 +44,7 @@ public abstract class DynamicProxyFactory<T> implements ProxyFactory<T> {
     }
 
     @Override
-    public T apply(T target) {
+    public T getProxy(T target) {
         return this.getProxy(target , new DefaultInvocationHandler(target));
     }
 

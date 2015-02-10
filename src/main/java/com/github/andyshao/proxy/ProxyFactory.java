@@ -4,7 +4,6 @@ import java.lang.reflect.Method;
 import java.util.Arrays;
 import java.util.HashSet;
 import java.util.Set;
-import java.util.function.Function;
 
 import com.github.andyshao.util.Reflects;
 
@@ -20,7 +19,7 @@ import com.github.andyshao.util.Reflects;
  * @param <T> the type of target which will be proxy
  */
 @FunctionalInterface
-public interface ProxyFactory<T> extends Function<T , T> {
+public interface ProxyFactory<T> {
 
     public static <T> Class<?>[] allInterfaces(T target) {
         Set<Class<?>> set = new HashSet<>();
@@ -42,6 +41,5 @@ public interface ProxyFactory<T> extends Function<T , T> {
      * @param target the target which will be proxy
      * @return the proxy
      */
-    @Override
-    T apply(T target);
+    T getProxy(T target);
 }

@@ -43,7 +43,7 @@ public class DynamicPFTest {
                     return false;
                 }
             };
-        myInterface = dynamicProxyF.toProxyFactory().apply(myInterface);
+        myInterface = dynamicProxyF.toProxyFactory().getProxy(myInterface);
 
         Assert.assertTrue(myInterface.isAllow());
     }

@@ -39,7 +39,7 @@ public interface DynamicPF<T> {
         return new ProxyFactory<T>() {
 
             @Override
-            public T apply(T target) {
+            public T getProxy(T target) {
                 return DynamicPF.this.getProxy(target , new InvocationHandler() {
                     private volatile T proxy;
 
