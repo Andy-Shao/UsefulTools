@@ -6,7 +6,7 @@ import com.github.andyshao.lang.Cleanable;
  * 
  * Title: Linked list interface<br>
  * Descript: Because of it is a linked list, you should use the
- * {@link #list_destroy(Linked)} method when you
+ * {@link #clean()} method when you
  * want to remove this list.<br>
  * Copyright: Copryright(c) Feb 8, 2015<br>
  * Encoding:UNIX UTF-8
