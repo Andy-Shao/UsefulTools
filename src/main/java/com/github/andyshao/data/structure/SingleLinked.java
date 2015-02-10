@@ -26,24 +26,24 @@ public interface SingleLinked<D> extends Linked<D , SingleLinked.SingleLinkedElm
                     SingleLinkedElmt<DATA> that;
                     if (obj instanceof SingleLinkedElmt) {
                         that = (SingleLinkedElmt<DATA>) obj;
-                        return Objects.equals(this.getData() , that.getData())
-                            && Objects.equals(this.getNext() , that.getNext());
+                        return Objects.equals(this.list_Data() , that.list_Data())
+                            && Objects.equals(this.list_next() , that.list_next());
                     } else return false;
                 }
 
                 @Override
-                public DATA getData() {
+                public DATA list_Data() {
                     return this.data;
                 }
 
                 @Override
-                public SingleLinkedElmt<DATA> getNext() {
+                public SingleLinkedElmt<DATA> list_next() {
                     return this.next;
                 }
 
                 @Override
                 public int hashCode() {
-                    return Objects.hash(this.getData() , this.getNext());
+                    return Objects.hash(this.list_Data() , this.list_next());
                 }
 
                 @Override
@@ -90,18 +90,18 @@ public interface SingleLinked<D> extends Linked<D , SingleLinked.SingleLinkedElm
                 SingleLinked<DATA> that;
                 if (obj instanceof SingleLinked) {
                     that = (SingleLinked<DATA>) obj;
-                    return this.size() == that.size() && Objects.equals(this.head() , that.head())
+                    return this.size() == that.size() && Objects.equals(this.list_head() , that.list_head())
                         && Objects.equals(this.tail() , that.tail());
                 } else return false;
             }
 
             @Override
             public int hashCode() {
-                return Objects.hash(this.size() , this.head() , this.tail());
+                return Objects.hash(this.size() , this.list_head() , this.tail());
             }
 
             @Override
-            public SingleLinked.SingleLinkedElmt<DATA> head() {
+            public SingleLinked.SingleLinkedElmt<DATA> list_head() {
                 return this.head;
             }
 
@@ -118,9 +118,9 @@ public interface SingleLinked<D> extends Linked<D , SingleLinked.SingleLinkedElm
                     this.head = new_element;
                 } else {
                     //Handle insertion somewhere other than at the head.
-                    if (element.getNext() == null) this.tail = new_element;
+                    if (element.list_next() == null) this.tail = new_element;
 
-                    new_element.setNext(element.getNext());
+                    new_element.setNext(element.list_next());
                     element.setNext(new_element);
                 }
 
@@ -140,19 +140,19 @@ public interface SingleLinked<D> extends Linked<D , SingleLinked.SingleLinkedElm
                 //Remove the element from the list.
                 if (element == null) {
                     //Handle removal from the head of the list.
-                    data = this.head.getData();
+                    data = this.head.list_Data();
                     old_element = this.head;
-                    this.head = this.head.getNext();
+                    this.head = this.head.list_next();
 
                     if (this.size() == 1) this.tail = null;
                 } else {
-                    if (element.getNext() == null) return null;
+                    if (element.list_next() == null) return null;
 
-                    data = element.getNext().getData();
-                    old_element = element.getNext();
-                    element.setNext(element.getNext().getNext());
+                    data = element.list_next().list_Data();
+                    old_element = element.list_next();
+                    element.setNext(element.list_next().list_next());
 
-                    if (element.getNext() == null) this.tail = element;
+                    if (element.list_next() == null) this.tail = element;
                 }
 
                 //Free the storage allocated by the abstract datatype.

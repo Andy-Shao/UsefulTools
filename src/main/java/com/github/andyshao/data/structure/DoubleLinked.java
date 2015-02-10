@@ -27,19 +27,19 @@ public interface DoubleLinked<D> extends Linked<D , DoubleLinked.DoubleLinkedElm
                     DoubleLinkedElmt<DATA> that;
                     if (obj instanceof DoubleLinkedElmt) {
                         that = (DoubleLinkedElmt<DATA>) obj;
-                        return Objects.equals(this.getData() , that.getData())
-                            && Objects.equals(this.getNext() , that.getNext())
+                        return Objects.equals(this.list_Data() , that.list_Data())
+                            && Objects.equals(this.list_next() , that.list_next())
                             && Objects.equals(this.getPrev() , that.getPrev());
                     } else return false;
                 }
 
                 @Override
-                public DATA getData() {
+                public DATA list_Data() {
                     return this.data;
                 }
 
                 @Override
-                public DoubleLinkedElmt<DATA> getNext() {
+                public DoubleLinkedElmt<DATA> list_next() {
                     return this.next;
                 }
 
@@ -50,7 +50,7 @@ public interface DoubleLinked<D> extends Linked<D , DoubleLinked.DoubleLinkedElm
 
                 @Override
                 public int hashCode() {
-                    return Objects.hash(this.getData() , this.getPrev() , this.getNext());
+                    return Objects.hash(this.list_Data() , this.getPrev() , this.list_next());
                 }
 
                 @Override
@@ -99,7 +99,7 @@ public interface DoubleLinked<D> extends Linked<D , DoubleLinked.DoubleLinkedElm
                 DoubleLinked<DATA> that;
                 if (obj instanceof DoubleLinked) {
                     that = (DoubleLinked<DATA>) obj;
-                    return this.size == that.size() && Objects.equals(this.head() , that.head())
+                    return this.size == that.size() && Objects.equals(this.list_head() , that.list_head())
                         && Objects.equals(this.tail() , that.tail());
                 } else return false;
             }
@@ -110,7 +110,7 @@ public interface DoubleLinked<D> extends Linked<D , DoubleLinked.DoubleLinkedElm
             }
 
             @Override
-            public DoubleLinked.DoubleLinkedElmt<DATA> head() {
+            public DoubleLinked.DoubleLinkedElmt<DATA> list_head() {
                 return this.head;
             }
 
@@ -130,11 +130,11 @@ public interface DoubleLinked<D> extends Linked<D , DoubleLinked.DoubleLinkedElm
                     this.tail = new_element;
                 } else {
                     //Handle insertion when the list is not empty.
-                    new_element.setNext(element.getNext());
+                    new_element.setNext(element.list_next());
                     new_element.setPrev(element);
 
-                    if (element.getNext() == null) this.tail = new_element;
-                    else element.getNext().setPrev(new_element);
+                    if (element.list_next() == null) this.tail = new_element;
+                    else element.list_next().setPrev(new_element);
 
                     element.setNext(new_element);
                 }
@@ -181,14 +181,14 @@ public interface DoubleLinked<D> extends Linked<D , DoubleLinked.DoubleLinkedElm
                 if (element == null || this.size() == 0) return null;
 
                 //Remove the element from the list.
-                data = element.getData();
+                data = element.list_Data();
 
                 if (element.equals(this.head)) {
                     //Handle removal from the head of the list.
-                    this.head = element.getNext();
+                    this.head = element.list_next();
 
                     if (this.head == null) this.tail = null;
-                    else element.getNext().setPrev(null);
+                    else element.list_next().setPrev(null);
                 }
 
                 //Free the storage allocated by the abstract datatype.

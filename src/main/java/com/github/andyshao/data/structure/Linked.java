@@ -25,19 +25,19 @@ public interface Linked<D , T extends Linked.LinkedElmt<D , T>> extends Cleanabl
             this.setNext(null);
         }
 
-        public abstract DATA getData();
+        public abstract DATA list_Data();
 
-        public abstract T getNext();
+        public abstract T list_next();
 
         public abstract void setData(DATA data);
 
         public abstract void setNext(T next);
     }
 
-    public T head();
+    public T list_head();
 
     public default boolean list_is_head(LinkedElmt<D , T> element) {
-        return this.head().equals(element);
+        return this.list_head().equals(element);
     }
 
     public default boolean list_is_tail(LinkedElmt<D , T> element) {

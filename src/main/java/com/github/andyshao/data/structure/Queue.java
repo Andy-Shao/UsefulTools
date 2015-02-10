@@ -26,7 +26,7 @@ public interface Queue<D> extends Cleanable {
 
             @Override
             public DATA peek() {
-                return linked.head() == null ? null : linked.head().getData();
+                return linked.list_head() == null ? null : linked.list_head().list_Data();
             }
 
             @Override

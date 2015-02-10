@@ -28,19 +28,19 @@ public interface CycleLinked<D> extends Linked<D , CycleLinked.CycleLinkedElmt<D
                     CycleLinked.CycleLinkedElmt<DAT> that;
                     if (obj instanceof CycleLinked.CycleLinkedElmt) {
                         that = (CycleLinkedElmt<DAT>) obj;
-                        if (this.next == this) return Objects.equals(this.data , that.getData());
-                        else return Objects.equals(this.data , that.getData())
-                            && Objects.equals(this.next , that.getNext());
+                        if (this.next == this) return Objects.equals(this.data , that.list_Data());
+                        else return Objects.equals(this.data , that.list_Data())
+                            && Objects.equals(this.next , that.list_next());
                     } else return false;
                 }
 
                 @Override
-                public DAT getData() {
+                public DAT list_Data() {
                     return this.data;
                 }
 
                 @Override
-                public CycleLinkedElmt<DAT> getNext() {
+                public CycleLinkedElmt<DAT> list_next() {
                     return this.next;
                 }
 
@@ -86,7 +86,7 @@ public interface CycleLinked<D> extends Linked<D , CycleLinked.CycleLinkedElmt<D
             }
 
             @Override
-            public CycleLinked.CycleLinkedElmt<DATA> head() {
+            public CycleLinked.CycleLinkedElmt<DATA> list_head() {
                 return this.head;
             }
 
@@ -105,7 +105,7 @@ public interface CycleLinked<D> extends Linked<D , CycleLinked.CycleLinkedElmt<D
                         this.head = new_element;
                     } else {
                         //Handle insertion when the list is not empty.
-                        new_element.setNext(element.getNext());
+                        new_element.setNext(element.list_next());
                         element.setNext(new_element);
                     }
                 }
@@ -125,16 +125,16 @@ public interface CycleLinked<D> extends Linked<D , CycleLinked.CycleLinkedElmt<D
                 if (element == null) element = this.head;
 
                 //Remove the element from the list.
-                data = element.getNext().getData();
-                if (element.getNext() == element) {
+                data = element.list_next().list_Data();
+                if (element.list_next() == element) {
                     //Handle removing the last element.
-                    old_element = element.getNext();
+                    old_element = element.list_next();
                     this.head = null;
                 } else {
                     //Handle removing other than the last element.
-                    old_element = element.getNext();
-                    element.setNext(element.getNext().getNext());
-                    if (old_element == this.head) this.head = old_element.getNext();
+                    old_element = element.list_next();
+                    element.setNext(element.list_next().list_next());
+                    if (old_element == this.head) this.head = old_element.list_next();
                 }
 
                 //Free the storage allocated by the abstract datatype.

@@ -55,7 +55,7 @@ public class SingleLinkedTest {
         testInsert();
         Assert.assertThat(this.linked.size() , Matchers.is(2));
         
-        this.linked.list_rem_next(this.linked.head());
+        this.linked.list_rem_next(this.linked.list_head());
         Assert.assertThat(this.linked.size() , Matchers.is(1));
     }
 }
