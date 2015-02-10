@@ -29,7 +29,7 @@ public final class ArrayTools {
     public static <K , V> Map<K , V> convertToMap(
         Convert<Object , K> convertK , Convert<Object , V> convertV , Map<K , V> map , Object[]... arrays) {
         for (Object[] array : arrays)
-            map.put(convertK.apply(array[0]) , convertV.apply(array[1]));
+            map.put(convertK.convert(array[0]) , convertV.convert(array[1]));
         return map;
     }
 

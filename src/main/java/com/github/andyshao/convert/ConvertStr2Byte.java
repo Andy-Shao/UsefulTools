@@ -35,7 +35,7 @@ public class ConvertStr2Byte implements Convert<String , Byte[]> {
     }
 
     @Override
-    public Byte[] apply(String in) {
+    public Byte[] convert(String in) {
         return ConvertStr2Byte.hexStringToBytes(in);
     }
 }

@@ -18,8 +18,8 @@ public class ConvertTest {
         String trueStr = "true";
         String falseStr = "false";
 
-        Assert.assertTrue(Convert.OB_2_BOOLEAN.apply(trueStr));
-        Assert.assertFalse(Convert.OB_2_BOOLEAN.apply(falseStr));
+        Assert.assertTrue(Convert.OB_2_BOOLEAN.convert(trueStr));
+        Assert.assertFalse(Convert.OB_2_BOOLEAN.convert(falseStr));
     }
 
     @Test
@@ -28,12 +28,12 @@ public class ConvertTest {
         byte[] bs = "Andy-Shao".getBytes();
 
         {
-            String hexStr = Convert.BYTES_2_HEX.apply(ArrayTools.pack_unpack(bs , Byte[].class));
+            String hexStr = Convert.BYTES_2_HEX.convert(ArrayTools.pack_unpack(bs , Byte[].class));
             Assert.assertTrue(hexStr.equalsIgnoreCase(hexString));
         }
 
         {
-            byte[] bs2 = ArrayTools.pack_unpack(Convert.HEX_2_BYTES.apply(hexString) , byte[].class);
+            byte[] bs2 = ArrayTools.pack_unpack(Convert.HEX_2_BYTES.convert(hexString) , byte[].class);
             Assert.assertArrayEquals(bs , bs2);
         }
     }
@@ -53,10 +53,10 @@ public class ConvertTest {
         String dStr = "1.23456";
         BigDecimal bigDecimal = new BigDecimal(dStr);
 
-        double myDouble = Convert.OB_2_DOUBLE.apply(bigDecimal);
+        double myDouble = Convert.OB_2_DOUBLE.convert(bigDecimal);
         Assert.assertThat(myDouble , Matchers.is(d));
 
-        myDouble = Convert.OB_2_DOUBLE.apply(dStr);
+        myDouble = Convert.OB_2_DOUBLE.convert(dStr);
         Assert.assertThat(myDouble , Matchers.is(d));
     }
 
@@ -66,10 +66,10 @@ public class ConvertTest {
         String fStr = "1.23";
         BigDecimal bigDecimal = new BigDecimal(fStr);
 
-        float myFloat = Convert.OB_2_FLOAT.apply(fStr);
+        float myFloat = Convert.OB_2_FLOAT.convert(fStr);
         Assert.assertThat(myFloat , Matchers.is(f));
 
-        myFloat = Convert.OB_2_FLOAT.apply(bigDecimal);
+        myFloat = Convert.OB_2_FLOAT.convert(bigDecimal);
         Assert.assertThat(myFloat , Matchers.is(f));
     }
 
@@ -80,13 +80,13 @@ public class ConvertTest {
         BigInteger bigInteger = new BigInteger(iStr);
         BigDecimal bigDecimal = new BigDecimal(iStr);
 
-        int myInt = Convert.OB_2_INT.apply(iStr);
+        int myInt = Convert.OB_2_INT.convert(iStr);
         Assert.assertThat(myInt , Matchers.is(i));
 
-        myInt = Convert.OB_2_INT.apply(bigDecimal);
+        myInt = Convert.OB_2_INT.convert(bigDecimal);
         Assert.assertThat(myInt , Matchers.is(i));
 
-        myInt = Convert.OB_2_INT.apply(bigInteger);
+        myInt = Convert.OB_2_INT.convert(bigInteger);
         Assert.assertThat(myInt , Matchers.is(i));
     }
 
@@ -97,13 +97,13 @@ public class ConvertTest {
         BigInteger bigInteger = new BigInteger(lStr);
         BigDecimal bigDecimal = new BigDecimal(lStr);
 
-        long myLong = Convert.OB_2_LONG.apply(lStr);
+        long myLong = Convert.OB_2_LONG.convert(lStr);
         Assert.assertThat(myLong , Matchers.is(l));
 
-        myLong = Convert.OB_2_LONG.apply(bigDecimal);
+        myLong = Convert.OB_2_LONG.convert(bigDecimal);
         Assert.assertThat(myLong , Matchers.is(l));
 
-        myLong = Convert.OB_2_LONG.apply(bigInteger);
+        myLong = Convert.OB_2_LONG.convert(bigInteger);
         Assert.assertThat(myLong , Matchers.is(l));
     }
 
@@ -114,13 +114,13 @@ public class ConvertTest {
         BigInteger bigInteger = new BigInteger(sStr);
         BigDecimal bigDecimal = new BigDecimal(sStr);
 
-        short myShort = Convert.OB_2_SHORT.apply(sStr);
+        short myShort = Convert.OB_2_SHORT.convert(sStr);
         Assert.assertThat(myShort , Matchers.is(s));
 
-        myShort = Convert.OB_2_SHORT.apply(bigInteger);
+        myShort = Convert.OB_2_SHORT.convert(bigInteger);
         Assert.assertThat(myShort , Matchers.is(s));
 
-        myShort = Convert.OB_2_SHORT.apply(bigDecimal);
+        myShort = Convert.OB_2_SHORT.convert(bigDecimal);
         Assert.assertThat(myShort , Matchers.is(s));
     }
 
@@ -129,6 +129,6 @@ public class ConvertTest {
         List<Character> list = Arrays.asList('a' , 'b' , 'c' , 'd' , 'e' , 'f' , 'g');
         String str = "[a, b, c, d, e, f, g]";
 
-        Assert.assertEquals(str , Convert.OB_2_STR.apply(list));
+        Assert.assertEquals(str , Convert.OB_2_STR.convert(list));
     }
 }
