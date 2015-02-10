@@ -16,14 +16,14 @@ public interface Stack<D> extends Cleanable {
 
     public void push(final D data);
 
-    public D pop(D data);
+    public D pop();
 
     public D peek();
 
     public int size();
 
     public static
-        <DATA , T extends Linked<DATA , ? extends Linked.LinkedElmt<DATA , ?>> & SingleLinkedOperation<DATA , ? extends Linked.LinkedElmt<DATA , ?>>>
+        <DATA , E extends Linked.LinkedElmt<DATA , E>, T extends Linked<DATA , E> & SingleLinkedOperation<DATA , E>>
         Stack<DATA> DEFAULT_STACK(T linked) {
         return new Stack<DATA>() {
 
@@ -33,7 +33,7 @@ public interface Stack<D> extends Cleanable {
             }
 
             @Override
-            public DATA pop(DATA data) {
+            public DATA pop() {
                 return linked.remNext(null);
             }
 

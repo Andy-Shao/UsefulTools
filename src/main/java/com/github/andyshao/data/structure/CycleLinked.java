@@ -8,11 +8,13 @@ import java.util.Objects;
  * Descript:<br>
  * Copyright: Copryright(c) Feb 9, 2015<br>
  * Encoding:UNIX UTF-8
+ * 
  * @author Andy.Shao
  *
  * @param <D> data
  */
-public interface CycleLinked<D> extends Linked<D , CycleLinked.CycleLinkedElmt<D>>, SingleLinkedOperation<D , CycleLinked.CycleLinkedElmt<D>> {
+public interface CycleLinked<D> extends Linked<D , CycleLinked.CycleLinkedElmt<D>> ,
+    SingleLinkedOperation<D , CycleLinked.CycleLinkedElmt<D>> {
 
     public interface CycleLinkedElmt<DATA> extends Linked.LinkedElmt<DATA , CycleLinked.CycleLinkedElmt<DATA>> {
         public static <DAT> CycleLinked.CycleLinkedElmt<DAT> DEFAULT_CYCLE_ELMT(DAT data) {
@@ -98,9 +100,14 @@ public interface CycleLinked<D> extends Linked<D , CycleLinked.CycleLinkedElmt<D
                     new_element.setNext(new_element);
                     this.head = new_element;
                 } else {
-                    //Handle insertion when the list is not empty.
-                    new_element.setNext(element.getNext());
-                    element.setNext(new_element);
+                    if (element == null) {
+                        new_element.setNext(this.head);
+                        this.head = new_element;
+                    } else {
+                        //Handle insertion when the list is not empty.
+                        new_element.setNext(element.getNext());
+                        element.setNext(new_element);
+                    }
                 }
 
                 //Adjust the size of the list to account for the inserted element.
@@ -115,6 +122,7 @@ public interface CycleLinked<D> extends Linked<D , CycleLinked.CycleLinkedElmt<D
 
                 //Do not allow removal from an empty list.
                 if (this.size == 0) return null;
+                if (element == null) element = this.head;
 
                 //Remove the element from the list.
                 data = element.getNext().getData();
