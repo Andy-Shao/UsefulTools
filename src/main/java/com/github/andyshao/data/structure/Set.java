@@ -2,7 +2,7 @@ package com.github.andyshao.data.structure;
 
 import com.github.andyshao.lang.Cleanable;
 
-public interface Set<D, T extends Linked.LinkedElmt<D , T>> extends Cleanable, Linked<D , T>, SingleLinkedOperation<D , T>{
+public interface Set<D, T extends Linked.LinkedElmt<D , T>> extends Cleanable, Linked<D , T>{
 
     public static
         <DATA , E extends Linked.LinkedElmt<DATA , E> , T extends Linked<DATA , E> & SingleLinkedOperation<DATA , E>>
@@ -17,14 +17,14 @@ public interface Set<D, T extends Linked.LinkedElmt<D , T>> extends Cleanable, L
             @Override
             public void set_insert(DATA data) {
                 //Do not allow the insertion of duplicates.
-                if (this.set_isMember(data)) return;
+                if (this.set_is_member(data)) return;
 
                 //Insert the data.
                 linked.list_ins_next(linked.tail() , data);
             }
 
             @Override
-            public boolean set_isMember(DATA data) {
+            public boolean set_is_member(DATA data) {
                 // TODO Auto-generated method stub
                 return false;
             }
@@ -69,14 +69,13 @@ public interface Set<D, T extends Linked.LinkedElmt<D , T>> extends Cleanable, L
                 //Insert the members of the first set.
                 for(memeber = set1.head(); memeber != null; memeber = memeber.getNext()){
                     data = memeber.getData();
-                    result.list_ins_next(result.tail() , data);
+                    result.set_insert(data);
                 }
                 
                 //Insert the members of the second set.
                 for(memeber = set2.head(); memeber != null; memeber = memeber.getNext()){
-                    if(set1.set_isMember(memeber.getData())) continue;
                     data = memeber.getData();
-                    result.list_ins_next(result.tail() , data);
+                    result.set_insert(data);
                 }
                 return result;
             }
@@ -103,15 +102,6 @@ public interface Set<D, T extends Linked.LinkedElmt<D , T>> extends Cleanable, L
                 return null;
             }
 
-            @Override
-            public void list_ins_next(E element , DATA data) {
-                linked.list_ins_next(element , data);
-            }
-
-            @Override
-            public DATA list_rem_next(E element) {
-                return linked.list_rem_next(element);
-            }
         };
     }
 
@@ -121,7 +111,7 @@ public interface Set<D, T extends Linked.LinkedElmt<D , T>> extends Cleanable, L
 
     public Set<D, T> set_intersection(final Set<D, T> result, final Set<D, T> set1 , final Set<D, T> set2);
 
-    public boolean set_isMember(final D data);
+    public boolean set_is_member(final D data);
 
     public boolean set_is_subset(final Set<D, T> set1);
 
