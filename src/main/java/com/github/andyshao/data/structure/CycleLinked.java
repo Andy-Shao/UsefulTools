@@ -79,7 +79,7 @@ public interface CycleLinked<D> extends Linked<D , CycleLinked.CycleLinkedElmt<D
                         this.head.free();
                         this.head = null;
                         return true;
-                    } else this.remNext(this.head);
+                    } else this.list_rem_next(this.head);
                 while (this.size != 0);
 
                 return false;
@@ -91,7 +91,7 @@ public interface CycleLinked<D> extends Linked<D , CycleLinked.CycleLinkedElmt<D
             }
 
             @Override
-            public void insNext(CycleLinked.CycleLinkedElmt<DATA> element , final DATA data) {
+            public void list_ins_next(CycleLinked.CycleLinkedElmt<DATA> element , final DATA data) {
                 CycleLinked.CycleLinkedElmt<DATA> new_element =
                     CycleLinked.CycleLinkedElmt.<DATA> DEFAULT_CYCLE_ELMT(data);
 
@@ -115,7 +115,7 @@ public interface CycleLinked<D> extends Linked<D , CycleLinked.CycleLinkedElmt<D
             }
 
             @Override
-            public DATA remNext(CycleLinked.CycleLinkedElmt<DATA> element) {
+            public DATA list_rem_next(CycleLinked.CycleLinkedElmt<DATA> element) {
                 CycleLinked.CycleLinkedElmt<DATA> old_element =
                     CycleLinked.CycleLinkedElmt.<DATA> DEFAULT_CYCLE_ELMT(null);
                 DATA data = null;
@@ -160,8 +160,8 @@ public interface CycleLinked<D> extends Linked<D , CycleLinked.CycleLinkedElmt<D
     }
 
     @Override
-    public void insNext(CycleLinked.CycleLinkedElmt<D> element , final D data);
+    public void list_ins_next(CycleLinked.CycleLinkedElmt<D> element , final D data);
 
     @Override
-    public D remNext(CycleLinked.CycleLinkedElmt<D> element);
+    public D list_rem_next(CycleLinked.CycleLinkedElmt<D> element);
 }

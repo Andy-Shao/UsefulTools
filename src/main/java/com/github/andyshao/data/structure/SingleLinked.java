@@ -78,7 +78,7 @@ public interface SingleLinked<D> extends Linked<D , SingleLinked.SingleLinkedElm
                         this.tail = null;
                         this.size = 0;
                         return true;
-                    } else this.remNext(this.head);
+                    } else this.list_rem_next(this.head);
                 while (this.size != 0);
 
                 return false;
@@ -106,7 +106,7 @@ public interface SingleLinked<D> extends Linked<D , SingleLinked.SingleLinkedElm
             }
 
             @Override
-            public void insNext(SingleLinked.SingleLinkedElmt<DATA> element , final DATA data) {
+            public void list_ins_next(SingleLinked.SingleLinkedElmt<DATA> element , final DATA data) {
                 SingleLinked.SingleLinkedElmt<DATA> new_element =
                     SingleLinked.SingleLinkedElmt.<DATA> DEFAULT_ELMT(data);
 
@@ -129,7 +129,7 @@ public interface SingleLinked<D> extends Linked<D , SingleLinked.SingleLinkedElm
             }
 
             @Override
-            public DATA remNext(SingleLinked.SingleLinkedElmt<DATA> element) {
+            public DATA list_rem_next(SingleLinked.SingleLinkedElmt<DATA> element) {
                 SingleLinked.SingleLinkedElmt<DATA> old_element =
                     SingleLinked.SingleLinkedElmt.<DATA> DEFAULT_ELMT(null);
                 DATA data = null;
@@ -177,8 +177,8 @@ public interface SingleLinked<D> extends Linked<D , SingleLinked.SingleLinkedElm
     }
 
     @Override
-    public void insNext(SingleLinkedElmt<D> element , final D data);
+    public void list_ins_next(SingleLinkedElmt<D> element , final D data);
 
     @Override
-    public D remNext(SingleLinkedElmt<D> element);
+    public D list_rem_next(SingleLinkedElmt<D> element);
 }

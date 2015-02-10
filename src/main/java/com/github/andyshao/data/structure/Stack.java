@@ -29,12 +29,12 @@ public interface Stack<D> extends Cleanable {
 
             @Override
             public void push(DATA data) {
-                linked.insNext(null , data);
+                linked.list_ins_next(null , data);
             }
 
             @Override
             public DATA pop() {
-                return linked.remNext(null);
+                return linked.list_rem_next(null);
             }
 
             @Override

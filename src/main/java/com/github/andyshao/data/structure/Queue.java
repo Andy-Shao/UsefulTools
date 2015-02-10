@@ -16,12 +16,12 @@ public interface Queue<D> extends Cleanable {
 
             @Override
             public DATA dequeue() {
-                return linked.remNext(null);
+                return linked.list_rem_next(null);
             }
 
             @Override
             public void enqueue(DATA data) {
-                linked.insNext(linked.tail() , data);
+                linked.list_ins_next(linked.tail() , data);
             }
 
             @Override

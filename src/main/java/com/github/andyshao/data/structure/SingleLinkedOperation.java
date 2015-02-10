@@ -13,7 +13,7 @@ package com.github.andyshao.data.structure;
  */
 public interface SingleLinkedOperation<D,T extends Linked.LinkedElmt<D , T>> {
 
-    public void insNext(T element , final D data);
+    public void list_ins_next(T element , final D data);
 
     /**
      * Remove the next element.<br>
@@ -22,5 +22,5 @@ public interface SingleLinkedOperation<D,T extends Linked.LinkedElmt<D , T>> {
      * @param element the item of linked's
      * @return if something is removed return data. If it doesn't return null.
      */
-    public D remNext(T element);
+    public D list_rem_next(T element);
 }
