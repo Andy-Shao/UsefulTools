@@ -1,5 +1,7 @@
 package com.github.andyshao.data.structure;
 
+import java.util.Iterator;
+
 import com.github.andyshao.lang.Cleanable;
 
 /**
@@ -12,7 +14,7 @@ import com.github.andyshao.lang.Cleanable;
  *
  * @param <D> data
  */
-public interface Stack<D> extends Cleanable {
+public interface Stack<D> extends Cleanable, Iterable<D> {
 
     public void push(final D data);
 
@@ -50,6 +52,11 @@ public interface Stack<D> extends Cleanable {
             @Override
             public boolean clean() {
                 return linked.clean();
+            }
+
+            @Override
+            public Iterator<DATA> iterator() {
+                return linked.iterator();
             }
         };
     }

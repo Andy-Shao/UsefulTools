@@ -184,7 +184,7 @@ public interface SingleLinked<D> extends Linked<D , SingleLinked.SingleLinkedElm
             
             @Override
             public boolean hasNext() {
-                if(this.actionCount != MySingleLinked.this.actionCount) return false;
+                if(this.index == null || this.actionCount != MySingleLinked.this.actionCount) return false;
                 return this.index.list_next() != null;
             }
             
