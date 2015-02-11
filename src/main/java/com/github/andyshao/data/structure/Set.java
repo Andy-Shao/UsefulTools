@@ -79,7 +79,7 @@ public interface Set<D> extends Cleanable , Iterable<D> , Cloneable {
 
     public abstract boolean set_is_subset(LinkedSet<D> set1);
 
-    public abstract D set_remove(D data);
+    public abstract void set_remove(D data);
 
     @SuppressWarnings("unchecked")
     public default Set<D> set_union(Set<D> result , Set<D>... sets) throws CloneNotSupportedException {

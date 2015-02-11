@@ -101,7 +101,7 @@ public interface LinkedSet<D> extends Linked<D , SingleLinked.SingleLinkedElmt<D
         }
         
         @Override
-        public DATA set_remove(DATA data) {
+        public void set_remove(DATA data) {
             SingleLinked.SingleLinkedElmt<DATA> member , prev;
             
             //Find the member to remove.
@@ -113,10 +113,10 @@ public interface LinkedSet<D> extends Linked<D , SingleLinked.SingleLinkedElmt<D
             }
             
             //Return if the member was not found.
-            if (member == null) return null;
+            if (member == null) return;
             
             //Remove the member
-            return linked.list_rem_next(prev);
+            linked.list_rem_next(prev);
         }
         
         @Override
