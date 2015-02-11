@@ -1,15 +1,48 @@
 package com.github.andyshao.data.structure;
 
-import com.github.andyshao.lang.Cleanable;
+import java.util.Iterator;
 
-public interface Set<D> extends Cleanable , Linked<D , SingleLinked.SingleLinkedElmt<D>> {
+/**
+ * 
+ * Title:<br>
+ * Descript:<br>
+ * Copyright: Copryright(c) Feb 11, 2015<br>
+ * Encoding:UNIX UTF-8
+ * 
+ * @author Andy.Shao
+ *
+ * @param <D>
+ */
+public interface LinkedSet<D> extends Linked<D , SingleLinked.SingleLinkedElmt<D>> , Set<D> {
 
-    public static <DATA> Set<DATA> DEFAULT_SET(final SingleLinked<DATA> linked) {
-        return new Set<DATA>() {
+    public static <DATA> LinkedSet<DATA> DEFAULT_SET(final SingleLinked<DATA> linked) {
+        return new LinkedSet<DATA>() {
 
             @Override
             public boolean clean() {
                 return linked.clean();
+            }
+
+            @SuppressWarnings("unchecked")
+            @Override
+            public boolean equals(Object obj) {
+                LinkedSet<DATA> that;
+                if (obj instanceof LinkedSet) {
+                    that = (LinkedSet<DATA>) obj;
+                    if (this.size() != that.size()) return false;
+
+                    //Sets of the same size are equal if they are subsets.
+                    return this.set_is_subset(that);
+                } else return false;
+            }
+
+            @Override
+            public int hashCode() {
+                int result = 0;
+                for (SingleLinked.SingleLinkedElmt<DATA> member = this.list_head() ; member != null ; member =
+                    member.list_next())
+                    result += member.hashCode();
+                return result;
             }
 
             @Override
@@ -31,24 +64,22 @@ public interface Set<D> extends Cleanable , Linked<D , SingleLinked.SingleLinked
                 SingleLinked.SingleLinkedElmt<DATA> member;
 
                 //Determine if the data is a member of the set.
-                for (member = this.list_head() ; member != null ; member = member.list_next()) {
+                for (member = this.list_head() ; member != null ; member = member.list_next())
                     if (member.list_Data().equals(data)) return true;
-                }
 
                 return false;
             }
 
             @Override
-            public boolean set_is_subset(Set<DATA> set1) {
+            public boolean set_is_subset(LinkedSet<DATA> set1) {
                 SingleLinked.SingleLinkedElmt<DATA> member;
 
                 //Do a quick test to rule out some cases.
                 if (this.size() > set1.size()) return false;
 
                 //Determine if set1 is a subset of set2.
-                for (member = this.list_head() ; member != null ; member = member.list_next()) {
+                for (member = this.list_head() ; member != null ; member = member.list_next())
                     if (!set1.set_is_member(member.list_Data())) return false;
-                }
                 return true;
             }
 
@@ -82,30 +113,14 @@ public interface Set<D> extends Cleanable , Linked<D , SingleLinked.SingleLinked
             }
 
             @Override
-            public int hashCode() {
-                int result = 0;
-                for (SingleLinked.SingleLinkedElmt<DATA> member = this.list_head() ; member != null ; member =
-                    member.list_next())
-                    result += member.hashCode();
-                return result;
-            }
-
-            @SuppressWarnings("unchecked")
-            @Override
-            public boolean equals(Object obj) {
-                Set<DATA> that;
-                if (obj instanceof Set) {
-                    that = (Set<DATA>) obj;
-                    if (this.size() != that.size()) return false;
-
-                    //Sets of the same size are equal if they are subsets.
-                    return this.set_is_subset(that);
-                } else return false;
+            public Iterator<DATA> iterator() {
+                return linked.iterator();
             }
         };
     }
 
-    public default Set<D> set_difference(final Set<D> result , final Set<D> set1 , final Set<D> set2) {
+    @Override
+    public default Set<D> set_difference(final Set<D> result , final LinkedSet<D> set1 , final Set<D> set2) {
         SingleLinked.SingleLinkedElmt<D> member;
         D data;
 
@@ -119,9 +134,8 @@ public interface Set<D> extends Cleanable , Linked<D , SingleLinked.SingleLinked
         return result;
     }
 
-    public void set_insert(final D data);
-
-    public default Set<D> set_intersection(final Set<D> result , final Set<D> set1 , final Set<D> set2) {
+    @Override
+    public default Set<D> set_intersection(final Set<D> result , final LinkedSet<D> set1 , final Set<D> set2) {
         SingleLinked.SingleLinkedElmt<D> member;
         D data;
 
@@ -135,13 +149,8 @@ public interface Set<D> extends Cleanable , Linked<D , SingleLinked.SingleLinked
         return result;
     }
 
-    public boolean set_is_member(final D data);
-
-    public boolean set_is_subset(final Set<D> set1);
-
-    public D set_remove(final D data);
-
-    public default Set<D> set_union(final Set<D> result , final Set<D> set1 , final Set<D> set2) {
+    @Override
+    public default Set<D> set_union(final Set<D> result , final LinkedSet<D> set1 , final LinkedSet<D> set2) {
         SingleLinked.SingleLinkedElmt<D> memeber;
         D data;
 

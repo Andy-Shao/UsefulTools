@@ -1,5 +1,6 @@
 package com.github.andyshao.data.structure;
 
+import java.util.Iterator;
 import java.util.Objects;
 
 /**
@@ -208,6 +209,12 @@ public interface DoubleLinked<D> extends Linked<D , DoubleLinked.DoubleLinkedElm
             @Override
             public DoubleLinked.DoubleLinkedElmt<DATA> tail() {
                 return this.tail;
+            }
+
+            @Override
+            public Iterator<DATA> iterator() {
+                // TODO Auto-generated method stub
+                return null;
             }
 
         };

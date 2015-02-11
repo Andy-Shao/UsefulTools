@@ -16,7 +16,7 @@ import com.github.andyshao.lang.Cleanable;
  * @param <D> data
  * @param <T> element type
  */
-public interface Linked<D , T extends Linked.LinkedElmt<D , T>> extends Cleanable {
+public interface Linked<D , T extends Linked.LinkedElmt<D , T>> extends Cleanable, Iterable<D>{
 
     public interface LinkedElmt<DATA , T extends Linked.LinkedElmt<DATA , T>> {
 

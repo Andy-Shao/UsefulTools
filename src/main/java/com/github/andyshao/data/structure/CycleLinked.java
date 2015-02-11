@@ -1,5 +1,6 @@
 package com.github.andyshao.data.structure;
 
+import java.util.Iterator;
 import java.util.Objects;
 
 /**
@@ -154,6 +155,12 @@ public interface CycleLinked<D> extends Linked<D , CycleLinked.CycleLinkedElmt<D
             @Override
             public CycleLinked.CycleLinkedElmt<DATA> tail() {
                 return this.head;
+            }
+
+            @Override
+            public Iterator<DATA> iterator() {
+                // TODO Auto-generated method stub
+                return null;
             }
 
         };

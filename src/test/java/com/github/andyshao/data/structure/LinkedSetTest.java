@@ -5,15 +5,15 @@ import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 
-public class SetTest {
+public class LinkedSetTest {
     private final String[] data = new String[] {
         "Andy" , "shao"
     };
-    private volatile Set<String> set;
+    private volatile LinkedSet<String> set;
 
     @Before
     public void before() {
-        this.set = Set.DEFAULT_SET(SingleLinked.DEFAULT_SINGLE_LINKED());
+        this.set = LinkedSet.DEFAULT_SET(SingleLinked.DEFAULT_SINGLE_LINKED());
     }
 
     @Test
