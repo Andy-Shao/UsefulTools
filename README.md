@@ -18,11 +18,11 @@ You could download from the maven repository, now!<br>
 &lt;/dependency&gt;<br>
 ###############################################################################
 
-**The update of v5.0**
+**What the newest plugins for v5.0**
 
 *Add the data structure*
 
-**The update of v4.0**
+**What the newest plugins for v4.0**
 
 *Support JDK8 interface functional*<br>
 Adjust the com.github.andyshao.convert.Convert &
