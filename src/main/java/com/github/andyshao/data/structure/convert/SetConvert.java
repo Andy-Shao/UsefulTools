@@ -21,9 +21,8 @@ public class SetConvert<D> implements Convert<Set<D> , com.github.andyshao.data.
         }
 
         @Override
-        public boolean clean() {
+        public void clean() {
             this.set.clear();
-            return true;
         }
 
         @Override

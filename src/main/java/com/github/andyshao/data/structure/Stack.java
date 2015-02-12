@@ -50,8 +50,8 @@ public interface Stack<D> extends Cleanable, Iterable<D> {
             }
 
             @Override
-            public boolean clean() {
-                return linked.clean();
+            public void clean() {
+                linked.clean();
             }
 
             @Override

@@ -86,12 +86,10 @@ public interface DoubleLinked<D> extends Linked<D , DoubleLinked.DoubleLinkedElm
             private DoubleLinked.DoubleLinkedElmt<DATA> tail;
 
             @Override
-            public boolean clean() {
+            public void clean() {
                 do
                     this.dlist_remove(this.head);
                 while (this.size != 0);
-
-                return false;
             }
 
             @SuppressWarnings("unchecked")

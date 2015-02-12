@@ -49,4 +49,8 @@ public interface BitTree<D> extends Cleanable {
     public default boolean bitree_is_leaf(BitTreeNode<D> node) {
         return node.left() == null && node.right() == null;
     }
+    
+    @Override
+    public default void clean(){
+    }
 }

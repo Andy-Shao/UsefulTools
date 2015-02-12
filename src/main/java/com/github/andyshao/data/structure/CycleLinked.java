@@ -73,17 +73,15 @@ public interface CycleLinked<D> extends Linked<D , CycleLinked.CycleLinkedElmt<D
             private int size;
 
             @Override
-            public boolean clean() {
+            public void clean() {
                 do
-                    if (this.size == 0) return true;
+                    if (this.size == 0) return;
                     else if (this.size == 1) {
                         this.head.free();
                         this.head = null;
-                        return true;
+                        return;
                     } else this.list_rem_next(this.head);
                 while (this.size != 0);
-
-                return false;
             }
 
             @Override

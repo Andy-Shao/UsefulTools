@@ -15,8 +15,6 @@ public interface Cleanable {
 
     /**
      * clean the memory
-     * 
-     * @return if clean action is successful return true. Others return false
      */
-    boolean clean();
+    public void clean();
 }

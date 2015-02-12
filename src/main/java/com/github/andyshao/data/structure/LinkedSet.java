@@ -26,8 +26,8 @@ public interface LinkedSet<D> extends Linked<D , SingleLinked.SingleLinkedElmt<D
         }
         
         @Override
-        public boolean clean() {
-            return linked.clean();
+        public void clean() {
+            linked.clean();
         }
         
         @Override

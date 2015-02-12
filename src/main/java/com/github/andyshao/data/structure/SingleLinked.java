@@ -71,19 +71,17 @@ public interface SingleLinked<D> extends Linked<D , SingleLinked.SingleLinkedElm
         private SingleLinkedElmt<D> tail;
         
         @Override
-        public boolean clean() {
+        public void clean() {
             do
-                if (this.size == 0) return true;
+                if (this.size == 0) return;
                 else if (this.size == 1) {
                     this.head.free();
                     this.head = null;
                     this.tail = null;
                     this.size = 0;
-                    return true;
+                    return;
                 } else this.list_rem_next(this.head);
             while (this.size != 0);
-            
-            return false;
         }
         
         @SuppressWarnings("unchecked")
