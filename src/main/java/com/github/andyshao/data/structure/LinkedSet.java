@@ -11,7 +11,7 @@ import java.util.Iterator;
  * 
  * @author Andy.Shao
  *
- * @param <D>
+ * @param <D> data
  */
 public interface LinkedSet<D> extends Linked<D , SingleLinked.SingleLinkedElmt<D>> , Set<D> {
     public class MyLinkedSet<DATA> implements LinkedSet<DATA>{

@@ -11,7 +11,7 @@ import com.github.andyshao.lang.Cleanable;
  * 
  * @author Andy.Shao
  *
- * @param <D>
+ * @param <D> data
  */
 public interface Bitree<D> extends Cleanable {
 
@@ -70,7 +70,7 @@ public interface Bitree<D> extends Cleanable {
     public int size();
 
     /**
-     * add a left for node<br/>
+     * add a left for node<br>
      * if node is null, input a new data for root of tree's.
      * 
      * @param node bit tree node

@@ -11,7 +11,7 @@ import com.github.andyshao.lang.Cleanable;
  * 
  * @author Andy.Shao
  *
- * @param <D>
+ * @param <D> data
  */
 public interface Set<D> extends Cleanable , Iterable<D> , Cloneable {
 
