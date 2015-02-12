@@ -20,7 +20,10 @@ You could download from the maven repository, now!<br>
 
 **What the newest plugins for v5.0**
 
-*Add the data structure*
+*Add the classic data structure*<br>
+You could use the graph or others more difficult data structure, now.
+
+*Add the classic aritmatic*
 
 **What the newest plugins for v4.0**
 
