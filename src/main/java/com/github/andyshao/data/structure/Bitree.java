@@ -66,141 +66,149 @@ public interface Bitree<D> extends Cleanable {
 
         public void right(BitreeNode<DATA> right);
     }
-    
-    public static <DATA> Bitree<DATA> DEFAULT_BIT_TREE() {
-        return new Bitree<DATA>(){
-            private Bitree.BitreeNode<DATA> root;
-            private int size;
-            
-            @SuppressWarnings("unused")
-            @Override
-            public Bitree.BitreeNode<DATA> bitree_ins_left(Bitree.BitreeNode<DATA> node , DATA data)
-                    throws TreeOperationException {
-                BitreeNode<DATA> new_node;
-                
-                //Determine where to insert the node.
+
+    public class MyBitree<DATA> implements Bitree<DATA> {
+        private Bitree.BitreeNode<DATA> root;
+        private int size;
+
+        public MyBitree() {
+        }
+
+        public MyBitree(Bitree<DATA> left , Bitree<DATA> right , DATA data) {
+            this.bitree_ins_left(null , data);
+
+            //Merge the two binary trees into a single binary tree.
+            this.root.left(left.root());
+            this.root.right(right.root());
+
+            //Adjust the size of the new binary tree.
+            this.size = this.size + left.size() + right.size();
+        }
+
+        @Override
+        public Bitree.BitreeNode<DATA> bitree_ins_left(Bitree.BitreeNode<DATA> node , DATA data)
+            throws TreeOperationException {
+            BitreeNode<DATA> new_node;
+
+            //Determine where to insert the node.
+            if (node == null) {
                 //Allow insertion at the root only in an empty tree.
-                if (node == null && this.size() > 0) throw new TreeOperationException(
-                        "node is null & the size of tree bigger than 0.");
+                if (this.size > 0) throw new TreeOperationException("node is null & the size of tree bigger than 0.");
+            } else {
                 //Normally allow insertion only at the end of a branch.
-                else if (node.left() != null) throw new TreeChildNodeNotEmptyException(
-                        "the left of node's is not empty");
-                
-                //Allocate storage for the node.
-                new_node = BitreeNode.DEFAULT_BIT_TREE_NODE();
-                
-                //Insert the node into the tree.
-                new_node.data(data);
-                new_node.left(null);
-                new_node.right(null);
-                if (node == null) this.root = new_node;
-                else node.left(new_node);
-                
-                //Adjust the size of the tree to account for the inserted node.
-                this.size++;
-                
-                return new_node;
+                if (node.left() != null) throw new TreeChildNodeNotEmptyException("the left of node's is not empty");
             }
+
+            //Allocate storage for the node.
+            new_node = BitreeNode.DEFAULT_BIT_TREE_NODE();
+
+            //Insert the node into the tree.
+            new_node.data(data);
+            new_node.left(null);
+            new_node.right(null);
+            if (node == null) this.root = new_node;
+            else node.left(new_node);
+
+            //Adjust the size of the tree to account for the inserted node.
+            this.size++;
+
+            return new_node;
+        }
+
+        @Override
+        public Bitree.BitreeNode<DATA> bitree_ins_right(Bitree.BitreeNode<DATA> node , DATA data) {
+            Bitree.BitreeNode<DATA> new_node;
+
+            if (node == null) {
+                if (this.size > 0) throw new TreeOperationException("node is null & the size of tree bigger than 0.");
+            } else {
+                if (node.right() != null) throw new TreeChildNodeNotEmptyException(
+                    "the right child of node's is not null");
+            }
+
+            //Allocate storage for the node.
+            new_node = Bitree.BitreeNode.<DATA> DEFAULT_BIT_TREE_NODE();
+            new_node.data(data);
+            new_node.left(null);
+            new_node.right(null);
+            if (node == null) this.root = new_node;
+            else node.right(new_node);
             
-            @SuppressWarnings("unused")
-            @Override
-            public Bitree.BitreeNode<DATA> bitree_ins_right(Bitree.BitreeNode<DATA> node , DATA data) {
-                Bitree.BitreeNode<DATA> new_node;
-                
-                //Determise where to insert the node.
-                if (node == null && this.size() > 0) throw new TreeOperationException(
-                        "node is null & the size of tree bigger than 0.");
-                else if (node.right() != null) throw new TreeChildNodeNotEmptyException(
-                        "the right child of node's is not null");
-                
-                //Allocate storage for the node.
-                new_node = Bitree.BitreeNode.<DATA> DEFAULT_BIT_TREE_NODE();
-                new_node.data(data);
-                new_node.left(null);
-                new_node.right(null);
-                if (node == null) this.root = new_node;
-                else node.right(new_node);
-                
-                return new_node;
+            //Adjust the size of the tree to account for the inserted node.
+            this.size++;
+
+            return new_node;
+        }
+
+        @Override
+        public void bitree_rem_left(Bitree.BitreeNode<DATA> node) {
+            Bitree.BitreeNode<DATA> position;
+
+            //Do not allow removal from an empty tree.
+            if (this.size == 0) throw new TreeIsEmptyException();
+
+            //Determine where to remove nodes.
+            if (node == null) position = this.root;
+            else position = node.left();
+
+            if (position != null) {
+                this.bitree_rem_left(position);
+                this.bitree_rem_right(position);
+                if (node == null) this.root = null;
+                else node.left(null);
             }
-            
-            @Override
-            public void bitree_rem_left(Bitree.BitreeNode<DATA> node) {
-                Bitree.BitreeNode<DATA> position;
-                
-                //Do not allow removal from an empty tree.
-                if (this.size == 0) throw new TreeIsEmptyException();
-                
-                //Determine where to remove nodes.
-                if (node == null) position = this.root;
-                else position = node.left();
-                
-                if (position != null) {
-                    this.bitree_rem_left(position);
-                    this.bitree_rem_right(position);
-                    if (node == null) this.root = null;
-                    else node.left(null);
-                }
-                
-                //Adjust the size of the tree to account for the removed node.
-                this.size--;
+
+            //Adjust the size of the tree to account for the removed node.
+            this.size--;
+        }
+
+        @Override
+        public void bitree_rem_right(Bitree.BitreeNode<DATA> node) {
+            Bitree.BitreeNode<DATA> position;
+
+            //Do not allow removal from an empty tree.
+            if (this.size == 0) throw new TreeIsEmptyException();
+
+            //Determine where to remove nodes.
+            if (node == null) position = this.root;
+            else position = node.right();
+
+            //Remove the nodes.
+            if (position != null) {
+                this.bitree_rem_left(position.left());
+                this.bitree_rem_right(position.right());
+                if (node == null) this.root = null;
+                else node.right(null);
             }
-            
-            @Override
-            public void bitree_rem_right(Bitree.BitreeNode<DATA> node) {
-                Bitree.BitreeNode<DATA> position;
-                
-                //Do not allow removal from an empty tree.
-                if (this.size == 0) throw new TreeIsEmptyException();
-                
-                //Determine where to remove nodes.
-                if (node == null) position = this.root;
-                else position = node.right();
-                
-                //Remove the nodes.
-                if (position != null) {
-                    this.bitree_rem_left(position.left());
-                    this.bitree_rem_right(position.right());
-                    if (node == null) this.root = null;
-                    else node.right(null);
-                }
-                
-                //Adjust the size of the tree to account for the removed node.
-                this.size--;
-            }
-            
-            @Override
-            public Bitree.BitreeNode<DATA> root() {
-                return this.root;
-            }
-            
-            @Override
-            public int size() {
-                return this.size;
-            }
-            
-            @Override
-            public void clean(){
-                this.root = null;
-                this.size = 0;
-            }
-            
-            @Override
-            public Bitree<DATA> bitree_merge(Bitree<DATA> right , Bitree<DATA> left , DATA data) {
-                this.clean();
-                
-                this.bitree_ins_left(null , data);
-                
-                //Merge the two binary trees into a single binary tree.
-                this.root.left(left.root());
-                this.root.right(right.root());
-                
-                //Adjust the size of the new binary tree.
-                this.size = this.size + left.size() + right.size();
-                
-                return this;
-            }
-        };
+
+            //Adjust the size of the tree to account for the removed node.
+            this.size--;
+        }
+
+        @Override
+        public void clean() {
+            this.root = null;
+            this.size = 0;
+        }
+
+        @Override
+        public Bitree.BitreeNode<DATA> root() {
+            return this.root;
+        }
+
+        @Override
+        public int size() {
+            return this.size;
+        }
+
+    }
+
+    public static <DATA> Bitree<DATA> BITREE_MERGE(Bitree<DATA> left , Bitree<DATA> right , DATA data) {
+        return new Bitree.MyBitree<>(left , right , data);
+    }
+
+    public static <DATA> Bitree<DATA> DEFAULT_BIT_TREE() {
+        return new Bitree.MyBitree<>();
     }
 
     /**
@@ -237,8 +245,6 @@ public interface Bitree<D> extends Cleanable {
         return node.left() == null && node.right() == null;
     }
 
-    public Bitree<D> bitree_merge(Bitree<D> right , Bitree<D> left , D data);
-
     /**
      * remove the left child of node's.
      * 
@@ -257,13 +263,13 @@ public interface Bitree<D> extends Cleanable {
      */
     public void bitree_rem_right(BitreeNode<D> node) throws TreeOperationException;
 
-    public BitreeNode<D> root();
-
     @Override
     public default void clean() {
         //Remove all the nodes from the tree.
         this.bitree_rem_left(null);
     }
+
+    public BitreeNode<D> root();
 
     public int size();
 }
