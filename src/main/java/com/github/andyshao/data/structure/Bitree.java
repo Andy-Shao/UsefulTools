@@ -237,11 +237,11 @@ public interface Bitree<D> extends Cleanable {
      */
     public BitreeNode<D> bitree_ins_right(BitreeNode<D> node , D data) throws TreeOperationException;
 
-    public default boolean bitree_is_eob(BitreeNode<D> node) {
+    public static <DATA> boolean bitree_is_eob(BitreeNode<DATA> node) {
         return node == null;
     }
 
-    public default boolean bitree_is_leaf(BitreeNode<D> node) {
+    public static <DATA> boolean bitree_is_leaf(BitreeNode<DATA> node) {
         return node.left() == null && node.right() == null;
     }
 
