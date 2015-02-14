@@ -1,5 +1,7 @@
 package com.github.andyshao.data.structure;
 
+import java.util.Comparator;
+
 import com.github.andyshao.lang.Cleanable;
 
 /**
@@ -70,6 +72,7 @@ public interface Bitree<D> extends Cleanable{
         protected BitreeNode<DATA> root;
         protected int size;
         protected final TreeNodeFactory<DATA , BitreeNode<DATA>> treeNodeFactory;
+        protected Comparator<Object> comparator = (obj1, obj2) -> {return 0;};
 
         public MyBitree(TreeNodeFactory<DATA , BitreeNode<DATA>> treeNodeFactory) {
             this.treeNodeFactory = treeNodeFactory;
@@ -203,6 +206,11 @@ public interface Bitree<D> extends Cleanable{
             return this.size;
         }
 
+        @Override
+        public void setComparator(Comparator<Object> comparator) {
+            this.comparator = comparator;
+        }
+
     }
 
     public static <DATA> Bitree<DATA> BITREE_MERGE(
@@ -261,6 +269,8 @@ public interface Bitree<D> extends Cleanable{
     public BitreeNode<D> root();
 
     public int size();
+    
+    public void setComparator(Comparator<Object> comparator);
 
     @Override
     public default void clean() {
