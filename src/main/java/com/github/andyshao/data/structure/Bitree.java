@@ -12,6 +12,7 @@ import com.github.andyshao.lang.Cleanable;
  * @author Andy.Shao
  *
  * @param <D> data
+ * @param <N> tree node type
  */
 public interface Bitree<D , N extends Tree.TreeNode<D , N>> extends Cleanable , Tree<D , N> {
     public interface BitreeNode<DATA> extends Tree.TreeNode<DATA , BitreeNode<DATA>> {
@@ -55,9 +56,9 @@ public interface Bitree<D , N extends Tree.TreeNode<D , N>> extends Cleanable , 
     }
 
     public class MyBitree<DATA , T extends Tree.TreeNode<DATA , T>> implements Bitree<DATA , T> {
-        private T root;
-        private int size;
-        private final TreeNodeFactory<DATA , T> treeNodeFactory;
+        protected T root;
+        protected int size;
+        protected final TreeNodeFactory<DATA , T> treeNodeFactory;
 
         public MyBitree(TreeNodeFactory<DATA , T> treeNodeFactory) {
             this.treeNodeFactory = treeNodeFactory;
