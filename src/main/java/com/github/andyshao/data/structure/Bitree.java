@@ -13,68 +13,59 @@ import com.github.andyshao.lang.Cleanable;
  *
  * @param <D> data
  */
-public interface Bitree<D> extends Cleanable, Tree<D, Bitree.BitreeNode<D>> {
-
-    public interface BitreeNode<DATA> extends Tree.TreeNode<DATA, BitreeNode<DATA>>{
-        public static <DAT> BitreeNode<DAT> DEFAULT_BIT_TREE_NODE() {
-            return new BitreeNode<DAT>() {
-                private DAT data;
-                private BitreeNode<DAT> left;
-                private BitreeNode<DAT> right;
+public interface Bitree<D , N extends Tree.TreeNode<D , N>> extends Cleanable , Tree<D , N> {
+    public interface BitreeNode<DATA> extends Tree.TreeNode<DATA , BitreeNode<DATA>> {
+        public static <D> BitreeNode<D> DEFAULT_BITREE_NODE() {
+            return new BitreeNode<D>() {
+                private D data;
+                private BitreeNode<D> left;
+                private BitreeNode<D> right;
 
                 @Override
-                public DAT data() {
+                public D data() {
                     return this.data;
                 }
 
                 @Override
-                public void data(DAT data) {
+                public void data(D data) {
                     this.data = data;
                 }
 
                 @Override
-                public BitreeNode<DAT> left() {
+                public BitreeNode<D> left() {
                     return this.left;
                 }
 
                 @Override
-                public void left(BitreeNode<DAT> left) {
+                public void left(BitreeNode<D> left) {
                     this.left = left;
                 }
 
                 @Override
-                public BitreeNode<DAT> right() {
+                public BitreeNode<D> right() {
                     return this.right;
                 }
 
                 @Override
-                public void right(BitreeNode<DAT> right) {
+                public void right(BitreeNode<D> right) {
                     this.right = right;
                 }
             };
         }
-
-        public DATA data();
-
-        public void data(DATA data);
-
-        public BitreeNode<DATA> left();
-
-        public void left(BitreeNode<DATA> left);
-
-        public BitreeNode<DATA> right();
-
-        public void right(BitreeNode<DATA> right);
     }
 
-    public class MyBitree<DATA> implements Bitree<DATA> {
-        private Bitree.BitreeNode<DATA> root;
+    public class MyBitree<DATA , T extends Tree.TreeNode<DATA , T>> implements Bitree<DATA , T> {
+        private T root;
         private int size;
+        private final TreeNodeFactory<DATA , T> treeNodeFactory;
 
-        public MyBitree() {
+        public MyBitree(TreeNodeFactory<DATA , T> treeNodeFactory) {
+            this.treeNodeFactory = treeNodeFactory;
         }
 
-        public MyBitree(Tree<DATA, BitreeNode<DATA>> left , Tree<DATA, BitreeNode<DATA>> right , DATA data) {
+        public MyBitree(
+            TreeNodeFactory<DATA , T> treeNodeFactory , Tree<DATA , T> left , Tree<DATA , T> right , DATA data) {
+            this.treeNodeFactory = treeNodeFactory;
             this.bitree_ins_left(null , data);
 
             //Merge the two binary trees into a single binary tree.
@@ -86,9 +77,8 @@ public interface Bitree<D> extends Cleanable, Tree<D, Bitree.BitreeNode<D>> {
         }
 
         @Override
-        public Bitree.BitreeNode<DATA> bitree_ins_left(Bitree.BitreeNode<DATA> node , DATA data)
-            throws TreeOperationException {
-            BitreeNode<DATA> new_node;
+        public T bitree_ins_left(T node , DATA data) throws TreeOperationException {
+            T new_node;
 
             //Determine where to insert the node.
             if (node == null) {
@@ -100,7 +90,7 @@ public interface Bitree<D> extends Cleanable, Tree<D, Bitree.BitreeNode<D>> {
             }
 
             //Allocate storage for the node.
-            new_node = BitreeNode.DEFAULT_BIT_TREE_NODE();
+            new_node = this.treeNodeFactory.build();
 
             //Insert the node into the tree.
             new_node.data(data);
@@ -116,8 +106,8 @@ public interface Bitree<D> extends Cleanable, Tree<D, Bitree.BitreeNode<D>> {
         }
 
         @Override
-        public Bitree.BitreeNode<DATA> bitree_ins_right(Bitree.BitreeNode<DATA> node , DATA data) {
-            Bitree.BitreeNode<DATA> new_node;
+        public T bitree_ins_right(T node , DATA data) {
+            T new_node;
 
             if (node == null) {
                 if (this.size > 0) throw new TreeOperationException("node is null & the size of tree bigger than 0.");
@@ -127,13 +117,13 @@ public interface Bitree<D> extends Cleanable, Tree<D, Bitree.BitreeNode<D>> {
             }
 
             //Allocate storage for the node.
-            new_node = Bitree.BitreeNode.<DATA> DEFAULT_BIT_TREE_NODE();
+            new_node = this.treeNodeFactory.build();
             new_node.data(data);
             new_node.left(null);
             new_node.right(null);
             if (node == null) this.root = new_node;
             else node.right(new_node);
-            
+
             //Adjust the size of the tree to account for the inserted node.
             this.size++;
 
@@ -141,8 +131,8 @@ public interface Bitree<D> extends Cleanable, Tree<D, Bitree.BitreeNode<D>> {
         }
 
         @Override
-        public void bitree_rem_left(Bitree.BitreeNode<DATA> node) {
-            Bitree.BitreeNode<DATA> position;
+        public void bitree_rem_left(T node) {
+            T position;
 
             //Do not allow removal from an empty tree.
             if (this.size == 0) throw new TreeIsEmptyException();
@@ -163,8 +153,8 @@ public interface Bitree<D> extends Cleanable, Tree<D, Bitree.BitreeNode<D>> {
         }
 
         @Override
-        public void bitree_rem_right(Bitree.BitreeNode<DATA> node) {
-            Bitree.BitreeNode<DATA> position;
+        public void bitree_rem_right(T node) {
+            T position;
 
             //Do not allow removal from an empty tree.
             if (this.size == 0) throw new TreeIsEmptyException();
@@ -192,7 +182,7 @@ public interface Bitree<D> extends Cleanable, Tree<D, Bitree.BitreeNode<D>> {
         }
 
         @Override
-        public Bitree.BitreeNode<DATA> root() {
+        public T root() {
             return this.root;
         }
 
@@ -203,12 +193,13 @@ public interface Bitree<D> extends Cleanable, Tree<D, Bitree.BitreeNode<D>> {
 
     }
 
-    public static <DATA> Bitree<DATA> BITREE_MERGE(Tree<DATA, BitreeNode<DATA>> left , Tree<DATA, BitreeNode<DATA>> right , DATA data) {
-        return new Bitree.MyBitree<>(left , right , data);
+    public static <DATA , T extends Tree.TreeNode<DATA , T>> Bitree<DATA , T> BITREE_MERGE(
+        TreeNodeFactory<DATA , T> treeNodeFactory , Tree<DATA , T> left , Tree<DATA , T> right , DATA data) {
+        return new Bitree.MyBitree<>(treeNodeFactory , left , right , data);
     }
 
-    public static <DATA> Bitree<DATA> DEFAULT_BIT_TREE() {
-        return new Bitree.MyBitree<>();
+    public static <DATA , T extends Tree.TreeNode<DATA , T>> Bitree<DATA , T> DEFAULT_BIT_TREE(TreeNodeFactory<DATA , T> treeNodeFactory) {
+        return new Bitree.MyBitree<>(treeNodeFactory);
     }
 
     /**
@@ -222,7 +213,7 @@ public interface Bitree<D> extends Cleanable, Tree<D, Bitree.BitreeNode<D>> {
      *             empty.
      * @throws TreeOperationException others operation exception of the action's
      */
-    public BitreeNode<D> bitree_ins_left(BitreeNode<D> node , D data) throws TreeOperationException;
+    public N bitree_ins_left(N node , D data) throws TreeOperationException;
 
     /**
      * add a right child for node<br>
@@ -235,15 +226,7 @@ public interface Bitree<D> extends Cleanable, Tree<D, Bitree.BitreeNode<D>> {
      *             not empty.
      * @throws TreeOperationException other operation exception of the action's
      */
-    public BitreeNode<D> bitree_ins_right(BitreeNode<D> node , D data) throws TreeOperationException;
-
-    public static <DATA> boolean bitree_is_eob(BitreeNode<DATA> node) {
-        return node == null;
-    }
-
-    public static <DATA> boolean bitree_is_leaf(BitreeNode<DATA> node) {
-        return node.left() == null && node.right() == null;
-    }
+    public N bitree_ins_right(N node , D data) throws TreeOperationException;
 
     /**
      * remove the left child of node's.
@@ -252,7 +235,7 @@ public interface Bitree<D> extends Cleanable, Tree<D, Bitree.BitreeNode<D>> {
      * @throws TreeIsEmptyException if the tree is empty
      * @throws TreeOperationException others exception of action'
      */
-    public void bitree_rem_left(BitreeNode<D> node) throws TreeOperationException;
+    public void bitree_rem_left(N node) throws TreeOperationException;
 
     /**
      * remove the right child of node's.
@@ -261,7 +244,7 @@ public interface Bitree<D> extends Cleanable, Tree<D, Bitree.BitreeNode<D>> {
      * @throws TreeIsEmptyException if the tree is empty
      * @throws TreeOperationException other exception of action'
      */
-    public void bitree_rem_right(BitreeNode<D> node) throws TreeOperationException;
+    public void bitree_rem_right(N node) throws TreeOperationException;
 
     @Override
     public default void clean() {
