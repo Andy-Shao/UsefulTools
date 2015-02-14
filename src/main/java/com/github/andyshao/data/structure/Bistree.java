@@ -1,8 +1,9 @@
 package com.github.andyshao.data.structure;
 
 import com.github.andyshao.data.structure.Bitree.BitreeNode;
+import com.github.andyshao.lang.Cleanable;
 
-public interface Bistree<DATA> {
+public interface Bistree<DATA> extends Cleanable{
     public static final int AVL_LFT_HEAVY = 1;
     public static final int AVL_BALANCED = 0;
     public static final int AVL_RGT_HEAVY = -1;
