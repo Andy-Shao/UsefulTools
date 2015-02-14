@@ -13,9 +13,9 @@ import com.github.andyshao.lang.Cleanable;
  *
  * @param <D> data
  */
-public interface Bitree<D> extends Cleanable {
+public interface Bitree<D> extends Cleanable, Tree<D, Bitree.BitreeNode<D>> {
 
-    public interface BitreeNode<DATA> {
+    public interface BitreeNode<DATA> extends Tree.TreeNode<DATA, BitreeNode<DATA>>{
         public static <DAT> BitreeNode<DAT> DEFAULT_BIT_TREE_NODE() {
             return new BitreeNode<DAT>() {
                 private DAT data;
@@ -74,7 +74,7 @@ public interface Bitree<D> extends Cleanable {
         public MyBitree() {
         }
 
-        public MyBitree(Bitree<DATA> left , Bitree<DATA> right , DATA data) {
+        public MyBitree(Tree<DATA, BitreeNode<DATA>> left , Tree<DATA, BitreeNode<DATA>> right , DATA data) {
             this.bitree_ins_left(null , data);
 
             //Merge the two binary trees into a single binary tree.
@@ -203,7 +203,7 @@ public interface Bitree<D> extends Cleanable {
 
     }
 
-    public static <DATA> Bitree<DATA> BITREE_MERGE(Bitree<DATA> left , Bitree<DATA> right , DATA data) {
+    public static <DATA> Bitree<DATA> BITREE_MERGE(Tree<DATA, BitreeNode<DATA>> left , Tree<DATA, BitreeNode<DATA>> right , DATA data) {
         return new Bitree.MyBitree<>(left , right , data);
     }
 
@@ -268,8 +268,4 @@ public interface Bitree<D> extends Cleanable {
         //Remove all the nodes from the tree.
         this.bitree_rem_left(null);
     }
-
-    public BitreeNode<D> root();
-
-    public int size();
 }

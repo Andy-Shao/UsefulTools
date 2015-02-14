@@ -11,7 +11,7 @@ public class BitTreeTest {
     
     @Before
     public void before(){
-        this.bitree = Bitree.DEFAULT_BIT_TREE();
+        this.bitree = Bitree.<String>DEFAULT_BIT_TREE();
     }
     
     @Test

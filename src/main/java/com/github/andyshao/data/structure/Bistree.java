@@ -12,12 +12,12 @@ import com.github.andyshao.lang.Cleanable;
  *
  * @param <D> data
  */
-public interface Bistree<D> extends Bitree<D>, Cleanable{
+public interface Bistree<D> extends Tree<D, Bistree.AvlNode<D>>, Cleanable{
     public static final int AVL_LFT_HEAVY = 1;
     public static final int AVL_BALANCED = 0;
     public static final int AVL_RGT_HEVAY = -1;
     
-    public interface AvlNode<DATA> extends Bitree.BitreeNode<DATA>{
+    public interface AvlNode<DATA> extends Tree.TreeNode<DATA , AvlNode<DATA>>{
         @Override
         public DATA data();
         @Override
