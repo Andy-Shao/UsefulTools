@@ -1,5 +1,7 @@
 package com.github.andyshao.data.structure;
 
+import com.github.andyshao.data.structure.Bitree.BitreeNode;
+
 /**
  * 
  * Title:<br>
@@ -12,7 +14,7 @@ package com.github.andyshao.data.structure;
  * @param <T> tree node type
  */
 @FunctionalInterface
-public interface TreeNodeFactory<D, T extends Tree.TreeNode<D , T>> {
+public interface TreeNodeFactory<D, T extends BitreeNode<D>> {
 
     public T build();
 }

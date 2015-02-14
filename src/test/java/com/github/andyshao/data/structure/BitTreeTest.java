@@ -9,11 +9,11 @@ import com.github.andyshao.data.structure.Bitree.BitreeNode;
 
 public class BitTreeTest {
 
-    private volatile Bitree<String , BitreeNode<String>> bitree;
+    private volatile Bitree<String> bitree;
 
     @Before
     public void before() {
-        this.bitree = Bitree.<String , BitreeNode<String>> DEFAULT_BIT_TREE(() -> {
+        this.bitree = Bitree.<String> DEFAULT_BIT_TREE(() -> {
             return BitreeNode.<String> DEFAULT_BITREE_NODE();
         });
     }
@@ -73,16 +73,16 @@ public class BitTreeTest {
 
     @Test
     public void testMeger() {
-        Bitree<String , BitreeNode<String>> left = Bitree.<String , BitreeNode<String>> DEFAULT_BIT_TREE(() -> {
+        Bitree<String> left = Bitree.<String> DEFAULT_BIT_TREE(() -> {
             return BitreeNode.<String> DEFAULT_BITREE_NODE();
         });
-        Bitree<String , BitreeNode<String>> right = Bitree.<String , BitreeNode<String>> DEFAULT_BIT_TREE(() -> {
+        Bitree<String> right = Bitree.<String> DEFAULT_BIT_TREE(() -> {
             return BitreeNode.<String> DEFAULT_BITREE_NODE();
         });
 
         left.bitree_ins_left(null , "left");
         right.bitree_ins_left(null , "right");
-        Bitree<String , BitreeNode<String>> bitree = Bitree.<String , BitreeNode<String>> BITREE_MERGE(() -> {
+        Bitree<String> bitree = Bitree.<String> BITREE_MERGE(() -> {
             return BitreeNode.<String>DEFAULT_BITREE_NODE();
         } , left , right , "root");
 

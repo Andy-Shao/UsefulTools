@@ -12,10 +12,21 @@ import com.github.andyshao.lang.Cleanable;
  * @author Andy.Shao
  *
  * @param <D> data
- * @param <N> tree node type
  */
-public interface Bitree<D , N extends Tree.TreeNode<D , N>> extends Cleanable , Tree<D , N> {
-    public interface BitreeNode<DATA> extends Tree.TreeNode<DATA , BitreeNode<DATA>> {
+public interface Bitree<D> extends Cleanable{
+    public interface BitreeNode<DATA>{
+        public DATA data();
+
+        public void data(DATA data);
+
+        public BitreeNode<DATA> left();
+
+        public void left(BitreeNode<DATA> left);
+
+        public BitreeNode<DATA> right();
+
+        public void right(BitreeNode<DATA> right);
+        
         public static <D> BitreeNode<D> DEFAULT_BITREE_NODE() {
             return new BitreeNode<D>() {
                 private D data;
@@ -55,17 +66,17 @@ public interface Bitree<D , N extends Tree.TreeNode<D , N>> extends Cleanable , 
         }
     }
 
-    public class MyBitree<DATA , T extends Tree.TreeNode<DATA , T>> implements Bitree<DATA , T> {
-        protected T root;
+    public class MyBitree<DATA> implements Bitree<DATA> {
+        protected BitreeNode<DATA> root;
         protected int size;
-        protected final TreeNodeFactory<DATA , T> treeNodeFactory;
+        protected final TreeNodeFactory<DATA , BitreeNode<DATA>> treeNodeFactory;
 
-        public MyBitree(TreeNodeFactory<DATA , T> treeNodeFactory) {
+        public MyBitree(TreeNodeFactory<DATA , BitreeNode<DATA>> treeNodeFactory) {
             this.treeNodeFactory = treeNodeFactory;
         }
 
         public MyBitree(
-            TreeNodeFactory<DATA , T> treeNodeFactory , Tree<DATA , T> left , Tree<DATA , T> right , DATA data) {
+            TreeNodeFactory<DATA , BitreeNode<DATA>> treeNodeFactory , Bitree<DATA> left , Bitree<DATA> right , DATA data) {
             this.treeNodeFactory = treeNodeFactory;
             this.bitree_ins_left(null , data);
 
@@ -78,8 +89,8 @@ public interface Bitree<D , N extends Tree.TreeNode<D , N>> extends Cleanable , 
         }
 
         @Override
-        public T bitree_ins_left(T node , DATA data) throws TreeOperationException {
-            T new_node;
+        public BitreeNode<DATA> bitree_ins_left(BitreeNode<DATA> node , DATA data) throws TreeOperationException {
+            BitreeNode<DATA> new_node;
 
             //Determine where to insert the node.
             if (node == null) {
@@ -107,8 +118,8 @@ public interface Bitree<D , N extends Tree.TreeNode<D , N>> extends Cleanable , 
         }
 
         @Override
-        public T bitree_ins_right(T node , DATA data) {
-            T new_node;
+        public BitreeNode<DATA> bitree_ins_right(BitreeNode<DATA> node , DATA data) {
+            BitreeNode<DATA> new_node;
 
             if (node == null) {
                 if (this.size > 0) throw new TreeOperationException("node is null & the size of tree bigger than 0.");
@@ -132,8 +143,8 @@ public interface Bitree<D , N extends Tree.TreeNode<D , N>> extends Cleanable , 
         }
 
         @Override
-        public void bitree_rem_left(T node) {
-            T position;
+        public void bitree_rem_left(BitreeNode<DATA> node) {
+            BitreeNode<DATA> position;
 
             //Do not allow removal from an empty tree.
             if (this.size == 0) throw new TreeIsEmptyException();
@@ -154,8 +165,8 @@ public interface Bitree<D , N extends Tree.TreeNode<D , N>> extends Cleanable , 
         }
 
         @Override
-        public void bitree_rem_right(T node) {
-            T position;
+        public void bitree_rem_right(BitreeNode<DATA> node) {
+            BitreeNode<DATA> position;
 
             //Do not allow removal from an empty tree.
             if (this.size == 0) throw new TreeIsEmptyException();
@@ -183,7 +194,7 @@ public interface Bitree<D , N extends Tree.TreeNode<D , N>> extends Cleanable , 
         }
 
         @Override
-        public T root() {
+        public BitreeNode<DATA> root() {
             return this.root;
         }
 
@@ -194,12 +205,12 @@ public interface Bitree<D , N extends Tree.TreeNode<D , N>> extends Cleanable , 
 
     }
 
-    public static <DATA , T extends Tree.TreeNode<DATA , T>> Bitree<DATA , T> BITREE_MERGE(
-        TreeNodeFactory<DATA , T> treeNodeFactory , Tree<DATA , T> left , Tree<DATA , T> right , DATA data) {
+    public static <DATA> Bitree<DATA> BITREE_MERGE(
+        TreeNodeFactory<DATA , BitreeNode<DATA>> treeNodeFactory , Bitree<DATA> left , Bitree<DATA> right , DATA data) {
         return new Bitree.MyBitree<>(treeNodeFactory , left , right , data);
     }
 
-    public static <DATA , T extends Tree.TreeNode<DATA , T>> Bitree<DATA , T> DEFAULT_BIT_TREE(TreeNodeFactory<DATA , T> treeNodeFactory) {
+    public static <DATA> Bitree<DATA> DEFAULT_BIT_TREE(TreeNodeFactory<DATA , BitreeNode<DATA>> treeNodeFactory) {
         return new Bitree.MyBitree<>(treeNodeFactory);
     }
 
@@ -214,7 +225,7 @@ public interface Bitree<D , N extends Tree.TreeNode<D , N>> extends Cleanable , 
      *             empty.
      * @throws TreeOperationException others operation exception of the action's
      */
-    public N bitree_ins_left(N node , D data) throws TreeOperationException;
+    public BitreeNode<D> bitree_ins_left(BitreeNode<D> node , D data) throws TreeOperationException;
 
     /**
      * add a right child for node<br>
@@ -227,7 +238,7 @@ public interface Bitree<D , N extends Tree.TreeNode<D , N>> extends Cleanable , 
      *             not empty.
      * @throws TreeOperationException other operation exception of the action's
      */
-    public N bitree_ins_right(N node , D data) throws TreeOperationException;
+    public BitreeNode<D> bitree_ins_right(BitreeNode<D> node , D data) throws TreeOperationException;
 
     /**
      * remove the left child of node's.
@@ -236,7 +247,7 @@ public interface Bitree<D , N extends Tree.TreeNode<D , N>> extends Cleanable , 
      * @throws TreeIsEmptyException if the tree is empty
      * @throws TreeOperationException others exception of action'
      */
-    public void bitree_rem_left(N node) throws TreeOperationException;
+    public void bitree_rem_left(BitreeNode<D> node) throws TreeOperationException;
 
     /**
      * remove the right child of node's.
@@ -245,11 +256,62 @@ public interface Bitree<D , N extends Tree.TreeNode<D , N>> extends Cleanable , 
      * @throws TreeIsEmptyException if the tree is empty
      * @throws TreeOperationException other exception of action'
      */
-    public void bitree_rem_right(N node) throws TreeOperationException;
+    public void bitree_rem_right(BitreeNode<D> node) throws TreeOperationException;
+    
+    public BitreeNode<D> root();
+
+    public int size();
 
     @Override
     public default void clean() {
         //Remove all the nodes from the tree.
         this.bitree_rem_left(null);
+    }
+
+    public static
+        <DATA , E extends Linked.LinkedElmt<DATA , E> , T extends Linked<DATA , E> & SingleLinkedOperation<DATA , E>>
+        Linked<DATA , E> preorder(final BitreeNode<DATA> node , final T linked) {
+        //Load the list with a preorder listing of the tree.
+        if (!Bitree.bitree_is_eob(node)) {
+            linked.list_ins_next(linked.tail() , node.data());
+            if (!Bitree.bitree_is_eob(node.left())) Bitree.preorder(node.left() , linked);
+            if (!Bitree.bitree_is_eob(node.right())) Bitree.preorder(node.right() , linked);
+        }
+    
+        return linked;
+    }
+
+    public static
+        <DATA , E extends Linked.LinkedElmt<DATA , E> , T extends Linked<DATA , E> & SingleLinkedOperation<DATA , E>>
+        Linked<DATA , E> postorder(final BitreeNode<DATA> node , final T linked) {
+        //Load the list with an inorder listing of the tree.
+        if (!Bitree.bitree_is_eob(node)) {
+            if (!Bitree.bitree_is_eob(node.left())) Bitree.postorder(node.left() , linked);
+            if (!Bitree.bitree_is_eob(node.right())) Bitree.postorder(node.right() , linked);
+            linked.list_ins_next(linked.tail() , node.data());
+        }
+    
+        return linked;
+    }
+
+    public static
+        <DATA , E extends Linked.LinkedElmt<DATA , E> , T extends Linked<DATA , E> & SingleLinkedOperation<DATA , E>>
+        Linked<DATA , E> inorder(final BitreeNode<DATA> node , final T linked) {
+        //Load the list with an inorder listing of the tree.
+        if (!Bitree.bitree_is_eob(node)) {
+            if (!Bitree.bitree_is_eob(node.left())) Bitree.inorder(node.left() , linked);
+            linked.list_ins_next(linked.tail() , node.data());
+            if (!Bitree.bitree_is_eob(node.right())) Bitree.inorder(node.right() , linked);
+        }
+    
+        return linked;
+    }
+
+    public static <DATA> boolean bitree_is_leaf(BitreeNode<DATA> node) {
+        return node.left() == null && node.right() == null;
+    }
+
+    public static <DATA> boolean bitree_is_eob(BitreeNode<DATA> node) {
+        return node == null;
     }
 }
