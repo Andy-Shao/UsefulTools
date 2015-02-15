@@ -6,12 +6,13 @@ package com.github.andyshao.data.structure;
  * Descript:<br>
  * Copyright: Copryright(c) Feb 10, 2015<br>
  * Encoding:UNIX UTF-8
+ * 
  * @author Andy.Shao
  *
  * @param <D> date
  * @param <T> element type
  */
-public interface SingleLinkedOperation<D,T extends Linked.LinkedElmt<D , T>> {
+public interface SingleLinkedOperation<D , T extends Linked.LinkedElmt<D , T>> {
 
     public void list_ins_next(T element , final D data);
 

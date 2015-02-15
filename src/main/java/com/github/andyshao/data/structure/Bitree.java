@@ -1,7 +1,5 @@
 package com.github.andyshao.data.structure;
 
-import java.util.Comparator;
-
 import com.github.andyshao.lang.Cleanable;
 
 /**
@@ -15,20 +13,8 @@ import com.github.andyshao.lang.Cleanable;
  *
  * @param <D> data
  */
-public interface Bitree<D> extends Cleanable{
-    public interface BitreeNode<DATA>{
-        public DATA data();
-
-        public void data(DATA data);
-
-        public BitreeNode<DATA> left();
-
-        public void left(BitreeNode<DATA> left);
-
-        public BitreeNode<DATA> right();
-
-        public void right(BitreeNode<DATA> right);
-        
+public interface Bitree<D> extends Cleanable {
+    public interface BitreeNode<DATA> {
         public static <D> BitreeNode<D> DEFAULT_BITREE_NODE() {
             return new BitreeNode<D>() {
                 private D data;
@@ -66,20 +52,32 @@ public interface Bitree<D> extends Cleanable{
                 }
             };
         }
+
+        public DATA data();
+
+        public void data(DATA data);
+
+        public BitreeNode<DATA> left();
+
+        public void left(BitreeNode<DATA> left);
+
+        public BitreeNode<DATA> right();
+
+        public void right(BitreeNode<DATA> right);
     }
 
     public class MyBitree<DATA> implements Bitree<DATA> {
         protected BitreeNode<DATA> root;
         protected int size;
         protected final TreeNodeFactory<DATA , BitreeNode<DATA>> treeNodeFactory;
-        protected Comparator<Object> comparator = (obj1, obj2) -> {return 0;};
 
         public MyBitree(TreeNodeFactory<DATA , BitreeNode<DATA>> treeNodeFactory) {
             this.treeNodeFactory = treeNodeFactory;
         }
 
         public MyBitree(
-            TreeNodeFactory<DATA , BitreeNode<DATA>> treeNodeFactory , Bitree<DATA> left , Bitree<DATA> right , DATA data) {
+            TreeNodeFactory<DATA , BitreeNode<DATA>> treeNodeFactory , Bitree<DATA> left , Bitree<DATA> right ,
+            DATA data) {
             this.treeNodeFactory = treeNodeFactory;
             this.bitree_ins_left(null , data);
 
@@ -99,10 +97,8 @@ public interface Bitree<D> extends Cleanable{
             if (node == null) {
                 //Allow insertion at the root only in an empty tree.
                 if (this.size > 0) throw new TreeOperationException("node is null & the size of tree bigger than 0.");
-            } else {
-                //Normally allow insertion only at the end of a branch.
-                if (node.left() != null) throw new TreeChildNodeNotEmptyException("the left of node's is not empty");
-            }
+            } else //Normally allow insertion only at the end of a branch.
+            if (node.left() != null) throw new TreeChildNodeNotEmptyException("the left of node's is not empty");
 
             //Allocate storage for the node.
             new_node = this.treeNodeFactory.build();
@@ -126,10 +122,8 @@ public interface Bitree<D> extends Cleanable{
 
             if (node == null) {
                 if (this.size > 0) throw new TreeOperationException("node is null & the size of tree bigger than 0.");
-            } else {
-                if (node.right() != null) throw new TreeChildNodeNotEmptyException(
-                    "the right child of node's is not null");
-            }
+            } else if (node.right() != null) throw new TreeChildNodeNotEmptyException(
+                "the right child of node's is not null");
 
             //Allocate storage for the node.
             new_node = this.treeNodeFactory.build();
@@ -206,11 +200,14 @@ public interface Bitree<D> extends Cleanable{
             return this.size;
         }
 
-        @Override
-        public void setComparator(Comparator<Object> comparator) {
-            this.comparator = comparator;
-        }
+    }
 
+    public static <DATA> boolean bitree_is_eob(BitreeNode<DATA> node) {
+        return node == null;
+    }
+
+    public static <DATA> boolean bitree_is_leaf(BitreeNode<DATA> node) {
+        return node.left() == null && node.right() == null;
     }
 
     public static <DATA> Bitree<DATA> BITREE_MERGE(
@@ -220,6 +217,45 @@ public interface Bitree<D> extends Cleanable{
 
     public static <DATA> Bitree<DATA> DEFAULT_BIT_TREE(TreeNodeFactory<DATA , BitreeNode<DATA>> treeNodeFactory) {
         return new Bitree.MyBitree<>(treeNodeFactory);
+    }
+
+    public static
+        <DATA , E extends Linked.LinkedElmt<DATA , E> , T extends Linked<DATA , E> & SingleLinkedOperation<DATA , E>>
+        Linked<DATA , E> inorder(final BitreeNode<DATA> node , final T linked) {
+        //Load the list with an inorder listing of the tree.
+        if (!Bitree.bitree_is_eob(node)) {
+            if (!Bitree.bitree_is_eob(node.left())) Bitree.inorder(node.left() , linked);
+            linked.list_ins_next(linked.tail() , node.data());
+            if (!Bitree.bitree_is_eob(node.right())) Bitree.inorder(node.right() , linked);
+        }
+
+        return linked;
+    }
+
+    public static
+        <DATA , E extends Linked.LinkedElmt<DATA , E> , T extends Linked<DATA , E> & SingleLinkedOperation<DATA , E>>
+        Linked<DATA , E> postorder(final BitreeNode<DATA> node , final T linked) {
+        //Load the list with an inorder listing of the tree.
+        if (!Bitree.bitree_is_eob(node)) {
+            if (!Bitree.bitree_is_eob(node.left())) Bitree.postorder(node.left() , linked);
+            if (!Bitree.bitree_is_eob(node.right())) Bitree.postorder(node.right() , linked);
+            linked.list_ins_next(linked.tail() , node.data());
+        }
+
+        return linked;
+    }
+
+    public static
+        <DATA , E extends Linked.LinkedElmt<DATA , E> , T extends Linked<DATA , E> & SingleLinkedOperation<DATA , E>>
+        Linked<DATA , E> preorder(final BitreeNode<DATA> node , final T linked) {
+        //Load the list with a preorder listing of the tree.
+        if (!Bitree.bitree_is_eob(node)) {
+            linked.list_ins_next(linked.tail() , node.data());
+            if (!Bitree.bitree_is_eob(node.left())) Bitree.preorder(node.left() , linked);
+            if (!Bitree.bitree_is_eob(node.right())) Bitree.preorder(node.right() , linked);
+        }
+
+        return linked;
     }
 
     /**
@@ -265,12 +301,6 @@ public interface Bitree<D> extends Cleanable{
      * @throws TreeOperationException other exception of action'
      */
     public void bitree_rem_right(BitreeNode<D> node) throws TreeOperationException;
-    
-    public BitreeNode<D> root();
-
-    public int size();
-    
-    public void setComparator(Comparator<Object> comparator);
 
     @Override
     public default void clean() {
@@ -278,50 +308,7 @@ public interface Bitree<D> extends Cleanable{
         this.bitree_rem_left(null);
     }
 
-    public static
-        <DATA , E extends Linked.LinkedElmt<DATA , E> , T extends Linked<DATA , E> & SingleLinkedOperation<DATA , E>>
-        Linked<DATA , E> preorder(final BitreeNode<DATA> node , final T linked) {
-        //Load the list with a preorder listing of the tree.
-        if (!Bitree.bitree_is_eob(node)) {
-            linked.list_ins_next(linked.tail() , node.data());
-            if (!Bitree.bitree_is_eob(node.left())) Bitree.preorder(node.left() , linked);
-            if (!Bitree.bitree_is_eob(node.right())) Bitree.preorder(node.right() , linked);
-        }
-    
-        return linked;
-    }
+    public BitreeNode<D> root();
 
-    public static
-        <DATA , E extends Linked.LinkedElmt<DATA , E> , T extends Linked<DATA , E> & SingleLinkedOperation<DATA , E>>
-        Linked<DATA , E> postorder(final BitreeNode<DATA> node , final T linked) {
-        //Load the list with an inorder listing of the tree.
-        if (!Bitree.bitree_is_eob(node)) {
-            if (!Bitree.bitree_is_eob(node.left())) Bitree.postorder(node.left() , linked);
-            if (!Bitree.bitree_is_eob(node.right())) Bitree.postorder(node.right() , linked);
-            linked.list_ins_next(linked.tail() , node.data());
-        }
-    
-        return linked;
-    }
-
-    public static
-        <DATA , E extends Linked.LinkedElmt<DATA , E> , T extends Linked<DATA , E> & SingleLinkedOperation<DATA , E>>
-        Linked<DATA , E> inorder(final BitreeNode<DATA> node , final T linked) {
-        //Load the list with an inorder listing of the tree.
-        if (!Bitree.bitree_is_eob(node)) {
-            if (!Bitree.bitree_is_eob(node.left())) Bitree.inorder(node.left() , linked);
-            linked.list_ins_next(linked.tail() , node.data());
-            if (!Bitree.bitree_is_eob(node.right())) Bitree.inorder(node.right() , linked);
-        }
-    
-        return linked;
-    }
-
-    public static <DATA> boolean bitree_is_leaf(BitreeNode<DATA> node) {
-        return node.left() == null && node.right() == null;
-    }
-
-    public static <DATA> boolean bitree_is_eob(BitreeNode<DATA> node) {
-        return node == null;
-    }
+    public int size();
 }

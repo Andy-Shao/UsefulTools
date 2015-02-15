@@ -36,6 +36,12 @@ public interface CycleLinked<D> extends Linked<D , CycleLinked.CycleLinkedElmt<D
                 }
 
                 @Override
+                public int hashCode() {
+                    if (this.next == this) return this.data.hashCode();
+                    else return Objects.hash(this.data , this.next);
+                }
+
+                @Override
                 public DAT list_Data() {
                     return this.data;
                 }
@@ -43,12 +49,6 @@ public interface CycleLinked<D> extends Linked<D , CycleLinked.CycleLinkedElmt<D
                 @Override
                 public CycleLinkedElmt<DAT> list_next() {
                     return this.next;
-                }
-
-                @Override
-                public int hashCode() {
-                    if (this.next == this) return this.data.hashCode();
-                    else return Objects.hash(this.data , this.next);
                 }
 
                 @Override
@@ -85,6 +85,12 @@ public interface CycleLinked<D> extends Linked<D , CycleLinked.CycleLinkedElmt<D
             }
 
             @Override
+            public Iterator<DATA> iterator() {
+                // TODO Auto-generated method stub
+                return null;
+            }
+
+            @Override
             public CycleLinked.CycleLinkedElmt<DATA> list_head() {
                 return this.head;
             }
@@ -98,15 +104,13 @@ public interface CycleLinked<D> extends Linked<D , CycleLinked.CycleLinkedElmt<D
                     //Handle insertion when the list is empty.
                     new_element.setNext(new_element);
                     this.head = new_element;
+                } else if (element == null) {
+                    new_element.setNext(this.head);
+                    this.head = new_element;
                 } else {
-                    if (element == null) {
-                        new_element.setNext(this.head);
-                        this.head = new_element;
-                    } else {
-                        //Handle insertion when the list is not empty.
-                        new_element.setNext(element.list_next());
-                        element.setNext(new_element);
-                    }
+                    //Handle insertion when the list is not empty.
+                    new_element.setNext(element.list_next());
+                    element.setNext(new_element);
                 }
 
                 //Adjust the size of the list to account for the inserted element.
@@ -153,12 +157,6 @@ public interface CycleLinked<D> extends Linked<D , CycleLinked.CycleLinkedElmt<D
             @Override
             public CycleLinked.CycleLinkedElmt<DATA> tail() {
                 return this.head;
-            }
-
-            @Override
-            public Iterator<DATA> iterator() {
-                // TODO Auto-generated method stub
-                return null;
             }
 
         };

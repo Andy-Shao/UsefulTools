@@ -19,7 +19,20 @@ public class BitTreeTest {
     }
 
     @Test
-    public void testSize() {
+    public void testClean() {
+        Assert.assertThat(this.bitree.size() , Matchers.is(0));
+
+        this.bitree.bitree_ins_right(null , "root");
+        this.bitree.bitree_ins_left(this.bitree.root() , "left");
+        this.bitree.bitree_ins_right(this.bitree.root() , "right");
+
+        Assert.assertThat(this.bitree.size() , Matchers.is(3));
+        Assert.assertThat(this.bitree.root().data() , Matchers.is("root"));
+        Assert.assertThat(this.bitree.root().left().data() , Matchers.is("left"));
+        Assert.assertThat(this.bitree.root().right().data() , Matchers.is("right"));
+
+        this.bitree.clean();
+
         Assert.assertThat(this.bitree.size() , Matchers.is(0));
     }
 
@@ -54,24 +67,6 @@ public class BitTreeTest {
     }
 
     @Test
-    public void testClean() {
-        Assert.assertThat(this.bitree.size() , Matchers.is(0));
-
-        this.bitree.bitree_ins_right(null , "root");
-        this.bitree.bitree_ins_left(this.bitree.root() , "left");
-        this.bitree.bitree_ins_right(this.bitree.root() , "right");
-
-        Assert.assertThat(this.bitree.size() , Matchers.is(3));
-        Assert.assertThat(this.bitree.root().data() , Matchers.is("root"));
-        Assert.assertThat(this.bitree.root().left().data() , Matchers.is("left"));
-        Assert.assertThat(this.bitree.root().right().data() , Matchers.is("right"));
-
-        this.bitree.clean();
-
-        Assert.assertThat(this.bitree.size() , Matchers.is(0));
-    }
-
-    @Test
     public void testMeger() {
         Bitree<String> left = Bitree.<String> DEFAULT_BIT_TREE(() -> {
             return BitreeNode.<String> DEFAULT_BITREE_NODE();
@@ -83,12 +78,17 @@ public class BitTreeTest {
         left.bitree_ins_left(null , "left");
         right.bitree_ins_left(null , "right");
         Bitree<String> bitree = Bitree.<String> BITREE_MERGE(() -> {
-            return BitreeNode.<String>DEFAULT_BITREE_NODE();
+            return BitreeNode.<String> DEFAULT_BITREE_NODE();
         } , left , right , "root");
 
         Assert.assertThat(bitree.size() , Matchers.is(3));
         Assert.assertThat(bitree.root().data() , Matchers.is("root"));
         Assert.assertThat(bitree.root().left().data() , Matchers.is("left"));
         Assert.assertThat(bitree.root().right().data() , Matchers.is("right"));
+    }
+
+    @Test
+    public void testSize() {
+        Assert.assertThat(this.bitree.size() , Matchers.is(0));
     }
 }

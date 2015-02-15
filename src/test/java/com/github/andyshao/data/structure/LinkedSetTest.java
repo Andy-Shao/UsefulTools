@@ -24,24 +24,24 @@ public class LinkedSetTest {
             this.set.set_insert(this.data[i]);
 
         Assert.assertThat(this.set.size() , Matchers.is(this.data.length));
-        
+
         for (int i = 0 ; i < this.data.length ; i++)
             this.set.set_insert(this.data[i]);
-        
+
         Assert.assertThat(this.set.size() , Matchers.is(this.data.length));
     }
-    
+
     @Test
-    public void testRemove(){
+    public void testRemove() {
         Assert.assertThat(this.set.size() , Matchers.is(0));
-        
+
         for (int i = 0 ; i < this.data.length ; i++)
             this.set.set_insert(this.data[i]);
-        
+
         Assert.assertThat(this.set.size() , Matchers.is(this.data.length));
-        
+
         this.set.clean();
-        
+
         Assert.assertThat(this.set.size() , Matchers.is(0));
     }
 

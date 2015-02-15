@@ -5,8 +5,8 @@ import com.github.andyshao.lang.Cleanable;
 /**
  * 
  * Title: Linked list interface<br>
- * Descript: Because of it is a linked list, you should use the
- * {@link #clean()} method when you
+ * Descript: Because of it is a linked list, you should use the {@link #clean()}
+ * method when you
  * want to remove this list.<br>
  * Copyright: Copryright(c) Feb 8, 2015<br>
  * Encoding:UNIX UTF-8
@@ -16,7 +16,7 @@ import com.github.andyshao.lang.Cleanable;
  * @param <D> data
  * @param <T> element type
  */
-public interface Linked<D , T extends Linked.LinkedElmt<D , T>> extends Cleanable, Iterable<D>{
+public interface Linked<D , T extends Linked.LinkedElmt<D , T>> extends Cleanable , Iterable<D> {
 
     public interface LinkedElmt<DATA , T extends Linked.LinkedElmt<DATA , T>> {
 

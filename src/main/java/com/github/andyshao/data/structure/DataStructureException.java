@@ -14,19 +14,19 @@ public class DataStructureException extends RuntimeException {
 
     private static final long serialVersionUID = 5831612224020640233L;
 
-    public DataStructureException(String errorMsg) {
-        super(errorMsg);
+    public DataStructureException() {
+        super();
     }
 
-    public DataStructureException(Throwable cause) {
-        super(cause);
+    public DataStructureException(String errorMsg) {
+        super(errorMsg);
     }
 
     public DataStructureException(String errorMsg , Throwable cause) {
         super(errorMsg , cause);
     }
 
-    public DataStructureException() {
-        super();
+    public DataStructureException(Throwable cause) {
+        super(cause);
     }
 }

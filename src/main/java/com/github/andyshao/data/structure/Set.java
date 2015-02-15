@@ -31,8 +31,8 @@ public interface Set<D> extends Cleanable , Iterable<D> {
         default:
             Set<DATA> temp = new SetConvert<DATA>().convert(new HashSet<DATA>());
             for (Set<DATA> set : sets)
-                temp = set_difference(new SetConvert<DATA>().convert(new HashSet<DATA>()) , temp , set);
-            set_difference(result , temp);
+                temp = Set.set_difference(new SetConvert<DATA>().convert(new HashSet<DATA>()) , temp , set);
+            Set.set_difference(result , temp);
             break;
         }
         return result;
@@ -45,8 +45,6 @@ public interface Set<D> extends Cleanable , Iterable<D> {
 
         return result;
     }
-
-    public abstract void set_insert(D data);
 
     @SuppressWarnings("unchecked")
     public static <DATA> Set<DATA> set_intersection(final Set<DATA> result , Set<DATA>... sets) {
@@ -61,8 +59,8 @@ public interface Set<D> extends Cleanable , Iterable<D> {
         default:
             Set<DATA> temp = new SetConvert<DATA>().convert(new HashSet<DATA>());
             for (Set<DATA> set : sets)
-                temp = set_intersection(new SetConvert<DATA>().convert(new HashSet<DATA>()) , temp , set);
-            set_intersection(result , temp);
+                temp = Set.set_intersection(new SetConvert<DATA>().convert(new HashSet<DATA>()) , temp , set);
+            Set.set_intersection(result , temp);
             break;
         }
         return result;
@@ -76,17 +74,11 @@ public interface Set<D> extends Cleanable , Iterable<D> {
         return result;
     }
 
-    public abstract boolean set_is_member(D data);
-
-    public abstract boolean set_is_subset(Set<D> set1);
-
-    public abstract void set_remove(D data);
-
     @SuppressWarnings("unchecked")
     public static <DATA> Set<DATA> set_union(Set<DATA> result , Set<DATA>... sets) {
         Set<DATA> temp = new SetConvert<DATA>().convert(new HashSet<DATA>());
         for (Set<DATA> set : sets)
-            set_union(result , temp , set);
+            Set.set_union(result , temp , set);
         return result;
     }
 
@@ -101,6 +93,14 @@ public interface Set<D> extends Cleanable , Iterable<D> {
 
         return result;
     }
+
+    public abstract void set_insert(D data);
+
+    public abstract boolean set_is_member(D data);
+
+    public abstract boolean set_is_subset(Set<D> set1);
+
+    public abstract void set_remove(D data);
 
     public abstract int size();
 }

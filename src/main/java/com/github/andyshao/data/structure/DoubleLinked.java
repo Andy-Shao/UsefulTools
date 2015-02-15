@@ -35,16 +35,6 @@ public interface DoubleLinked<D> extends Linked<D , DoubleLinked.DoubleLinkedElm
                 }
 
                 @Override
-                public DATA list_Data() {
-                    return this.data;
-                }
-
-                @Override
-                public DoubleLinkedElmt<DATA> list_next() {
-                    return this.next;
-                }
-
-                @Override
                 public DoubleLinkedElmt<DATA> getPrev() {
                     return this.prev;
                 }
@@ -52,6 +42,16 @@ public interface DoubleLinked<D> extends Linked<D , DoubleLinked.DoubleLinkedElm
                 @Override
                 public int hashCode() {
                     return Objects.hash(this.list_Data() , this.getPrev() , this.list_next());
+                }
+
+                @Override
+                public DATA list_Data() {
+                    return this.data;
+                }
+
+                @Override
+                public DoubleLinkedElmt<DATA> list_next() {
+                    return this.next;
                 }
 
                 @Override
@@ -90,27 +90,6 @@ public interface DoubleLinked<D> extends Linked<D , DoubleLinked.DoubleLinkedElm
                 do
                     this.dlist_remove(this.head);
                 while (this.size != 0);
-            }
-
-            @SuppressWarnings("unchecked")
-            @Override
-            public boolean equals(Object obj) {
-                DoubleLinked<DATA> that;
-                if (obj instanceof DoubleLinked) {
-                    that = (DoubleLinked<DATA>) obj;
-                    return this.size == that.size() && Objects.equals(this.list_head() , that.list_head())
-                        && Objects.equals(this.tail() , that.tail());
-                } else return false;
-            }
-
-            @Override
-            public int hashCode() {
-                return Objects.hash(this.head , this.size , this.tail);
-            }
-
-            @Override
-            public DoubleLinked.DoubleLinkedElmt<DATA> list_head() {
-                return this.head;
             }
 
             @Override
@@ -199,6 +178,33 @@ public interface DoubleLinked<D> extends Linked<D , DoubleLinked.DoubleLinkedElm
                 return data;
             }
 
+            @SuppressWarnings("unchecked")
+            @Override
+            public boolean equals(Object obj) {
+                DoubleLinked<DATA> that;
+                if (obj instanceof DoubleLinked) {
+                    that = (DoubleLinked<DATA>) obj;
+                    return this.size == that.size() && Objects.equals(this.list_head() , that.list_head())
+                        && Objects.equals(this.tail() , that.tail());
+                } else return false;
+            }
+
+            @Override
+            public int hashCode() {
+                return Objects.hash(this.head , this.size , this.tail);
+            }
+
+            @Override
+            public Iterator<DATA> iterator() {
+                // TODO Auto-generated method stub
+                return null;
+            }
+
+            @Override
+            public DoubleLinked.DoubleLinkedElmt<DATA> list_head() {
+                return this.head;
+            }
+
             @Override
             public int size() {
                 return this.size;
@@ -207,12 +213,6 @@ public interface DoubleLinked<D> extends Linked<D , DoubleLinked.DoubleLinkedElm
             @Override
             public DoubleLinked.DoubleLinkedElmt<DATA> tail() {
                 return this.tail;
-            }
-
-            @Override
-            public Iterator<DATA> iterator() {
-                // TODO Auto-generated method stub
-                return null;
             }
 
         };

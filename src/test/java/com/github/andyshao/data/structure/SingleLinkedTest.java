@@ -36,26 +36,26 @@ public class SingleLinkedTest {
     }
 
     @Test
-    public void testSize() {
-        Assert.assertThat(this.linked.size() , Matchers.is(0));
-        
-        testInsert();
-        
+    public void testRemove() {
+        this.testInsert();
         Assert.assertThat(this.linked.size() , Matchers.is(2));
-    }
-    
-    @Test
-    public void testRemove(){
-        testInsert();
-        Assert.assertThat(this.linked.size() , Matchers.is(2));
-        
+
         this.linked.clean();
         Assert.assertThat(this.linked.size() , Matchers.is(0));
-        
-        testInsert();
+
+        this.testInsert();
         Assert.assertThat(this.linked.size() , Matchers.is(2));
-        
+
         this.linked.list_rem_next(this.linked.list_head());
         Assert.assertThat(this.linked.size() , Matchers.is(1));
+    }
+
+    @Test
+    public void testSize() {
+        Assert.assertThat(this.linked.size() , Matchers.is(0));
+
+        this.testInsert();
+
+        Assert.assertThat(this.linked.size() , Matchers.is(2));
     }
 }

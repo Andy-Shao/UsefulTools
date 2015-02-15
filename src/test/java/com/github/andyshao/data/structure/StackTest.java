@@ -45,7 +45,7 @@ public class StackTest {
             this.stack.push(this.data[i]);
 
         Assert.assertThat(this.stack.size() , Matchers.is(this.data.length));
-        Assert.assertThat(this.stack.peek() , Matchers.is(this.data[this.data.length-1]));
+        Assert.assertThat(this.stack.peek() , Matchers.is(this.data[this.data.length - 1]));
 
         do
             this.stack.pop();

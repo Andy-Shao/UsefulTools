@@ -4,7 +4,7 @@ import java.util.Iterator;
 
 import com.github.andyshao.lang.Cleanable;
 
-public interface Queue<D> extends Cleanable, Iterable<D> {
+public interface Queue<D> extends Cleanable , Iterable<D> {
 
     public static
         <DATA , E extends Linked.LinkedElmt<DATA , E> , T extends Linked<DATA , E> & SingleLinkedOperation<DATA , E>>
@@ -27,6 +27,11 @@ public interface Queue<D> extends Cleanable, Iterable<D> {
             }
 
             @Override
+            public Iterator<DATA> iterator() {
+                return linked.iterator();
+            }
+
+            @Override
             public DATA peek() {
                 return linked.list_head() == null ? null : linked.list_head().list_Data();
             }
@@ -34,11 +39,6 @@ public interface Queue<D> extends Cleanable, Iterable<D> {
             @Override
             public int size() {
                 return linked.size();
-            }
-
-            @Override
-            public Iterator<DATA> iterator() {
-                return linked.iterator();
             }
         };
     }

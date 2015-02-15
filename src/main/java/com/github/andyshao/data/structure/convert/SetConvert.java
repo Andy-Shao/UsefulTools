@@ -11,6 +11,7 @@ import com.github.andyshao.convert.Convert;
  * Descript:<br>
  * Copyright: Copryright(c) Feb 14, 2015<br>
  * Encoding:UNIX UTF-8
+ * 
  * @author Andy.Shao
  *
  * @param <D> data
