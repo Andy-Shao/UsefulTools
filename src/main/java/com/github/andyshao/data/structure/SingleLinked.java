@@ -111,8 +111,7 @@ public interface SingleLinked<D> extends Linked<D , SingleLinked.SingleLinkedElm
             SingleLinked.SingleLinkedElmt<D> old_element = SingleLinked.SingleLinkedElmt.<D> DEFAULT_ELMT(null);
             D data = null;
 
-            //Do not allow removal from an empty list.
-            if (this.size() == 0) return null;
+            if (this.size() == 0) throw new LinkedOperationException("Do not allow removal from an empty list.");
 
             //Remove the element from the list.
             if (element == null) {

@@ -145,7 +145,7 @@ public interface CycleLinked<D> extends Linked<D , CycleLinked.CycleLinkedElmt<D
                 DATA data = null;
 
                 //Do not allow removal from an empty list.
-                if (this.size == 0) return null;
+                if (this.size == 0) throw new LinkedOperationException("Do not allow removal from an empty list.");
                 if (element == null) element = this.head;
 
                 //Remove the element from the list.

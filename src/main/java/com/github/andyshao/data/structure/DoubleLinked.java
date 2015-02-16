@@ -1,5 +1,6 @@
 package com.github.andyshao.data.structure;
 
+import java.util.ConcurrentModificationException;
 import java.util.Iterator;
 import java.util.Objects;
 
@@ -84,6 +85,7 @@ public interface DoubleLinked<D> extends Linked<D , DoubleLinked.DoubleLinkedElm
             private DoubleLinked.DoubleLinkedElmt<DATA> head;
             private int size;
             private DoubleLinked.DoubleLinkedElmt<DATA> tail;
+            private long actionCount = 0;
 
             @Override
             public void clean() {
@@ -95,7 +97,8 @@ public interface DoubleLinked<D> extends Linked<D , DoubleLinked.DoubleLinkedElm
             @Override
             public void dlist_ins_next(DoubleLinked.DoubleLinkedElmt<DATA> element , final DATA data) {
                 //Do not allow a NULL element unless the list is empty.
-                if (element == null && this.size() != 0) return;
+                if (element == null && this.size() != 0) throw new LinkedOperationException(
+                    "Do not allow a NULL element unless the list is empty.");
 
                 DoubleLinked.DoubleLinkedElmt<DATA> new_element =
                     DoubleLinked.DoubleLinkedElmt.<DATA> DEFAULT_ELMT(data);
@@ -119,13 +122,15 @@ public interface DoubleLinked<D> extends Linked<D , DoubleLinked.DoubleLinkedElm
 
                 //Adjust the size of the list to account for the inserted element.
                 this.size++;
+                this.actionCount++;
 
             }
 
             @Override
             public void dlist_ins_prev(DoubleLinked.DoubleLinkedElmt<DATA> element , final DATA data) {
                 //Do not allowed a NULL element unless the list is empty.
-                if (element == null && this.size() != 0) return;
+                if (element == null && this.size() != 0) throw new LinkedOperationException(
+                    "Do not allowed a NULL element unless the list is empty.");
 
                 DoubleLinked.DoubleLinkedElmt<DATA> new_element =
                     DoubleLinked.DoubleLinkedElmt.<DATA> DEFAULT_ELMT(data);
@@ -149,6 +154,7 @@ public interface DoubleLinked<D> extends Linked<D , DoubleLinked.DoubleLinkedElm
 
                 //Adjust the size of list to accoutn for the element.
                 this.size++;
+                this.actionCount++;
             }
 
             @Override
@@ -156,7 +162,8 @@ public interface DoubleLinked<D> extends Linked<D , DoubleLinked.DoubleLinkedElm
                 DATA data = null;
 
                 //Do not allow a NULL element or removal from an empty list.
-                if (element == null || this.size() == 0) return null;
+                if (element == null || this.size() == 0) throw new LinkedOperationException(
+                    "Do not allow a NULL element or removal from an empty list.");
 
                 //Remove the element from the list.
                 data = element.list_Data();
@@ -174,6 +181,7 @@ public interface DoubleLinked<D> extends Linked<D , DoubleLinked.DoubleLinkedElm
 
                 //Adjust the size of the list to account for the removed element.
                 this.size--;
+                this.actionCount++;
 
                 return data;
             }
@@ -197,7 +205,23 @@ public interface DoubleLinked<D> extends Linked<D , DoubleLinked.DoubleLinkedElm
             @Override
             public Iterator<DATA> iterator() {
                 // TODO Auto-generated method stub
-                return null;
+                return new Iterator<DATA>() {
+                    private final long myActioncount = actionCount;
+                    private DoubleLinked.DoubleLinkedElmt<DATA> index = head;
+
+                    @Override
+                    public boolean hasNext() {
+                        if (this.myActioncount != actionCount) throw new ConcurrentModificationException();
+                        return this.index != null;
+                    }
+
+                    @Override
+                    public DATA next() {
+                        DoubleLinked.DoubleLinkedElmt<DATA> result = this.index;
+                        this.index = this.index.list_next();
+                        return result.list_Data();
+                    }
+                };
             }
 
             @Override
