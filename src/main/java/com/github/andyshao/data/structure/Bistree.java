@@ -62,6 +62,12 @@ public interface Bistree<DATA> extends Cleanable , Tree<Bistree.AvlNode<DATA>> {
     public interface AvlNodeFactory<D , T extends AvlNode<D>> {
         public T build();
     }
+    
+    public class Ret<D> {
+        public int balance;
+        public D data;
+        public BitreeNode<AvlNode<D>> elmt;
+    }
 
     public class MyBistree<D> implements Bistree<D> {
         private final AvlNodeFactory<D , AvlNode<D>> avlNodeFactory;
@@ -76,17 +82,17 @@ public interface Bistree<DATA> extends Cleanable , Tree<Bistree.AvlNode<DATA>> {
         }
 
         @Override
-        public int bistree_insert(D data) {
+        public Ret<D> bistree_insert(D data) {
             return this.insert(this.root() , data);
         }
 
         @Override
-        public Bitree.BitreeNode<Bistree.AvlNode<D>> bistree_lookup(D data) {
+        public Ret<D> bistree_lookup(D data) {
             return this.lookup(this.root() , data);
         }
 
         @Override
-        public BitreeNode<AvlNode<D>> bistree_remove(D data) {
+        public Ret<D> bistree_remove(D data) {
             return this.hide(this.root() , data);
         }
 
@@ -105,8 +111,8 @@ public interface Bistree<DATA> extends Cleanable , Tree<Bistree.AvlNode<DATA>> {
             this.bitree.bitree_rem_right(node);
         }
 
-        public BitreeNode<AvlNode<D>> hide(BitreeNode<AvlNode<D>> node , final D data) {
-            BitreeNode<AvlNode<D>> result;
+        public Ret<D> hide(BitreeNode<AvlNode<D>> node , final D data) {
+            Ret<D> result = null;
             int cmpval;
 
             if (Bitree.bitree_is_eob(node)) throw new TreeOperationException("the node is not allowed to be null.");
@@ -119,15 +125,20 @@ public interface Bistree<DATA> extends Cleanable , Tree<Bistree.AvlNode<DATA>> {
             else {
                 //Mark the node as hidden.
                 node.data().hidden(true);
-                result = node;
+                result = new Ret<D>();
+                result.elmt = node;
+                result.data = node.data().data();
             }
 
             return result;
         }
 
-        public int insert(BitreeNode<AvlNode<D>> node , D data) {
+        public Ret<D> insert(BitreeNode<AvlNode<D>> node , D data) {
             AvlNode<D> avl_data;
-            int cmpval , balance = 0;
+            int cmpval;
+            Ret<D> result = new Ret<D>();
+            result.data = data;
+            result.balance = 0;
 
             //Insert the data into the tree.
             if (Bitree.bitree_is_eob(node)) {
@@ -138,8 +149,9 @@ public interface Bistree<DATA> extends Cleanable , Tree<Bistree.AvlNode<DATA>> {
                 avl_data.hidden(false);
                 avl_data.date(data);
 
-                this.bitree.bitree_ins_left(node , avl_data);
-                return 1;
+                result.balance = 1;
+                result.elmt = this.bitree.bitree_ins_left(node , avl_data);
+                return result;
             } else {
                 //Handle insertion into a tree that is not empty.
                 cmpval = this.comparator.compare(data , node.data().data());
@@ -153,23 +165,23 @@ public interface Bistree<DATA> extends Cleanable , Tree<Bistree.AvlNode<DATA>> {
                         avl_data.hidden(false);
                         avl_data.date(data);
 
-                        this.bitree.bitree_ins_left(node , avl_data);
-
-                        return 0;
-                    } else balance = this.insert(node.left() , data);
+                        result.elmt = this.bitree.bitree_ins_left(node , avl_data);
+                        result.balance = 0;
+                        return result;
+                    } else result = this.insert(node.left() , data);
 
                     //Ensure that the tree remains balanced.
-                    if (balance != 0) switch (node.data().factor()) {
+                    if (result.balance != 0) switch (node.data().factor()) {
                     case AVL_LFT_HEAVY:
                         Bistree.rotate_left(node);
-                        balance = 1;
+                        result.balance = 1;
                         break;
                     case AVL_BALANCED:
                         node.data().factor(Bistree.AVL_LFT_HEAVY);
                         break;
                     case AVL_RGT_HEAVY:
                         node.data().factor(Bistree.AVL_BALANCED);
-                        balance = 1;
+                        result.balance = 1;
                         break;
                     }
                 } else if (cmpval > 0) {
@@ -181,22 +193,22 @@ public interface Bistree<DATA> extends Cleanable , Tree<Bistree.AvlNode<DATA>> {
                         avl_data.hidden(false);
                         avl_data.date(data);
 
-                        this.bitree.bitree_ins_right(node , avl_data);
-                        balance = 0;
-                    } else balance = this.insert(node.right() , data);
+                        result.elmt = this.bitree.bitree_ins_right(node , avl_data);
+                        result.balance = 0;
+                    } else result = this.insert(node.right() , data);
 
                     //Ensure that the tree remains balanced.
-                    if (balance != 0) switch (node.data().factor()) {
+                    if (result.balance != 0) switch (node.data().factor()) {
                     case AVL_LFT_HEAVY:
                         node.data().factor(Bistree.AVL_BALANCED);
-                        balance = 1;
+                        result.balance = 1;
                         break;
                     case AVL_BALANCED:
                         node.data().factor(Bistree.AVL_RGT_HEAVY);
                         break;
                     case AVL_RGT_HEAVY:
                         Bistree.rotate_right(node);
-                        balance = 1;
+                        result.balance = 1;
                     }
                 } else //Handle finding a copy of the data.
                 //Do nothing since the data is in the tree and not hidden.
@@ -206,15 +218,15 @@ public interface Bistree<DATA> extends Cleanable , Tree<Bistree.AvlNode<DATA>> {
                     node.data().hidden(false);
 
                     //Do not rebalance because the tree structure is unchanged.
-                    balance = 1;
+                    result.balance = 1;
                 }
             }
 
-            return balance;
+            return result;
         }
 
-        public BitreeNode<AvlNode<D>> lookup(BitreeNode<AvlNode<D>> node , D data) {
-            BitreeNode<AvlNode<D>> result = null;
+        public Ret<D> lookup(BitreeNode<AvlNode<D>> node , D data) {
+            Ret<D> result = null;
             int cmpval;
 
             if (Bitree.bitree_is_eob(node)) throw new TreeOperationException("node is not allowed to be null.");
@@ -224,7 +236,11 @@ public interface Bistree<DATA> extends Cleanable , Tree<Bistree.AvlNode<DATA>> {
             result = this.lookup(node.left() , data);
             else if (cmpval > 0) //Move to the right.
             result = this.lookup(node.right() , data);
-            else if (!node.data().hidden()) result = node;
+            else if (!node.data().hidden()){
+                result = new Ret<D>();
+                result.data = node.data().data();
+                result.elmt = node;
+            }
 
             return result;
         }
@@ -360,9 +376,9 @@ public interface Bistree<DATA> extends Cleanable , Tree<Bistree.AvlNode<DATA>> {
      * @param data the date
      * @return return the balance.
      */
-    public int bistree_insert(final DATA data);
+    public Ret<DATA> bistree_insert(final DATA data);
 
-    public BitreeNode<AvlNode<DATA>> bistree_lookup(final DATA data);
+    public Ret<DATA> bistree_lookup(final DATA data);
 
     /**
      * if the data is removed. The node of {@link AvlNode#hidden()} is true.<br>
@@ -372,7 +388,7 @@ public interface Bistree<DATA> extends Cleanable , Tree<Bistree.AvlNode<DATA>> {
      * @param data the data which should be removed.
      * @return the node which is removed.
      */
-    public BitreeNode<AvlNode<DATA>> bistree_remove(final DATA data);
+    public Ret<DATA> bistree_remove(final DATA data);
 
     public void destroy_left(BitreeNode<AvlNode<DATA>> node);
 

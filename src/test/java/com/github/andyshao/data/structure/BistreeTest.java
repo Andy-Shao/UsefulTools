@@ -56,6 +56,6 @@ public class BistreeTest {
     public void testLookup() {
         testInsert();
 
-        Assert.assertThat(this.bistree.bistree_lookup(this.data[0]).data().data() , Matchers.is(this.data[0]));
+        Assert.assertThat(this.bistree.bistree_lookup(this.data[0]).data , Matchers.is(this.data[0]));
     }
 }
