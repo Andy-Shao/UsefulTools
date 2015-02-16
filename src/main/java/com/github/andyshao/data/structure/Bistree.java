@@ -3,7 +3,6 @@ package com.github.andyshao.data.structure;
 import java.util.Comparator;
 
 import com.github.andyshao.data.structure.Bitree.BitreeNode;
-import com.github.andyshao.data.structure.Bitree.MyBitree;
 import com.github.andyshao.lang.Cleanable;
 
 public interface Bistree<DATA> extends Cleanable , Tree<Bistree.AvlNode<DATA>> {
@@ -64,42 +63,46 @@ public interface Bistree<DATA> extends Cleanable , Tree<Bistree.AvlNode<DATA>> {
         public T build();
     }
 
-    public class MyBistree<D> extends MyBitree<AvlNode<D>> implements Bistree<D> {
+    public class MyBistree<D> implements Bistree<D> {
         private final AvlNodeFactory<D , AvlNode<D>> avlNodeFactory;
+        private final Bitree<AvlNode<D>> bitree;
         private Comparator<D> comparator = (obj1 , obj2) -> {
             return 0;
         };
 
-        public MyBistree(
-            TreeNodeFactory<Bistree.AvlNode<D> , Bitree.BitreeNode<Bistree.AvlNode<D>>> treeNodeFactory ,
-            AvlNodeFactory<D , AvlNode<D>> avlNodeFactory) {
-            super(treeNodeFactory);
+        public MyBistree(Bitree<AvlNode<D>> bitree , AvlNodeFactory<D , AvlNode<D>> avlNodeFactory) {
             this.avlNodeFactory = avlNodeFactory;
+            this.bitree = bitree;
         }
 
         @Override
         public int bistree_insert(D data) {
-            return this.insert(this.root , data);
+            return this.insert(this.root() , data);
         }
 
         @Override
         public Bitree.BitreeNode<Bistree.AvlNode<D>> bistree_lookup(D data) {
-            return this.lookup(this.root , data);
+            return this.lookup(this.root() , data);
         }
 
         @Override
         public BitreeNode<AvlNode<D>> bistree_remove(D data) {
-            return this.hide(this.root , data);
+            return this.hide(this.root() , data);
+        }
+
+        @Override
+        public void clean() {
+            this.bitree.clean();
         }
 
         @Override
         public void destroy_left(Bitree.BitreeNode<Bistree.AvlNode<D>> node) {
-            this.bitree_rem_left(node);
+            this.bitree.bitree_rem_left(node);
         }
 
         @Override
         public void destroy_right(Bitree.BitreeNode<Bistree.AvlNode<D>> node) {
-            this.bitree_rem_right(node);
+            this.bitree.bitree_rem_right(node);
         }
 
         public BitreeNode<AvlNode<D>> hide(BitreeNode<AvlNode<D>> node , final D data) {
@@ -135,7 +138,7 @@ public interface Bistree<DATA> extends Cleanable , Tree<Bistree.AvlNode<DATA>> {
                 avl_data.hidden(false);
                 avl_data.date(data);
 
-                this.bitree_ins_left(node , avl_data);
+                this.bitree.bitree_ins_left(node , avl_data);
                 return 1;
             } else {
                 //Handle insertion into a tree that is not empty.
@@ -150,7 +153,7 @@ public interface Bistree<DATA> extends Cleanable , Tree<Bistree.AvlNode<DATA>> {
                         avl_data.hidden(false);
                         avl_data.date(data);
 
-                        this.bitree_ins_left(node , avl_data);
+                        this.bitree.bitree_ins_left(node , avl_data);
 
                         return 0;
                     } else balance = this.insert(node.left() , data);
@@ -178,7 +181,7 @@ public interface Bistree<DATA> extends Cleanable , Tree<Bistree.AvlNode<DATA>> {
                         avl_data.hidden(false);
                         avl_data.date(data);
 
-                        this.bitree_ins_right(node , avl_data);
+                        this.bitree.bitree_ins_right(node , avl_data);
                         balance = 0;
                     } else balance = this.insert(node.right() , data);
 
@@ -227,8 +230,18 @@ public interface Bistree<DATA> extends Cleanable , Tree<Bistree.AvlNode<DATA>> {
         }
 
         @Override
+        public BitreeNode<Bistree.AvlNode<D>> root() {
+            return this.bitree.root();
+        }
+
+        @Override
         public void setComparator(Comparator<D> comparator) {
             this.comparator = comparator;
+        }
+
+        @Override
+        public int size() {
+            return this.bitree.size();
         }
 
     }
@@ -243,9 +256,8 @@ public interface Bistree<DATA> extends Cleanable , Tree<Bistree.AvlNode<DATA>> {
     public static final int AVL_RGT_HEAVY = -1;
 
     public static <D> Bistree<D> DEFAULT_BISTREE(
-        TreeNodeFactory<Bistree.AvlNode<D> , Bitree.BitreeNode<Bistree.AvlNode<D>>> treeNodeFactory ,
-        AvlNodeFactory<D , AvlNode<D>> avlNodeFactory , Comparator<D> comparator) {
-        Bistree<D> bistree = new Bistree.MyBistree<>(treeNodeFactory , avlNodeFactory);
+        Bitree<AvlNode<D>> bitree , AvlNodeFactory<D , AvlNode<D>> avlNodeFactory , Comparator<D> comparator) {
+        Bistree<D> bistree = new Bistree.MyBistree<>(bitree , avlNodeFactory);
         bistree.setComparator(comparator);
         return bistree;
     }
@@ -368,5 +380,6 @@ public interface Bistree<DATA> extends Cleanable , Tree<Bistree.AvlNode<DATA>> {
 
     public void setComparator(Comparator<DATA> comparator);
 
+    @Override
     public int size();
 }

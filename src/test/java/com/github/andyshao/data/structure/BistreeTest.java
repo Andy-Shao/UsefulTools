@@ -5,6 +5,7 @@ import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 
+import com.github.andyshao.data.structure.Bistree.AvlNode;
 import com.github.andyshao.util.ArrayTools;
 
 public class BistreeTest {
@@ -16,13 +17,19 @@ public class BistreeTest {
 
     @Before
     public void before() {
-        this.bistree = Bistree.<Integer> DEFAULT_BISTREE(() -> {
+        this.bistree = Bistree.<Integer> DEFAULT_BISTREE(Bitree.<AvlNode<Integer>> DEFAULT_BIT_TREE(() -> {
             return Bitree.BitreeNode.DEFAULT_BITREE_NODE();
-        } , () -> {
+        }) , () -> {
             return Bistree.AvlNode.DEFAULT_AVL_NODE();
         } , (int1 , int2) -> {
             return int1.compareTo(int2);
         });
+
+        {
+            Bitree.<AvlNode<Integer>> DEFAULT_BIT_TREE(() -> {
+                return Bitree.BitreeNode.DEFAULT_BITREE_NODE();
+            });
+        }
     }
 
     @Test
@@ -34,21 +41,21 @@ public class BistreeTest {
 
         Assert.assertThat(this.bistree.size() , Matchers.is(this.data.length));
     }
-    
+
     @Test
-    public void testRemove(){
+    public void testRemove() {
         testInsert();
-        
+
         this.bistree.bistree_remove(this.data[0]);
-        
+
         Assert.assertThat(this.bistree.size() , Matchers.is(this.data.length));
         Assert.assertThat(this.bistree.bistree_lookup(this.data[0]) == null , Matchers.is(true));
     }
-    
+
     @Test
-    public void testLookup(){
+    public void testLookup() {
         testInsert();
-        
+
         Assert.assertThat(this.bistree.bistree_lookup(this.data[0]).data().data() , Matchers.is(this.data[0]));
     }
 }
