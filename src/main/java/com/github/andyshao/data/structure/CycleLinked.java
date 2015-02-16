@@ -71,6 +71,7 @@ public interface CycleLinked<D> extends Linked<D , CycleLinked.CycleLinkedElmt<D
         return new CycleLinked<DATA>() {
             private CycleLinked.CycleLinkedElmt<DATA> head;
             private int size;
+            private long actionAccount = 0;
 
             @Override
             public void clean() {
@@ -86,8 +87,31 @@ public interface CycleLinked<D> extends Linked<D , CycleLinked.CycleLinkedElmt<D
 
             @Override
             public Iterator<DATA> iterator() {
-                // TODO Auto-generated method stub
-                return null;
+                return new Iterator<DATA>() {
+                    private volatile CycleLinkedElmt<DATA> linkedElmt;
+                    private final long linkedActionAccount = actionAccount;
+                    private volatile boolean asked = false;
+
+                    @Override
+                    public boolean hasNext() {
+                        if(this.linkedActionAccount == actionAccount){
+                            if(this.asked){
+                                if(linkedElmt.list_next().equals(head)) return false;
+                                else return true;
+                            } else {
+                                this.asked = true;
+                                if(size() == 0) return false;
+                                else return true;
+                            }
+                        } else return false;
+                    }
+
+                    @Override
+                    public DATA next() {
+                        this.linkedElmt = this.linkedElmt.list_next();
+                        return this.linkedElmt.list_Data();
+                    }
+                };
             }
 
             @Override
@@ -115,6 +139,7 @@ public interface CycleLinked<D> extends Linked<D , CycleLinked.CycleLinkedElmt<D
 
                 //Adjust the size of the list to account for the inserted element.
                 this.size++;
+                this.actionAccount++;
             }
 
             @Override
@@ -145,6 +170,7 @@ public interface CycleLinked<D> extends Linked<D , CycleLinked.CycleLinkedElmt<D
 
                 //Adjust the size of the list to account for the removed element.
                 this.size--;
+                this.actionAccount++;
 
                 return data;
             }
