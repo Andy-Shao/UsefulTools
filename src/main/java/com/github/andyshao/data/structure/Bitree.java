@@ -13,7 +13,7 @@ import com.github.andyshao.lang.Cleanable;
  *
  * @param <D> data
  */
-public interface Bitree<D> extends Cleanable {
+public interface Bitree<D> extends Cleanable , Tree<D>{
     public interface BitreeNode<DATA> {
         public static <D> BitreeNode<D> DEFAULT_BITREE_NODE() {
             return new BitreeNode<D>() {

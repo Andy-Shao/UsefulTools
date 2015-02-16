@@ -1,5 +1,6 @@
 package com.github.andyshao.data.structure;
 
+import java.util.ConcurrentModificationException;
 import java.util.Iterator;
 import java.util.Objects;
 
@@ -69,9 +70,9 @@ public interface CycleLinked<D> extends Linked<D , CycleLinked.CycleLinkedElmt<D
 
     public static <DATA> CycleLinked<DATA> DEFAULT_CYCLE_LINKED() {
         return new CycleLinked<DATA>() {
+            private long actionAccount = 0;
             private CycleLinked.CycleLinkedElmt<DATA> head;
             private int size;
-            private long actionAccount = 0;
 
             @Override
             public void clean() {
@@ -88,28 +89,23 @@ public interface CycleLinked<D> extends Linked<D , CycleLinked.CycleLinkedElmt<D
             @Override
             public Iterator<DATA> iterator() {
                 return new Iterator<DATA>() {
-                    private volatile CycleLinkedElmt<DATA> linkedElmt;
-                    private final long linkedActionAccount = actionAccount;
                     private volatile boolean asked = false;
+                    private volatile CycleLinkedElmt<DATA> index;
+                    private final long linkedActionAccount = actionAccount;
 
                     @Override
                     public boolean hasNext() {
-                        if(this.linkedActionAccount == actionAccount){
-                            if(this.asked){
-                                if(linkedElmt.list_next().equals(head)) return false;
-                                else return true;
-                            } else {
-                                this.asked = true;
-                                if(size() == 0) return false;
-                                else return true;
-                            }
-                        } else return false;
+                        if (this.linkedActionAccount != actionAccount) throw new ConcurrentModificationException();
+                        else if (this.asked && this.index.equals(head)) return false;
+                        else if (!this.asked) this.asked = true;
+                        return this.index != null;
                     }
 
                     @Override
                     public DATA next() {
-                        this.linkedElmt = this.linkedElmt.list_next();
-                        return this.linkedElmt.list_Data();
+                        CycleLinkedElmt<DATA> result = this.index;
+                        this.index = this.index.list_next();
+                        return result.list_Data();
                     }
                 };
             }

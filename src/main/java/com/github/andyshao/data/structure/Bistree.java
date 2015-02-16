@@ -6,8 +6,46 @@ import com.github.andyshao.data.structure.Bitree.BitreeNode;
 import com.github.andyshao.data.structure.Bitree.MyBitree;
 import com.github.andyshao.lang.Cleanable;
 
-public interface Bistree<DATA> extends Cleanable {
+public interface Bistree<DATA> extends Cleanable, Tree<Bistree.AvlNode<DATA>>{
     public interface AvlNode<D> {
+        public static <DATA> AvlNode<DATA> DEFAULT_AVL_NODE() {
+            return new AvlNode<DATA>() {
+                private volatile DATA data;
+                private volatile int factor;
+                private volatile boolean hidden;
+
+                @Override
+                public DATA data() {
+                    return this.data;
+                }
+
+                @Override
+                public void date(DATA data) {
+                    this.data = data;
+                }
+
+                @Override
+                public int factor() {
+                    return this.factor;
+                }
+
+                @Override
+                public void factor(int factor) {
+                    this.factor = factor;
+                }
+
+                @Override
+                public boolean hidden() {
+                    return this.hidden;
+                }
+
+                @Override
+                public void hidden(boolean hidden) {
+                    this.hidden = hidden;
+                }
+            };
+        }
+
         public D data();
 
         public void date(D data);
@@ -16,9 +54,9 @@ public interface Bistree<DATA> extends Cleanable {
 
         public void factor(int factor);
 
-        public int hidden();
+        public boolean hidden();
 
-        public void hidden(int hidden);
+        public void hidden(boolean hidden);
     }
 
     @FunctionalInterface
@@ -77,7 +115,7 @@ public interface Bistree<DATA> extends Cleanable {
             result = this.hide(node.right() , data);
             else {
                 //Mark the node as hidden.
-                node.data().hidden(1);
+                node.data().hidden(true);
                 result = node;
             }
 
@@ -94,7 +132,7 @@ public interface Bistree<DATA> extends Cleanable {
                 avl_data = this.avlNodeFactory.build();
 
                 avl_data.factor(Bistree.AVL_BALANCED);
-                avl_data.hidden(0);
+                avl_data.hidden(false);
                 avl_data.date(data);
 
                 this.bitree_ins_left(node , avl_data);
@@ -109,7 +147,7 @@ public interface Bistree<DATA> extends Cleanable {
                         avl_data = this.avlNodeFactory.build();
 
                         avl_data.factor(Bistree.AVL_BALANCED);
-                        avl_data.hidden(0);
+                        avl_data.hidden(false);
                         avl_data.date(data);
 
                         this.bitree_ins_left(node , avl_data);
@@ -137,7 +175,7 @@ public interface Bistree<DATA> extends Cleanable {
                         avl_data = this.avlNodeFactory.build();
 
                         avl_data.factor(Bistree.AVL_BALANCED);
-                        avl_data.hidden(0);
+                        avl_data.hidden(false);
                         avl_data.date(data);
 
                         this.bitree_ins_right(node , avl_data);
@@ -159,10 +197,10 @@ public interface Bistree<DATA> extends Cleanable {
                     }
                 } else //Handle finding a copy of the data.
                 //Do nothing since the data is in the tree and not hidden.
-                if (node.data().hidden() != 0) {
+                if (node.data().hidden()) {
                     //Insert the new data and mark it as not hidden.
                     node.data().date(data);
-                    node.data().hidden(0);
+                    node.data().hidden(false);
 
                     //Do not rebalance because the tree structure is unchanged.
                     balance = 1;
@@ -183,7 +221,7 @@ public interface Bistree<DATA> extends Cleanable {
             result = this.lookup(node.left() , data);
             else if (cmpval > 0) //Move to the right.
             result = this.lookup(node.right() , data);
-            else if (node.data().hidden() == 0) result = node;
+            else if (!node.data().hidden()) result = node;
 
             return result;
         }
@@ -195,11 +233,22 @@ public interface Bistree<DATA> extends Cleanable {
 
     }
 
+    /** balanced */
     public static final int AVL_BALANCED = 0;
 
+    /** left heavy */
     public static final int AVL_LFT_HEAVY = 1;
 
+    /** right heavy */
     public static final int AVL_RGT_HEAVY = -1;
+
+    public static <D> Bistree<D> DEFAULT_BISTREE(
+        TreeNodeFactory<Bistree.AvlNode<D> , Bitree.BitreeNode<Bistree.AvlNode<D>>> treeNodeFactory ,
+        AvlNodeFactory<D , AvlNode<D>> avlNodeFactory, Comparator<D> comparator) {
+        Bistree<D> bistree = new Bistree.MyBistree<>(treeNodeFactory , avlNodeFactory);
+        bistree.setComparator(comparator);
+        return bistree;
+    }
 
     public static <D> BitreeNode<AvlNode<D>> rotate_left(BitreeNode<AvlNode<D>> node) {
         BitreeNode<AvlNode<D>> left , grandchild;
@@ -282,17 +331,33 @@ public interface Bistree<DATA> extends Cleanable {
     }
 
     /**
-     * Insert a data
+     * Insert a data.<br>
+     * Check the tree. If the tree is empty then insert and set the balance is
+     * AVL_BALANCED. If it isn't empty. First compare with occurrent node and
+     * decide which side we should move(left or right). If find out the right
+     * site
+     * then create a new {@link AvlNode} and insert the {@link AvlNode}. If the
+     * old site
+     * has the old data and it is hidden, then insert the new data. If the old
+     * site is not
+     * hidden do nothing.<br>
+     * After the insert, check out the balance. if the balance over absolute
+     * number 2 then it
+     * should take a rotation.<br>
      * 
      * @param data the date
-     * @return return the balance. if the balance over absolute number 2 then it
-     *         should take
-     *         a rotation.
+     * @return return the balance.
      */
     public int bistree_insert(final DATA data);
 
     public BitreeNode<AvlNode<DATA>> bistree_lookup(final DATA data);
 
+    /**
+     * if the data is removed. The node of {@link AvlNode#hidden()} is true.
+     * 
+     * @param data the data which should be removed.
+     * @return the node which is removed.
+     */
     public BitreeNode<AvlNode<DATA>> bistree_remove(final DATA data);
 
     public void destroy_left(BitreeNode<AvlNode<DATA>> node);

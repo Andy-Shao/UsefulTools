@@ -8,7 +8,7 @@ import org.junit.Test;
 public class SingleLinkedTest {
 
     private final String[] data = new String[] {
-        "Andy" , "Shao"
+        "Andy" , "Shao", "andy", "shao"
     };
     private SingleLinked<String> linked;
 
@@ -21,8 +21,11 @@ public class SingleLinkedTest {
     public void testDestroy() {
         this.testInsert();
 
-        Assert.assertThat(this.linked.size() , Matchers.is(2));
+        Assert.assertThat(this.linked.size() , Matchers.is(this.data.length));
 
+        this.linked.clean();
+        
+        Assert.assertThat(this.linked.size() , Matchers.is(0));
     }
 
     @Test
@@ -32,22 +35,34 @@ public class SingleLinkedTest {
         for (int i = 0 ; i < this.data.length ; i++)
             this.linked.list_ins_next(this.linked.tail() , this.data[i]);
 
-        Assert.assertThat(this.linked.size() , Matchers.is(2));
+        Assert.assertThat(this.linked.size() , Matchers.is(this.data.length));
+        Assert.assertThat(this.linked.list_head().list_Data() , Matchers.is(this.data[0]));
+    }
+
+    @Test
+    public void testItrator() {
+        this.testInsert();
+
+        String string = "";
+        for (String str : this.linked)
+            string += str;
+
+        Assert.assertThat(string , Matchers.is("AndyShaoandyshao"));
     }
 
     @Test
     public void testRemove() {
         this.testInsert();
-        Assert.assertThat(this.linked.size() , Matchers.is(2));
+        Assert.assertThat(this.linked.size() , Matchers.is(this.data.length));
 
         this.linked.clean();
         Assert.assertThat(this.linked.size() , Matchers.is(0));
 
         this.testInsert();
-        Assert.assertThat(this.linked.size() , Matchers.is(2));
+        Assert.assertThat(this.linked.size() , Matchers.is(this.data.length));
 
         this.linked.list_rem_next(this.linked.list_head());
-        Assert.assertThat(this.linked.size() , Matchers.is(1));
+        Assert.assertThat(this.linked.size() , Matchers.is(this.data.length-1));
     }
 
     @Test
@@ -56,6 +71,6 @@ public class SingleLinkedTest {
 
         this.testInsert();
 
-        Assert.assertThat(this.linked.size() , Matchers.is(2));
+        Assert.assertThat(this.linked.size() , Matchers.is(this.data.length));
     }
 }

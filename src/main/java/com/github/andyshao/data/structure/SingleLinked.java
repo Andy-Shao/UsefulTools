@@ -1,5 +1,6 @@
 package com.github.andyshao.data.structure;
 
+import java.util.ConcurrentModificationException;
 import java.util.Iterator;
 import java.util.Objects;
 
@@ -23,13 +24,13 @@ public interface SingleLinked<D> extends Linked<D , SingleLinked.SingleLinkedElm
 
             @Override
             public boolean hasNext() {
-                if (this.index == null || this.actionCount != MySingleLinked.this.actionCount) return false;
-                return this.index.list_next() != null;
+                if (this.actionCount != MySingleLinked.this.actionCount) throw new ConcurrentModificationException();
+                return this.index != null;
             }
 
             @Override
             public D next() {
-                SingleLinked.SingleLinkedElmt<D> result = this.index.list_next();
+                SingleLinked.SingleLinkedElmt<D> result = this.index;
                 this.index = this.index.list_next();
                 return result.list_Data();
             }
