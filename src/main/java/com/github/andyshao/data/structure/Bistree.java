@@ -6,7 +6,7 @@ import com.github.andyshao.data.structure.Bitree.BitreeNode;
 import com.github.andyshao.data.structure.Bitree.MyBitree;
 import com.github.andyshao.lang.Cleanable;
 
-public interface Bistree<DATA> extends Cleanable, Tree<Bistree.AvlNode<DATA>>{
+public interface Bistree<DATA> extends Cleanable , Tree<Bistree.AvlNode<DATA>> {
     public interface AvlNode<D> {
         public static <DATA> AvlNode<DATA> DEFAULT_AVL_NODE() {
             return new AvlNode<DATA>() {
@@ -244,7 +244,7 @@ public interface Bistree<DATA> extends Cleanable, Tree<Bistree.AvlNode<DATA>>{
 
     public static <D> Bistree<D> DEFAULT_BISTREE(
         TreeNodeFactory<Bistree.AvlNode<D> , Bitree.BitreeNode<Bistree.AvlNode<D>>> treeNodeFactory ,
-        AvlNodeFactory<D , AvlNode<D>> avlNodeFactory, Comparator<D> comparator) {
+        AvlNodeFactory<D , AvlNode<D>> avlNodeFactory , Comparator<D> comparator) {
         Bistree<D> bistree = new Bistree.MyBistree<>(treeNodeFactory , avlNodeFactory);
         bistree.setComparator(comparator);
         return bistree;
@@ -353,7 +353,9 @@ public interface Bistree<DATA> extends Cleanable, Tree<Bistree.AvlNode<DATA>>{
     public BitreeNode<AvlNode<DATA>> bistree_lookup(final DATA data);
 
     /**
-     * if the data is removed. The node of {@link AvlNode#hidden()} is true.
+     * if the data is removed. The node of {@link AvlNode#hidden()} is true.<br>
+     * the size of tree will not be reduced. but you can't lookup the node which
+     * is removed.
      * 
      * @param data the data which should be removed.
      * @return the node which is removed.
