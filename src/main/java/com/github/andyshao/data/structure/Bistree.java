@@ -5,6 +5,16 @@ import java.util.Comparator;
 import com.github.andyshao.data.structure.Bitree.BitreeNode;
 import com.github.andyshao.lang.Cleanable;
 
+/**
+ * 
+ * Title:<br>
+ * Descript:<br>
+ * Copyright: Copryright(c) Feb 17, 2015<br>
+ * Encoding:UNIX UTF-8
+ * @author Andy.Shao
+ *
+ * @param <DATA> data
+ */
 public interface Bistree<DATA> extends Cleanable , Tree<Bistree.AvlNode<DATA>> {
     public interface AvlNode<D> {
         public static <DATA> AvlNode<DATA> DEFAULT_AVL_NODE() {
