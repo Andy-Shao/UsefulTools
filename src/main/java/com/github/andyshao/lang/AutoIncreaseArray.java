@@ -33,15 +33,7 @@ public class AutoIncreaseArray<D> implements Iterable<D> , Cleanable {
         if (this.array == null) this.array = (D[]) Array.newInstance(data.getClass() , this.arraySize);
 
         //Increase the array space
-        if (this.start == 0) {
-            int arraySize = this.newSize(this.array.length);
-            D[] temp = (D[]) Array.newInstance(data.getClass() , arraySize);
-            System.arraycopy(this.array , this.start , temp , arraySize >> 1 , this.size);
-            this.array = temp;
-            this.arraySize = arraySize;
-            this.start = arraySize >> 1;
-            this.end = this.start + this.size - 1;
-        }
+        if (this.start == 0) this.replaceSpace(data.getClass());
 
         if (this.size == 0) this.array[this.start] = data;
         else this.array[--this.start] = data;
@@ -55,15 +47,7 @@ public class AutoIncreaseArray<D> implements Iterable<D> , Cleanable {
         if (this.array == null) this.array = (D[]) Array.newInstance(data.getClass() , this.arraySize);
 
         //Increase the array space
-        if (this.end == this.arraySize - 1) {
-            int arraySize = this.newSize(this.array.length);
-            D[] temp = (D[]) Array.newInstance(data.getClass() , arraySize);
-            System.arraycopy(this.array , this.start , temp , arraySize >> 1 , this.size);
-            this.array = temp;
-            this.arraySize = arraySize;
-            this.start = arraySize >> 1;
-            this.end = this.start + this.size - 1;
-        }
+        if (this.end == this.arraySize - 1) this.replaceSpace(data.getClass());
 
         if (this.size == 0) this.array[this.end] = data;
         else this.array[++this.end] = data;
@@ -78,12 +62,12 @@ public class AutoIncreaseArray<D> implements Iterable<D> , Cleanable {
         this.start = this.end;
         this.array = null;
         this.size = 0;
-    };
+    }
 
     public D get(int index) {
         if (index < 0 || index >= this.size) throw new IndexOutOfBoundsException();
         return this.array[index + this.start];
-    }
+    };
 
     @Override
     public Iterator<D> iterator() {
@@ -117,6 +101,18 @@ public class AutoIncreaseArray<D> implements Iterable<D> , Cleanable {
         this.actionAccount++;
         this.size--;
         return result;
+    }
+
+    @SuppressWarnings("unchecked")
+    private void replaceSpace(Class<? extends Object> data_type) {
+        int arraySize = this.newSize(this.array.length);
+        D[] temp = (D[]) Array.newInstance(data_type , arraySize);
+        int new_start = arraySize >> 2;
+        System.arraycopy(this.array , this.start , temp , new_start , this.size);
+        this.array = temp;
+        this.arraySize = arraySize;
+        this.start = new_start;
+        this.end = this.start + this.size - 1;
     }
 
     public D set(D data , int index) {
