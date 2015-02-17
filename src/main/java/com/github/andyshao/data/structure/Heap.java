@@ -11,13 +11,16 @@ import com.github.andyshao.lang.Cleanable;
  * Descript:<br>
  * Copyright: Copryright(c) Feb 17, 2015<br>
  * Encoding:UNIX UTF-8
+ * 
  * @author Andy.Shao
  *
  * @param <D> data
  */
 public interface Heap<D> extends Cleanable {
     public class MyHeap<DATA> implements Heap<DATA> {
-        private Comparator<DATA> comparator;
+        private Comparator<DATA> comparator = (obj1 , obj2) -> {
+            return 0;
+        };
         private AutoIncreaseArray<DATA> tree = new AutoIncreaseArray<DATA>();
 
         @Override
@@ -28,7 +31,7 @@ public interface Heap<D> extends Cleanable {
         @Override
         public DATA heap_extract(DATA data) {
             int ipos , lpos , rpos , mpos;
-            DATA result = null , save, temp;
+            DATA result = null , save , temp;
 
             if (this.size() == 0) throw new HeapOperationException("Do not allow extraction from an empty heap.");
 
@@ -38,39 +41,43 @@ public interface Heap<D> extends Cleanable {
             //Ajust the storage used by the heap.
             if (this.tree.size() - 1 > 0) save = this.tree.remove(this.tree.size() - 1);
             //Manage the heap when extracting the last node.
-            else save = this.tree.get(0);
-            
+            else {
+                save = this.tree.get(0);
+                this.clean();
+                return save;
+            }
+
             //Copy the last node to the top.
             this.tree.set(save , 0);
-            
+
             //Heapify the tree by pushing the contents of the new top downward.
             ipos = 0;
             lpos = Heap.heap_left(ipos);
             rpos = Heap.heap_right(ipos);
-            
-            while(true){
+
+            while (true) {
                 //Select the child to swap with the current node.
                 lpos = heap_left(ipos);
                 rpos = heap_right(ipos);
-                
-                if(lpos < this.size() && this.comparator.compare(this.tree.get(lpos) , this.tree.get(ipos)) > 0){
+
+                if (lpos < this.size() && this.comparator.compare(this.tree.get(lpos) , this.tree.get(ipos)) > 0) {
                     mpos = lpos;
                 } else {
                     mpos = ipos;
                 }
-                
-                if(rpos < this.size() && this.comparator.compare(this.tree.get(rpos) , this.tree.get(mpos)) > 0){
+
+                if (rpos < this.size() && this.comparator.compare(this.tree.get(rpos) , this.tree.get(mpos)) > 0) {
                     mpos = rpos;
                 }
-                
+
                 //When mpos is ipos, the heap property has been restored.
-                if(mpos == ipos) break;
+                if (mpos == ipos) break;
                 else {
                     //Swap the contents of the current node and the selected child.
                     temp = this.tree.get(mpos);
                     this.tree.set(this.tree.get(ipos) , mpos);
                     this.tree.set(temp , ipos);
-                    
+
                     //Move down one level in the tree to continue heapifying.
                     ipos = mpos;
                 }
@@ -134,4 +141,10 @@ public interface Heap<D> extends Cleanable {
     public void setComparator(Comparator<D> comparator);
 
     public int size();
+
+    public static <DATA> Heap<DATA> DEFAULT_HEAP(Comparator<DATA> comparator) {
+        Heap<DATA> result = new MyHeap<DATA>();
+        result.setComparator(comparator);
+        return result;
+    }
 }
