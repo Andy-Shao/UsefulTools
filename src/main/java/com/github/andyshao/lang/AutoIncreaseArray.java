@@ -6,6 +6,16 @@ import java.util.Iterator;
 
 import com.github.andyshao.util.ArrayTools;
 
+/**
+ * 
+ * Title:<br>
+ * Descript:<br>
+ * Copyright: Copryright(c) Feb 17, 2015<br>
+ * Encoding:UNIX UTF-8
+ * @author Andy.Shao
+ *
+ * @param <D> data
+ */
 public class AutoIncreaseArray<D> implements Iterable<D> , Cleanable {
 
     private long actionAccount;
