@@ -3,6 +3,7 @@ package com.github.andyshao.data.structure;
 import java.util.ConcurrentModificationException;
 import java.util.Iterator;
 import java.util.Objects;
+import java.util.function.Function;
 
 /**
  * 
@@ -15,9 +16,8 @@ import java.util.Objects;
  *
  * @param <D> data
  */
-public interface SingleLinked<D> extends Linked<D , CycleLinkedElmt<D>> ,
-    SingleLinkedOperation<D , CycleLinkedElmt<D>> {
-    class MySingleLinked<D> implements SingleLinked<D> {
+public interface SingleLinked<D> extends Linked<D , CycleLinkedElmt<D>> , SingleLinkedOperation<D , CycleLinkedElmt<D>> {
+    public class MySingleLinked<D> implements SingleLinked<D> {
         private class MyIterator implements Iterator<D> {
             private final long actionCount = MySingleLinked.this.actionCount;
             private volatile CycleLinkedElmt<D> index = MySingleLinked.this.list_head();
@@ -38,9 +38,11 @@ public interface SingleLinked<D> extends Linked<D , CycleLinkedElmt<D>> ,
         }
 
         private long actionCount = 0;
+        private Function<D , CycleLinkedElmt<D>> cycleLinkedElmt = (data) -> {
+            return CycleLinkedElmt.DEFAULT_ELMT(data);
+        };
         private CycleLinkedElmt<D> head;
         private int size = 0;
-
         private CycleLinkedElmt<D> tail;
 
         @Override
@@ -69,6 +71,11 @@ public interface SingleLinked<D> extends Linked<D , CycleLinkedElmt<D>> ,
         }
 
         @Override
+        public Function<D , CycleLinkedElmt<D>> getCycleLinkedElmt() {
+            return this.cycleLinkedElmt;
+        }
+
+        @Override
         public int hashCode() {
             return Objects.hash(this.size() , this.list_head() , this.tail());
         }
@@ -85,7 +92,7 @@ public interface SingleLinked<D> extends Linked<D , CycleLinkedElmt<D>> ,
 
         @Override
         public void list_ins_next(CycleLinkedElmt<D> element , final D data) {
-            CycleLinkedElmt<D> new_element = CycleLinkedElmt.<D> DEFAULT_ELMT(data);
+            CycleLinkedElmt<D> new_element = this.cycleLinkedElmt.apply(data);
 
             if (element == null) {
                 //Handle insertion at the head of the list.
@@ -108,7 +115,7 @@ public interface SingleLinked<D> extends Linked<D , CycleLinkedElmt<D>> ,
 
         @Override
         public D list_rem_next(CycleLinkedElmt<D> element) {
-            CycleLinkedElmt<D> old_element = CycleLinkedElmt.<D> DEFAULT_ELMT(null);
+            CycleLinkedElmt<D> old_element = this.cycleLinkedElmt.apply(null);
             D data = null;
 
             if (this.size() == 0) throw new LinkedOperationException("Do not allow removal from an empty list.");
@@ -142,6 +149,12 @@ public interface SingleLinked<D> extends Linked<D , CycleLinkedElmt<D>> ,
         }
 
         @Override
+        public void setCycleLinkedElmt(Function<D , CycleLinkedElmt<D>> cycleLinkedElmt) {
+            if (this.actionCount != 0) throw new SecurityException("Only set this field before insert & remove.");
+            this.cycleLinkedElmt = cycleLinkedElmt;
+        }
+
+        @Override
         public int size() {
             return this.size;
         }
@@ -156,9 +169,13 @@ public interface SingleLinked<D> extends Linked<D , CycleLinkedElmt<D>> ,
         return new MySingleLinked<DATA>();
     }
 
+    public Function<D , CycleLinkedElmt<D>> getCycleLinkedElmt();
+
     @Override
     public void list_ins_next(CycleLinkedElmt<D> element , final D data);
 
     @Override
     public D list_rem_next(CycleLinkedElmt<D> element);
+
+    public void setCycleLinkedElmt(Function<D , CycleLinkedElmt<D>> cycleLinkedElmt);
 }
