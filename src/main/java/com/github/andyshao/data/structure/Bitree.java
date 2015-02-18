@@ -15,7 +15,7 @@ import com.github.andyshao.lang.Cleanable;
  *
  * @param <D> data
  */
-public interface Bitree<D> extends Cleanable , Tree<D>{
+public interface Bitree<D> extends Cleanable , Tree<D> {
     public interface BitreeNode<DATA> {
         public static <D> BitreeNode<D> DEFAULT_BITREE_NODE() {
             return new BitreeNode<D>() {
@@ -77,9 +77,7 @@ public interface Bitree<D> extends Cleanable , Tree<D>{
             this.treeNodeFactory = treeNodeFactory;
         }
 
-        public MyBitree(
-            Supplier<BitreeNode<DATA>> treeNodeFactory , Bitree<DATA> left , Bitree<DATA> right ,
-            DATA data) {
+        public MyBitree(Supplier<BitreeNode<DATA>> treeNodeFactory , Bitree<DATA> left , Bitree<DATA> right , DATA data) {
             this.treeNodeFactory = treeNodeFactory;
             this.bitree_ins_left(null , data);
 
@@ -190,6 +188,11 @@ public interface Bitree<D> extends Cleanable , Tree<D>{
         public void clean() {
             this.root = null;
             this.size = 0;
+        }
+
+        @Override
+        public Supplier<BitreeNode<DATA>> getTreeNodeFactory() {
+            return this.treeNodeFactory;
         }
 
         @Override
@@ -310,7 +313,11 @@ public interface Bitree<D> extends Cleanable , Tree<D>{
         this.bitree_rem_left(null);
     }
 
+    public Supplier<BitreeNode<D>> getTreeNodeFactory();
+
+    @Override
     public BitreeNode<D> root();
 
+    @Override
     public int size();
 }

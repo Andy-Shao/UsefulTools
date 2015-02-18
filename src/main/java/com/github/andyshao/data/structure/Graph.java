@@ -1,5 +1,10 @@
 package com.github.andyshao.data.structure;
 
+import java.util.Comparator;
+import java.util.HashSet;
+import java.util.function.Supplier;
+
+import com.github.andyshao.data.structure.convert.SetConvert;
 import com.github.andyshao.lang.Cleanable;
 
 /**
@@ -16,9 +21,9 @@ import com.github.andyshao.lang.Cleanable;
 public interface Graph<D> extends Cleanable {
 
     public interface AdjList<DATA> {
-        public static <D> AdjList<D> DEFAULT_ADJ_LIST(SetFactory<D> setFactory) {
+        public static <D> AdjList<D> DEFAULT_ADJ_LIST(Supplier<Set<D>> setFactory) {
             return new AdjList<D>() {
-                private final Set<D> adjacent = setFactory.build();
+                private final Set<D> adjacent = setFactory.get();
                 private D vertex;
 
                 @Override
@@ -46,43 +51,55 @@ public interface Graph<D> extends Cleanable {
     }
 
     public class MyGraph<DATA> implements Graph<DATA> {
+        private long actionAcount;
+        protected Supplier<AdjList<DATA>> adjListFactory = () -> {
+            return AdjList.DEFAULT_ADJ_LIST(() -> {
+                return new SetConvert<DATA>().convert(new HashSet<DATA>());
+            });
+        };
         protected SingleLinked<AdjList<DATA>> adjlists;
+        private final Comparator<DATA> comparator;
         protected int ecount;
-        protected final SingleLinkedFactory<AdjList<DATA>> singleLinkedFactory;
+        protected final Supplier<SingleLinked<AdjList<DATA>>> singleLinkedFactory;
         protected int vcount;
 
-        public MyGraph(SingleLinkedFactory<AdjList<DATA>> singleLinkedFactory) {
+        public MyGraph(Comparator<DATA> comparator , Supplier<SingleLinked<AdjList<DATA>>> singleLinkedFactory) {
             this.singleLinkedFactory = singleLinkedFactory;
-            this.adjlists = this.singleLinkedFactory.build();
+            this.comparator = comparator;
+            this.adjlists = this.singleLinkedFactory.get();
             this.vcount = 0;
             this.ecount = 0;
+            this.actionAcount = 0;
         }
 
         @Override
         public void clean() {
-            // TODO Auto-generated method stub
             this.vcount = 0;
             this.ecount = 0;
             this.adjlists.clean();
+            this.actionAcount++;
         }
 
         @Override
-        public com.github.andyshao.data.structure.Graph.AdjList<DATA> graph_adjlist(
-            DATA data , com.github.andyshao.data.structure.Graph.AdjList<DATA> adjList) {
+        public Supplier<AdjList<DATA>> getAdjListFactory() {
+            return this.adjListFactory;
+        }
+
+        @Override
+        public Graph.AdjList<DATA> graph_adjlist(DATA data , Graph.AdjList<DATA> adjList) {
             // TODO Auto-generated method stub
             return null;
         }
 
         @Override
-        public SingleLinked<com.github.andyshao.data.structure.Graph.AdjList<DATA>> graph_adjlists() {
+        public SingleLinked<Graph.AdjList<DATA>> graph_adjlists() {
             // TODO Auto-generated method stub
             return null;
         }
 
         @Override
         public int graph_ecount() {
-            // TODO Auto-generated method stub
-            return 0;
+            return this.ecount;
         }
 
         @Override
@@ -94,7 +111,11 @@ public interface Graph<D> extends Cleanable {
         @Override
         public void graph_ins_vertex(DATA data) {
             // TODO Auto-generated method stub
+            CycleLinkedElmt<DATA> element;
+            AdjList<DATA> adjlist;
+            int retval;
 
+            //Do not allow the insertion of duplicate vertices.
         }
 
         @Override
@@ -111,21 +132,27 @@ public interface Graph<D> extends Cleanable {
 
         @Override
         public int graph_vcount() {
-            // TODO Auto-generated method stub
-            return 0;
+            return this.vcount;
         }
 
         @Override
         public boolean match(DATA data1 , DATA data2) {
-            // TODO Auto-generated method stub
-            return false;
+            if (this.comparator.compare(data1 , data2) == 0) return true;
+            else return false;
         }
 
+        @Override
+        public void setAdjListFactory(Supplier<Graph.AdjList<DATA>> adjListFactory) {
+            if (this.actionAcount != 0) throw new SecurityException("Only could set field before insert & remove.");
+            this.adjListFactory = adjListFactory;
+        }
     }
 
     public enum VertexColor {
         BLACK , GRAY , WHITE
     }
+
+    public Supplier<AdjList<D>> getAdjListFactory();
 
     public AdjList<D> graph_adjlist(final D data , AdjList<D> adjList);
 
@@ -144,4 +171,6 @@ public interface Graph<D> extends Cleanable {
     public int graph_vcount();
 
     public boolean match(D data1 , D data2);
+
+    public void setAdjListFactory(Supplier<AdjList<D>> adjListFactory);
 }
