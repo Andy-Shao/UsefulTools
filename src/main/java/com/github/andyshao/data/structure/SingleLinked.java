@@ -15,12 +15,12 @@ import java.util.Objects;
  *
  * @param <D> data
  */
-public interface SingleLinked<D> extends Linked<D , SingleLinked.SingleLinkedElmt<D>> ,
-    SingleLinkedOperation<D , SingleLinked.SingleLinkedElmt<D>> {
+public interface SingleLinked<D> extends Linked<D , CycleLinkedElmt<D>> ,
+    SingleLinkedOperation<D , CycleLinkedElmt<D>> {
     class MySingleLinked<D> implements SingleLinked<D> {
         private class MyIterator implements Iterator<D> {
             private final long actionCount = MySingleLinked.this.actionCount;
-            private volatile SingleLinked.SingleLinkedElmt<D> index = MySingleLinked.this.list_head();
+            private volatile CycleLinkedElmt<D> index = MySingleLinked.this.list_head();
 
             @Override
             public boolean hasNext() {
@@ -30,7 +30,7 @@ public interface SingleLinked<D> extends Linked<D , SingleLinked.SingleLinkedElm
 
             @Override
             public D next() {
-                SingleLinked.SingleLinkedElmt<D> result = this.index;
+                CycleLinkedElmt<D> result = this.index;
                 this.index = this.index.list_next();
                 return result.list_Data();
             }
@@ -38,10 +38,10 @@ public interface SingleLinked<D> extends Linked<D , SingleLinked.SingleLinkedElm
         }
 
         private long actionCount = 0;
-        private SingleLinkedElmt<D> head;
+        private CycleLinkedElmt<D> head;
         private int size = 0;
 
-        private SingleLinkedElmt<D> tail;
+        private CycleLinkedElmt<D> tail;
 
         @Override
         public void clean() {
@@ -79,13 +79,13 @@ public interface SingleLinked<D> extends Linked<D , SingleLinked.SingleLinkedElm
         }
 
         @Override
-        public SingleLinked.SingleLinkedElmt<D> list_head() {
+        public CycleLinkedElmt<D> list_head() {
             return this.head;
         }
 
         @Override
-        public void list_ins_next(SingleLinked.SingleLinkedElmt<D> element , final D data) {
-            SingleLinked.SingleLinkedElmt<D> new_element = SingleLinked.SingleLinkedElmt.<D> DEFAULT_ELMT(data);
+        public void list_ins_next(CycleLinkedElmt<D> element , final D data) {
+            CycleLinkedElmt<D> new_element = CycleLinkedElmt.<D> DEFAULT_ELMT(data);
 
             if (element == null) {
                 //Handle insertion at the head of the list.
@@ -107,8 +107,8 @@ public interface SingleLinked<D> extends Linked<D , SingleLinked.SingleLinkedElm
         }
 
         @Override
-        public D list_rem_next(SingleLinked.SingleLinkedElmt<D> element) {
-            SingleLinked.SingleLinkedElmt<D> old_element = SingleLinked.SingleLinkedElmt.<D> DEFAULT_ELMT(null);
+        public D list_rem_next(CycleLinkedElmt<D> element) {
+            CycleLinkedElmt<D> old_element = CycleLinkedElmt.<D> DEFAULT_ELMT(null);
             D data = null;
 
             if (this.size() == 0) throw new LinkedOperationException("Do not allow removal from an empty list.");
@@ -147,56 +147,8 @@ public interface SingleLinked<D> extends Linked<D , SingleLinked.SingleLinkedElm
         }
 
         @Override
-        public SingleLinked.SingleLinkedElmt<D> tail() {
+        public CycleLinkedElmt<D> tail() {
             return this.tail;
-        }
-    }
-
-    public interface SingleLinkedElmt<D> extends Linked.LinkedElmt<D , SingleLinkedElmt<D>> {
-        public static <DATA> SingleLinkedElmt<DATA> DEFAULT_ELMT(DATA data) {
-            SingleLinkedElmt<DATA> result = new SingleLinkedElmt<DATA>() {
-                private DATA data;
-                private SingleLinkedElmt<DATA> next;
-
-                @SuppressWarnings("unchecked")
-                @Override
-                public boolean equals(Object obj) {
-                    SingleLinkedElmt<DATA> that;
-                    if (obj instanceof SingleLinkedElmt) {
-                        that = (SingleLinkedElmt<DATA>) obj;
-                        return Objects.equals(this.list_Data() , that.list_Data())
-                            && Objects.equals(this.list_next() , that.list_next());
-                    } else return false;
-                }
-
-                @Override
-                public int hashCode() {
-                    return Objects.hash(this.list_Data() , this.list_next());
-                }
-
-                @Override
-                public DATA list_Data() {
-                    return this.data;
-                }
-
-                @Override
-                public SingleLinkedElmt<DATA> list_next() {
-                    return this.next;
-                }
-
-                @Override
-                public void setData(DATA data) {
-                    this.data = data;
-                }
-
-                @Override
-                public void setNext(SingleLinkedElmt<DATA> next) {
-                    this.next = next;
-                }
-            };
-            result.setData(data);
-
-            return result;
         }
     }
 
@@ -205,8 +157,8 @@ public interface SingleLinked<D> extends Linked<D , SingleLinked.SingleLinkedElm
     }
 
     @Override
-    public void list_ins_next(SingleLinkedElmt<D> element , final D data);
+    public void list_ins_next(CycleLinkedElmt<D> element , final D data);
 
     @Override
-    public D list_rem_next(SingleLinkedElmt<D> element);
+    public D list_rem_next(CycleLinkedElmt<D> element);
 }

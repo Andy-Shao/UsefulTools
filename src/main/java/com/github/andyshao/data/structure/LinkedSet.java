@@ -13,7 +13,7 @@ import java.util.Iterator;
  *
  * @param <D> data
  */
-public interface LinkedSet<D> extends Linked<D , SingleLinked.SingleLinkedElmt<D>> , Set<D> {
+public interface LinkedSet<D> extends Linked<D , CycleLinkedElmt<D>>, Set<D>{
 
     public static <DATA> LinkedSet<DATA> DEFAULT_SET(final SingleLinked<DATA> linked) {
         return new LinkedSet<DATA>() {
@@ -38,7 +38,7 @@ public interface LinkedSet<D> extends Linked<D , SingleLinked.SingleLinkedElmt<D
             @Override
             public int hashCode() {
                 int result = 0;
-                for (SingleLinked.SingleLinkedElmt<DATA> member = this.list_head() ; member != null ; member =
+                for (CycleLinkedElmt<DATA> member = this.list_head() ; member != null ; member =
                     member.list_next())
                     result += member.hashCode();
                 return result;
@@ -50,7 +50,7 @@ public interface LinkedSet<D> extends Linked<D , SingleLinked.SingleLinkedElmt<D
             }
 
             @Override
-            public SingleLinked.SingleLinkedElmt<DATA> list_head() {
+            public CycleLinkedElmt<DATA> list_head() {
                 return linked.list_head();
             }
 
@@ -65,7 +65,7 @@ public interface LinkedSet<D> extends Linked<D , SingleLinked.SingleLinkedElmt<D
 
             @Override
             public boolean set_is_member(DATA data) {
-                SingleLinked.SingleLinkedElmt<DATA> member;
+                CycleLinkedElmt<DATA> member;
 
                 //Determine if the data is a member of the set.
                 for (member = this.list_head() ; member != null ; member = member.list_next())
@@ -76,7 +76,7 @@ public interface LinkedSet<D> extends Linked<D , SingleLinked.SingleLinkedElmt<D
 
             @Override
             public boolean set_is_subset(Set<DATA> set1) {
-                SingleLinked.SingleLinkedElmt<DATA> member;
+                CycleLinkedElmt<DATA> member;
 
                 //Do a quick test to rule out some cases.
                 if (this.size() > set1.size()) return false;
@@ -89,7 +89,7 @@ public interface LinkedSet<D> extends Linked<D , SingleLinked.SingleLinkedElmt<D
 
             @Override
             public void set_remove(DATA data) {
-                SingleLinked.SingleLinkedElmt<DATA> member , prev;
+                CycleLinkedElmt<DATA> member , prev;
 
                 //Find the member to remove.
                 prev = null;
@@ -112,7 +112,7 @@ public interface LinkedSet<D> extends Linked<D , SingleLinked.SingleLinkedElmt<D
             }
 
             @Override
-            public SingleLinked.SingleLinkedElmt<DATA> tail() {
+            public CycleLinkedElmt<DATA> tail() {
                 return linked.tail();
             }
         };

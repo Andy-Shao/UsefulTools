@@ -2,7 +2,6 @@ package com.github.andyshao.data.structure;
 
 import java.util.ConcurrentModificationException;
 import java.util.Iterator;
-import java.util.Objects;
 
 /**
  * 
@@ -15,63 +14,62 @@ import java.util.Objects;
  *
  * @param <D> data
  */
-public interface CycleLinked<D> extends Linked<D , CycleLinked.CycleLinkedElmt<D>> ,
-    SingleLinkedOperation<D , CycleLinked.CycleLinkedElmt<D>> {
+public interface CycleLinked<D> extends Linked<D , CycleLinkedElmt<D>> , SingleLinkedOperation<D , CycleLinkedElmt<D>> {
 
-    public interface CycleLinkedElmt<DATA> extends Linked.LinkedElmt<DATA , CycleLinked.CycleLinkedElmt<DATA>> {
-        public static <DAT> CycleLinked.CycleLinkedElmt<DAT> DEFAULT_CYCLE_ELMT(DAT data) {
-            CycleLinked.CycleLinkedElmt<DAT> result = new CycleLinked.CycleLinkedElmt<DAT>() {
-                private DAT data;
-                private CycleLinked.CycleLinkedElmt<DAT> next;
-
-                @SuppressWarnings("unchecked")
-                @Override
-                public boolean equals(Object obj) {
-                    CycleLinked.CycleLinkedElmt<DAT> that;
-                    if (obj instanceof CycleLinked.CycleLinkedElmt) {
-                        that = (CycleLinkedElmt<DAT>) obj;
-                        if (this.next == this) return Objects.equals(this.data , that.list_Data());
-                        else return Objects.equals(this.data , that.list_Data())
-                            && Objects.equals(this.next , that.list_next());
-                    } else return false;
-                }
-
-                @Override
-                public int hashCode() {
-                    if (this.next == this) return this.data.hashCode();
-                    else return Objects.hash(this.data , this.next);
-                }
-
-                @Override
-                public DAT list_Data() {
-                    return this.data;
-                }
-
-                @Override
-                public CycleLinkedElmt<DAT> list_next() {
-                    return this.next;
-                }
-
-                @Override
-                public void setData(DAT data) {
-                    this.data = data;
-                }
-
-                @Override
-                public void setNext(CycleLinkedElmt<DAT> next) {
-                    this.next = next;
-                }
-            };
-            result.setData(data);
-
-            return result;
-        }
-    }
+    //    public interface CycleLinkedElmt<DATA> extends Linked.LinkedElmt<DATA , CycleLinked.CycleLinkedElmt<DATA>> {
+    //        public static <DAT> CycleLinked.CycleLinkedElmt<DAT> DEFAULT_CYCLE_ELMT(DAT data) {
+    //            CycleLinked.CycleLinkedElmt<DAT> result = new CycleLinked.CycleLinkedElmt<DAT>() {
+    //                private DAT data;
+    //                private CycleLinked.CycleLinkedElmt<DAT> next;
+    //
+    //                @SuppressWarnings("unchecked")
+    //                @Override
+    //                public boolean equals(Object obj) {
+    //                    CycleLinked.CycleLinkedElmt<DAT> that;
+    //                    if (obj instanceof CycleLinked.CycleLinkedElmt) {
+    //                        that = (CycleLinkedElmt<DAT>) obj;
+    //                        if (this.next == this) return Objects.equals(this.data , that.list_Data());
+    //                        else return Objects.equals(this.data , that.list_Data())
+    //                            && Objects.equals(this.next , that.list_next());
+    //                    } else return false;
+    //                }
+    //
+    //                @Override
+    //                public int hashCode() {
+    //                    if (this.next == this) return this.data.hashCode();
+    //                    else return Objects.hash(this.data , this.next);
+    //                }
+    //
+    //                @Override
+    //                public DAT list_Data() {
+    //                    return this.data;
+    //                }
+    //
+    //                @Override
+    //                public CycleLinkedElmt<DAT> list_next() {
+    //                    return this.next;
+    //                }
+    //
+    //                @Override
+    //                public void setData(DAT data) {
+    //                    this.data = data;
+    //                }
+    //
+    //                @Override
+    //                public void setNext(CycleLinkedElmt<DAT> next) {
+    //                    this.next = next;
+    //                }
+    //            };
+    //            result.setData(data);
+    //
+    //            return result;
+    //        }
+    //    }
 
     public static <DATA> CycleLinked<DATA> DEFAULT_CYCLE_LINKED() {
         return new CycleLinked<DATA>() {
             private long actionAccount = 0;
-            private CycleLinked.CycleLinkedElmt<DATA> head;
+            private CycleLinkedElmt<DATA> head;
             private int size;
 
             @Override
@@ -111,14 +109,13 @@ public interface CycleLinked<D> extends Linked<D , CycleLinked.CycleLinkedElmt<D
             }
 
             @Override
-            public CycleLinked.CycleLinkedElmt<DATA> list_head() {
+            public CycleLinkedElmt<DATA> list_head() {
                 return this.head;
             }
 
             @Override
-            public void list_ins_next(CycleLinked.CycleLinkedElmt<DATA> element , final DATA data) {
-                CycleLinked.CycleLinkedElmt<DATA> new_element =
-                    CycleLinked.CycleLinkedElmt.<DATA> DEFAULT_CYCLE_ELMT(data);
+            public void list_ins_next(CycleLinkedElmt<DATA> element , final DATA data) {
+                CycleLinkedElmt<DATA> new_element = CycleLinkedElmt.<DATA> DEFAULT_ELMT(data);
 
                 if (this.size == 0) {
                     //Handle insertion when the list is empty.
@@ -139,9 +136,8 @@ public interface CycleLinked<D> extends Linked<D , CycleLinked.CycleLinkedElmt<D
             }
 
             @Override
-            public DATA list_rem_next(CycleLinked.CycleLinkedElmt<DATA> element) {
-                CycleLinked.CycleLinkedElmt<DATA> old_element =
-                    CycleLinked.CycleLinkedElmt.<DATA> DEFAULT_CYCLE_ELMT(null);
+            public DATA list_rem_next(CycleLinkedElmt<DATA> element) {
+                CycleLinkedElmt<DATA> old_element = CycleLinkedElmt.<DATA> DEFAULT_ELMT(null);
                 DATA data = null;
 
                 //Do not allow removal from an empty list.
@@ -177,7 +173,7 @@ public interface CycleLinked<D> extends Linked<D , CycleLinked.CycleLinkedElmt<D
             }
 
             @Override
-            public CycleLinked.CycleLinkedElmt<DATA> tail() {
+            public CycleLinkedElmt<DATA> tail() {
                 return this.head;
             }
 
@@ -185,8 +181,8 @@ public interface CycleLinked<D> extends Linked<D , CycleLinked.CycleLinkedElmt<D
     }
 
     @Override
-    public void list_ins_next(CycleLinked.CycleLinkedElmt<D> element , final D data);
+    public void list_ins_next(CycleLinkedElmt<D> element , final D data);
 
     @Override
-    public D list_rem_next(CycleLinked.CycleLinkedElmt<D> element);
+    public D list_rem_next(CycleLinkedElmt<D> element);
 }

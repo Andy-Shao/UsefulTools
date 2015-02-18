@@ -18,11 +18,11 @@ public class QueueTest {
         return Arrays.asList(new Object[][] {
             {
                 Queue
-                    .<String , SingleLinked.SingleLinkedElmt<String> , SingleLinked<String>> DEFAULT_QUEUE(SingleLinked
+                    .<String , CycleLinkedElmt<String> , SingleLinked<String>> DEFAULT_QUEUE(SingleLinked
                         .DEFAULT_SINGLE_LINKED())
             } ,
             {
-                Queue.<String , CycleLinked.CycleLinkedElmt<String> , CycleLinked<String>> DEFAULT_QUEUE(CycleLinked
+                Queue.<String , CycleLinkedElmt<String> , CycleLinked<String>> DEFAULT_QUEUE(CycleLinked
                     .DEFAULT_CYCLE_LINKED())
             }
         });

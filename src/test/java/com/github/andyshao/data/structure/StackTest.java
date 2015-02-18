@@ -17,11 +17,11 @@ public class StackTest {
         return Arrays.asList(new Object[][] {
             {
                 Stack
-                    .<String , SingleLinked.SingleLinkedElmt<String> , SingleLinked<String>> DEFAULT_STACK(SingleLinked
+                    .<String , CycleLinkedElmt<String> , SingleLinked<String>> DEFAULT_STACK(SingleLinked
                         .DEFAULT_SINGLE_LINKED())
             } ,
             {
-                Stack.<String , CycleLinked.CycleLinkedElmt<String> , CycleLinked<String>> DEFAULT_STACK(CycleLinked
+                Stack.<String , CycleLinkedElmt<String> , CycleLinked<String>> DEFAULT_STACK(CycleLinked
                     .DEFAULT_CYCLE_LINKED())
             }
         });
