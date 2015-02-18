@@ -21,7 +21,7 @@ public interface Heap<D> extends Cleanable {
         private Comparator<DATA> comparator = (obj1 , obj2) -> {
             return 0;
         };
-        private AutoIncreaseArray<DATA> tree = new AutoIncreaseArray<DATA>();
+        protected AutoIncreaseArray<DATA> tree = new AutoIncreaseArray<DATA>();
 
         @Override
         public void clean() {
