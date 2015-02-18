@@ -1,5 +1,7 @@
 package com.github.andyshao.data.structure;
 
+import java.util.function.Supplier;
+
 import com.github.andyshao.lang.Cleanable;
 
 /**
@@ -69,14 +71,14 @@ public interface Bitree<D> extends Cleanable , Tree<D>{
     public class MyBitree<DATA> implements Bitree<DATA> {
         protected BitreeNode<DATA> root;
         protected int size;
-        protected final TreeNodeFactory<DATA , BitreeNode<DATA>> treeNodeFactory;
+        protected final Supplier<BitreeNode<DATA>> treeNodeFactory;
 
-        public MyBitree(TreeNodeFactory<DATA , BitreeNode<DATA>> treeNodeFactory) {
+        public MyBitree(Supplier<BitreeNode<DATA>> treeNodeFactory) {
             this.treeNodeFactory = treeNodeFactory;
         }
 
         public MyBitree(
-            TreeNodeFactory<DATA , BitreeNode<DATA>> treeNodeFactory , Bitree<DATA> left , Bitree<DATA> right ,
+            Supplier<BitreeNode<DATA>> treeNodeFactory , Bitree<DATA> left , Bitree<DATA> right ,
             DATA data) {
             this.treeNodeFactory = treeNodeFactory;
             this.bitree_ins_left(null , data);
@@ -101,7 +103,7 @@ public interface Bitree<D> extends Cleanable , Tree<D>{
             if (node.left() != null) throw new TreeChildNodeNotEmptyException("the left of node's is not empty");
 
             //Allocate storage for the node.
-            new_node = this.treeNodeFactory.build();
+            new_node = this.treeNodeFactory.get();
 
             //Insert the node into the tree.
             new_node.data(data);
@@ -126,7 +128,7 @@ public interface Bitree<D> extends Cleanable , Tree<D>{
                 "the right child of node's is not null");
 
             //Allocate storage for the node.
-            new_node = this.treeNodeFactory.build();
+            new_node = this.treeNodeFactory.get();
             new_node.data(data);
             new_node.left(null);
             new_node.right(null);
@@ -211,11 +213,11 @@ public interface Bitree<D> extends Cleanable , Tree<D>{
     }
 
     public static <DATA> Bitree<DATA> BITREE_MERGE(
-        TreeNodeFactory<DATA , BitreeNode<DATA>> treeNodeFactory , Bitree<DATA> left , Bitree<DATA> right , DATA data) {
+        Supplier<BitreeNode<DATA>> treeNodeFactory , Bitree<DATA> left , Bitree<DATA> right , DATA data) {
         return new Bitree.MyBitree<>(treeNodeFactory , left , right , data);
     }
 
-    public static <DATA> Bitree<DATA> DEFAULT_BIT_TREE(TreeNodeFactory<DATA , BitreeNode<DATA>> treeNodeFactory) {
+    public static <DATA> Bitree<DATA> DEFAULT_BIT_TREE(Supplier<BitreeNode<DATA>> treeNodeFactory) {
         return new Bitree.MyBitree<>(treeNodeFactory);
     }
 
