@@ -12,6 +12,7 @@ import com.github.andyshao.util.ArrayTools;
  * Descript:<br>
  * Copyright: Copryright(c) Feb 17, 2015<br>
  * Encoding:UNIX UTF-8
+ * 
  * @author Andy.Shao
  *
  * @param <D> data
@@ -37,8 +38,14 @@ public class AutoIncreaseArray<D> implements Iterable<D> , Cleanable {
         this.size = 0;
     }
 
+    /**
+     * add the data in the head.
+     * 
+     * @param data information
+     * @return the index which storage the data.
+     */
     @SuppressWarnings("unchecked")
-    public void addHead(D data) {
+    public int addHead(D data) {
         if (data == null) throw new NullPointerException();
         if (this.array == null) this.array = (D[]) Array.newInstance(data.getClass() , this.arraySize);
 
@@ -49,10 +56,17 @@ public class AutoIncreaseArray<D> implements Iterable<D> , Cleanable {
         else this.array[--this.start] = data;
         this.actionAccount++;
         this.size++;
+        return this.size - 1;
     }
 
+    /**
+     * add the data in the tail.
+     * 
+     * @param data information
+     * @return the index which storage the data.
+     */
     @SuppressWarnings("unchecked")
-    public void addTail(D data) {
+    public int addTail(D data) {
         if (data == null) throw new NullPointerException();
         if (this.array == null) this.array = (D[]) Array.newInstance(data.getClass() , this.arraySize);
 
@@ -63,6 +77,7 @@ public class AutoIncreaseArray<D> implements Iterable<D> , Cleanable {
         else this.array[++this.end] = data;
         this.actionAccount++;
         this.size++;
+        return this.size - 1;
     }
 
     @Override

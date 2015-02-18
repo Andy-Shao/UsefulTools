@@ -8,7 +8,7 @@ import com.github.andyshao.lang.Cleanable;
 /**
  * 
  * Title:<br>
- * Descript:<br>
+ * Descript: the default sequence is from the smallest item to the biggest item.<br>
  * Copyright: Copryright(c) Feb 17, 2015<br>
  * Encoding:UNIX UTF-8
  * 
@@ -29,7 +29,7 @@ public interface Heap<D> extends Cleanable {
         }
 
         @Override
-        public DATA heap_extract(DATA data) {
+        public DATA heap_extract() {
             int ipos , lpos , rpos , mpos;
             DATA result = null , save , temp;
 
@@ -60,13 +60,13 @@ public interface Heap<D> extends Cleanable {
                 lpos = heap_left(ipos);
                 rpos = heap_right(ipos);
 
-                if (lpos < this.size() && this.comparator.compare(this.tree.get(lpos) , this.tree.get(ipos)) > 0) {
+                if (lpos < this.size() && this.comparator.compare(this.tree.get(lpos) , this.tree.get(ipos)) < 0) {
                     mpos = lpos;
                 } else {
                     mpos = ipos;
                 }
 
-                if (rpos < this.size() && this.comparator.compare(this.tree.get(rpos) , this.tree.get(mpos)) > 0) {
+                if (rpos < this.size() && this.comparator.compare(this.tree.get(rpos) , this.tree.get(mpos)) < 0) {
                     mpos = rpos;
                 }
 
@@ -92,13 +92,12 @@ public interface Heap<D> extends Cleanable {
             DATA temp;
 
             //Insert the node after the last node.
-            this.tree.addTail(data);
+            ipos = this.tree.addTail(data);
 
             //Heapify the tree by pushing the contents of the new node upward.
-            ipos = this.size();
             ppos = Heap.heap_parent(ipos);
 
-            while (ipos > 0 && this.comparator.compare(this.tree.get(ppos) , this.tree.get(ipos)) < 0) {
+            while (ipos > 0 && this.comparator.compare(this.tree.get(ppos) , this.tree.get(ipos)) > 0) {
                 //Swap the contents of the current node and its parent.
                 temp = this.tree.get(ppos);
                 this.tree.set(this.tree.get(ipos) , ppos);
@@ -134,7 +133,7 @@ public interface Heap<D> extends Cleanable {
         return (npos * 2) + 2;
     }
 
-    public D heap_extract(final D data);
+    public D heap_extract();
 
     public void heap_insert(final D data);
 
