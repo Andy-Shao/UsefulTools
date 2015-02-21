@@ -108,19 +108,40 @@ public interface Graph<D> extends Cleanable {
             CycleLinkedElmt<AdjList<DATA>> element;
 
             //Do not allow insertion of an edge without both its vertices in the graph.
-            for (element = this.adjlists.head() ; element != null ; element = element.next())
-                if (this.match(data2 , element.data().vertex())) throw new GraphOperationException();
+            element = this.search(data2);
+            if (element == null) throw new GraphOperationException("Can't find out the data2 (" + data2
+                + ") in the graph.");
+
+            element = this.search(data1);
+            if (element == null) throw new GraphOperationException("Can't find out the data1 (" + data1
+                + ") in the graph.");
+
+            //Insert the second vertex into the adjacency list of the first vertex.
+            element.data().adjacent().set_insert(data2);
+
+            //Adjust the edge count to account for the inserted edge.
+            this.ecount++;
+        }
+
+        private CycleLinkedElmt<AdjList<DATA>> search(DATA data) {
+            CycleLinkedElmt<AdjList<DATA>> result = null;
+
+            for (CycleLinkedElmt<AdjList<DATA>> element = adjlists.head() ; element != null ; element = element.next())
+                if (this.match(data , element.data().vertex())) {
+                    result = element;
+                    break;
+                }
+
+            return result;
         }
 
         @Override
         public void graph_ins_vertex(DATA data) {
-            CycleLinkedElmt<AdjList<DATA>> element;
             AdjList<DATA> adjlist;
 
             //Do not allow the insertion of duplicate vertices.
-            for (element = this.adjlists.head() ; element != null ; element = element.next())
-                if (this.match(data , element.data().vertex())) throw new GraphOperationException(
-                    "the data is recurring.");
+            if (this.search(data) != null) throw new GraphOperationException(
+                "Do not allow the insertion of duplicate vertices.");
 
             //Insert the vertex.
             adjlist = this.adjListFactory.get();
