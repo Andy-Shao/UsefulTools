@@ -13,7 +13,7 @@ import java.util.Iterator;
  *
  * @param <D> data
  */
-public interface LinkedSet<D> extends Linked<D , CycleLinkedElmt<D>>, Set<D>{
+public interface LinkedSet<D> extends Linked<D , CycleLinkedElmt<D>> , Set<D> {
 
     public static <DATA> LinkedSet<DATA> DEFAULT_SET(final SingleLinked<DATA> linked) {
         return new LinkedSet<DATA>() {
@@ -38,20 +38,19 @@ public interface LinkedSet<D> extends Linked<D , CycleLinkedElmt<D>>, Set<D>{
             @Override
             public int hashCode() {
                 int result = 0;
-                for (CycleLinkedElmt<DATA> member = this.list_head() ; member != null ; member =
-                    member.list_next())
+                for (CycleLinkedElmt<DATA> member = this.head() ; member != null ; member = member.next())
                     result += member.hashCode();
                 return result;
             }
 
             @Override
-            public Iterator<DATA> iterator() {
-                return linked.iterator();
+            public CycleLinkedElmt<DATA> head() {
+                return linked.head();
             }
 
             @Override
-            public CycleLinkedElmt<DATA> list_head() {
-                return linked.list_head();
+            public Iterator<DATA> iterator() {
+                return linked.iterator();
             }
 
             @Override
@@ -68,7 +67,7 @@ public interface LinkedSet<D> extends Linked<D , CycleLinkedElmt<D>>, Set<D>{
                 CycleLinkedElmt<DATA> member;
 
                 //Determine if the data is a member of the set.
-                for (member = this.list_head() ; member != null ; member = member.list_next())
+                for (member = this.head() ; member != null ; member = member.next())
                     if (member.list_Data().equals(data)) return true;
 
                 return false;
@@ -82,7 +81,7 @@ public interface LinkedSet<D> extends Linked<D , CycleLinkedElmt<D>>, Set<D>{
                 if (this.size() > set1.size()) return false;
 
                 //Determine if set1 is a subset of set2.
-                for (member = this.list_head() ; member != null ; member = member.list_next())
+                for (member = this.head() ; member != null ; member = member.next())
                     if (!set1.set_is_member(member.list_Data())) return false;
                 return true;
             }
@@ -94,7 +93,7 @@ public interface LinkedSet<D> extends Linked<D , CycleLinkedElmt<D>>, Set<D>{
                 //Find the member to remove.
                 prev = null;
 
-                for (member = linked.list_head() ; member != null ; member = member.list_next()) {
+                for (member = linked.head() ; member != null ; member = member.next()) {
                     if (member.list_Data().equals(data)) break;
                     prev = member;
                 }

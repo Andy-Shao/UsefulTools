@@ -30,7 +30,7 @@ public interface DoubleLinked<D> extends Linked<D , DoubleLinked.DoubleLinkedElm
                     if (obj instanceof DoubleLinkedElmt) {
                         that = (DoubleLinkedElmt<DATA>) obj;
                         return Objects.equals(this.list_Data() , that.list_Data())
-                            && Objects.equals(this.list_next() , that.list_next())
+                            && Objects.equals(this.next() , that.next())
                             && Objects.equals(this.getPrev() , that.getPrev());
                     } else return false;
                 }
@@ -42,7 +42,7 @@ public interface DoubleLinked<D> extends Linked<D , DoubleLinked.DoubleLinkedElm
 
                 @Override
                 public int hashCode() {
-                    return Objects.hash(this.list_Data() , this.getPrev() , this.list_next());
+                    return Objects.hash(this.list_Data() , this.getPrev() , this.next());
                 }
 
                 @Override
@@ -51,7 +51,7 @@ public interface DoubleLinked<D> extends Linked<D , DoubleLinked.DoubleLinkedElm
                 }
 
                 @Override
-                public DoubleLinkedElmt<DATA> list_next() {
+                public DoubleLinkedElmt<DATA> next() {
                     return this.next;
                 }
 
@@ -82,10 +82,10 @@ public interface DoubleLinked<D> extends Linked<D , DoubleLinked.DoubleLinkedElm
 
     public static <DATA> DoubleLinked<DATA> DEFAULT_DOUBLE_LINKED() {
         return new DoubleLinked<DATA>() {
+            private long actionCount = 0;
             private DoubleLinked.DoubleLinkedElmt<DATA> head;
             private int size;
             private DoubleLinked.DoubleLinkedElmt<DATA> tail;
-            private long actionCount = 0;
 
             @Override
             public void clean() {
@@ -111,11 +111,11 @@ public interface DoubleLinked<D> extends Linked<D , DoubleLinked.DoubleLinkedElm
                     this.tail = new_element;
                 } else {
                     //Handle insertion when the list is not empty.
-                    new_element.setNext(element.list_next());
+                    new_element.setNext(element.next());
                     new_element.setPrev(element);
 
-                    if (element.list_next() == null) this.tail = new_element;
-                    else element.list_next().setPrev(new_element);
+                    if (element.next() == null) this.tail = new_element;
+                    else element.next().setPrev(new_element);
 
                     element.setNext(new_element);
                 }
@@ -170,10 +170,10 @@ public interface DoubleLinked<D> extends Linked<D , DoubleLinked.DoubleLinkedElm
 
                 if (element.equals(this.head)) {
                     //Handle removal from the head of the list.
-                    this.head = element.list_next();
+                    this.head = element.next();
 
                     if (this.head == null) this.tail = null;
-                    else element.list_next().setPrev(null);
+                    else element.next().setPrev(null);
                 }
 
                 //Free the storage allocated by the abstract datatype.
@@ -192,7 +192,7 @@ public interface DoubleLinked<D> extends Linked<D , DoubleLinked.DoubleLinkedElm
                 DoubleLinked<DATA> that;
                 if (obj instanceof DoubleLinked) {
                     that = (DoubleLinked<DATA>) obj;
-                    return this.size == that.size() && Objects.equals(this.list_head() , that.list_head())
+                    return this.size == that.size() && Objects.equals(this.head() , that.head())
                         && Objects.equals(this.tail() , that.tail());
                 } else return false;
             }
@@ -203,11 +203,16 @@ public interface DoubleLinked<D> extends Linked<D , DoubleLinked.DoubleLinkedElm
             }
 
             @Override
+            public DoubleLinked.DoubleLinkedElmt<DATA> head() {
+                return this.head;
+            }
+
+            @Override
             public Iterator<DATA> iterator() {
                 // TODO Auto-generated method stub
                 return new Iterator<DATA>() {
-                    private final long myActioncount = actionCount;
                     private DoubleLinked.DoubleLinkedElmt<DATA> index = head;
+                    private final long myActioncount = actionCount;
 
                     @Override
                     public boolean hasNext() {
@@ -218,15 +223,10 @@ public interface DoubleLinked<D> extends Linked<D , DoubleLinked.DoubleLinkedElm
                     @Override
                     public DATA next() {
                         DoubleLinked.DoubleLinkedElmt<DATA> result = this.index;
-                        this.index = this.index.list_next();
+                        this.index = this.index.next();
                         return result.list_Data();
                     }
                 };
-            }
-
-            @Override
-            public DoubleLinked.DoubleLinkedElmt<DATA> list_head() {
-                return this.head;
             }
 
             @Override

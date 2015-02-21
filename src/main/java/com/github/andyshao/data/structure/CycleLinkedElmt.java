@@ -15,8 +15,7 @@ public interface CycleLinkedElmt<DATA> extends Linked.LinkedElmt<DATA , CycleLin
                 if (obj instanceof CycleLinkedElmt) {
                     that = (CycleLinkedElmt<DAT>) obj;
                     if (this.next == this) return Objects.equals(this.data , that.list_Data());
-                    else return Objects.equals(this.data , that.list_Data())
-                        && Objects.equals(this.next , that.list_next());
+                    else return Objects.equals(this.data , that.list_Data()) && Objects.equals(this.next , that.next());
                 } else return false;
             }
 
@@ -32,7 +31,7 @@ public interface CycleLinkedElmt<DATA> extends Linked.LinkedElmt<DATA , CycleLin
             }
 
             @Override
-            public CycleLinkedElmt<DAT> list_next() {
+            public CycleLinkedElmt<DAT> next() {
                 return this.next;
             }
 

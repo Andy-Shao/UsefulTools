@@ -16,9 +16,8 @@ public class StackTest {
     public static Collection<Object[]> data() {
         return Arrays.asList(new Object[][] {
             {
-                Stack
-                    .<String , CycleLinkedElmt<String> , SingleLinked<String>> DEFAULT_STACK(SingleLinked
-                        .DEFAULT_SINGLE_LINKED())
+                Stack.<String , CycleLinkedElmt<String> , SingleLinked<String>> DEFAULT_STACK(SingleLinked
+                    .DEFAULT_SINGLE_LINKED())
             } ,
             {
                 Stack.<String , CycleLinkedElmt<String> , CycleLinked<String>> DEFAULT_STACK(CycleLinked

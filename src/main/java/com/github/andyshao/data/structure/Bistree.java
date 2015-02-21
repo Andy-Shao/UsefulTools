@@ -11,6 +11,7 @@ import com.github.andyshao.lang.Cleanable;
  * Descript:<br>
  * Copyright: Copryright(c) Feb 17, 2015<br>
  * Encoding:UNIX UTF-8
+ * 
  * @author Andy.Shao
  *
  * @param <DATA> data
@@ -71,12 +72,6 @@ public interface Bistree<DATA> extends Cleanable , Tree<Bistree.AvlNode<DATA>> {
     @FunctionalInterface
     public interface AvlNodeFactory<D , T extends AvlNode<D>> {
         public T build();
-    }
-    
-    public class Ret<D> {
-        public int balance;
-        public D data;
-        public BitreeNode<AvlNode<D>> elmt;
     }
 
     public class MyBistree<D> implements Bistree<D> {
@@ -246,7 +241,7 @@ public interface Bistree<DATA> extends Cleanable , Tree<Bistree.AvlNode<DATA>> {
             result = this.lookup(node.left() , data);
             else if (cmpval > 0) //Move to the right.
             result = this.lookup(node.right() , data);
-            else if (!node.data().hidden()){
+            else if (!node.data().hidden()) {
                 result = new Ret<D>();
                 result.data = node.data().data();
                 result.elmt = node;
@@ -270,6 +265,12 @@ public interface Bistree<DATA> extends Cleanable , Tree<Bistree.AvlNode<DATA>> {
             return this.bitree.size();
         }
 
+    }
+
+    public class Ret<D> {
+        public int balance;
+        public D data;
+        public BitreeNode<AvlNode<D>> elmt;
     }
 
     /** balanced */

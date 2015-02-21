@@ -57,18 +57,15 @@ public interface Heap<D> extends Cleanable {
 
             while (true) {
                 //Select the child to swap with the current node.
-                lpos = heap_left(ipos);
-                rpos = heap_right(ipos);
+                lpos = Heap.heap_left(ipos);
+                rpos = Heap.heap_right(ipos);
 
-                if (lpos < this.size() && this.comparator.compare(this.tree.get(lpos) , this.tree.get(ipos)) < 0) {
-                    mpos = lpos;
-                } else {
-                    mpos = ipos;
-                }
+                if (lpos < this.size() && this.comparator.compare(this.tree.get(lpos) , this.tree.get(ipos)) < 0) mpos =
+                    lpos;
+                else mpos = ipos;
 
-                if (rpos < this.size() && this.comparator.compare(this.tree.get(rpos) , this.tree.get(mpos)) < 0) {
-                    mpos = rpos;
-                }
+                if (rpos < this.size() && this.comparator.compare(this.tree.get(rpos) , this.tree.get(mpos)) < 0) mpos =
+                    rpos;
 
                 //When mpos is ipos, the heap property has been restored.
                 if (mpos == ipos) break;
@@ -121,6 +118,12 @@ public interface Heap<D> extends Cleanable {
 
     }
 
+    public static <DATA> Heap<DATA> DEFAULT_HEAP(Comparator<DATA> comparator) {
+        Heap<DATA> result = new MyHeap<DATA>();
+        result.setComparator(comparator);
+        return result;
+    }
+
     public static int heap_left(int npos) {
         return (npos * 2) + 1;
     }
@@ -140,10 +143,4 @@ public interface Heap<D> extends Cleanable {
     public void setComparator(Comparator<D> comparator);
 
     public int size();
-
-    public static <DATA> Heap<DATA> DEFAULT_HEAP(Comparator<DATA> comparator) {
-        Heap<DATA> result = new MyHeap<DATA>();
-        result.setComparator(comparator);
-        return result;
-    }
 }

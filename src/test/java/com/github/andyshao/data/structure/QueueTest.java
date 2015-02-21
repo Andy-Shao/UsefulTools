@@ -17,9 +17,8 @@ public class QueueTest {
     public static Collection<Object[]> data() {
         return Arrays.asList(new Object[][] {
             {
-                Queue
-                    .<String , CycleLinkedElmt<String> , SingleLinked<String>> DEFAULT_QUEUE(SingleLinked
-                        .DEFAULT_SINGLE_LINKED())
+                Queue.<String , CycleLinkedElmt<String> , SingleLinked<String>> DEFAULT_QUEUE(SingleLinked
+                    .DEFAULT_SINGLE_LINKED())
             } ,
             {
                 Queue.<String , CycleLinkedElmt<String> , CycleLinked<String>> DEFAULT_QUEUE(CycleLinked

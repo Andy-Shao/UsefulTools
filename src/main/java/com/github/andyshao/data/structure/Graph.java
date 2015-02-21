@@ -111,11 +111,20 @@ public interface Graph<D> extends Cleanable {
         @Override
         public void graph_ins_vertex(DATA data) {
             // TODO Auto-generated method stub
-            CycleLinkedElmt<DATA> element;
+            CycleLinkedElmt<AdjList<DATA>> element;
             AdjList<DATA> adjlist;
             int retval;
 
             //Do not allow the insertion of duplicate vertices.
+            for (element = this.adjlists.head() ; element != null ; element = element.next())
+                if (this.match(data , element.list_Data().vertex())) throw new GraphOperationException(
+                    "the data is recurring.");
+
+            //Insert the vertex.
+            adjlist = this.adjListFactory.get();
+
+            adjlist.vertex(data);
+            this.adjlists.list_ins_next(this.adjlists.tail() , adjlist);
         }
 
         @Override

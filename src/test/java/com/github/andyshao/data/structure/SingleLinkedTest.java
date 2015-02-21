@@ -8,7 +8,7 @@ import org.junit.Test;
 public class SingleLinkedTest {
 
     private final String[] data = new String[] {
-        "Andy" , "Shao", "andy", "shao"
+        "Andy" , "Shao" , "andy" , "shao"
     };
     private SingleLinked<String> linked;
 
@@ -24,7 +24,7 @@ public class SingleLinkedTest {
         Assert.assertThat(this.linked.size() , Matchers.is(this.data.length));
 
         this.linked.clean();
-        
+
         Assert.assertThat(this.linked.size() , Matchers.is(0));
     }
 
@@ -36,7 +36,7 @@ public class SingleLinkedTest {
             this.linked.list_ins_next(this.linked.tail() , this.data[i]);
 
         Assert.assertThat(this.linked.size() , Matchers.is(this.data.length));
-        Assert.assertThat(this.linked.list_head().list_Data() , Matchers.is(this.data[0]));
+        Assert.assertThat(this.linked.head().list_Data() , Matchers.is(this.data[0]));
     }
 
     @Test
@@ -61,8 +61,8 @@ public class SingleLinkedTest {
         this.testInsert();
         Assert.assertThat(this.linked.size() , Matchers.is(this.data.length));
 
-        this.linked.list_rem_next(this.linked.list_head());
-        Assert.assertThat(this.linked.size() , Matchers.is(this.data.length-1));
+        this.linked.list_rem_next(this.linked.head());
+        Assert.assertThat(this.linked.size() , Matchers.is(this.data.length - 1));
     }
 
     @Test

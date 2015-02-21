@@ -43,19 +43,19 @@ public class BistreeTest {
     }
 
     @Test
+    public void testLookup() {
+        this.testInsert();
+
+        Assert.assertThat(this.bistree.bistree_lookup(this.data[0]).data , Matchers.is(this.data[0]));
+    }
+
+    @Test
     public void testRemove() {
-        testInsert();
+        this.testInsert();
 
         this.bistree.bistree_remove(this.data[0]);
 
         Assert.assertThat(this.bistree.size() , Matchers.is(this.data.length));
         Assert.assertThat(this.bistree.bistree_lookup(this.data[0]) == null , Matchers.is(true));
-    }
-
-    @Test
-    public void testLookup() {
-        testInsert();
-
-        Assert.assertThat(this.bistree.bistree_lookup(this.data[0]).data , Matchers.is(this.data[0]));
     }
 }

@@ -27,14 +27,14 @@ public interface Linked<D , T extends Linked.LinkedElmt<D , T>> extends Cleanabl
 
         public abstract DATA list_Data();
 
-        public abstract T list_next();
+        public abstract T next();
 
         public abstract void setData(DATA data);
 
         public abstract void setNext(T next);
     }
 
-    public T list_head();
+    public T head();
 
     public int size();
 

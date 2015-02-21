@@ -85,6 +85,11 @@ public interface CycleLinked<D> extends Linked<D , CycleLinkedElmt<D>> , SingleL
             }
 
             @Override
+            public CycleLinkedElmt<DATA> head() {
+                return this.head;
+            }
+
+            @Override
             public Iterator<DATA> iterator() {
                 return new Iterator<DATA>() {
                     private volatile boolean asked = false;
@@ -102,15 +107,10 @@ public interface CycleLinked<D> extends Linked<D , CycleLinkedElmt<D>> , SingleL
                     @Override
                     public DATA next() {
                         CycleLinkedElmt<DATA> result = this.index;
-                        this.index = this.index.list_next();
+                        this.index = this.index.next();
                         return result.list_Data();
                     }
                 };
-            }
-
-            @Override
-            public CycleLinkedElmt<DATA> list_head() {
-                return this.head;
             }
 
             @Override
@@ -126,7 +126,7 @@ public interface CycleLinked<D> extends Linked<D , CycleLinkedElmt<D>> , SingleL
                     this.head = new_element;
                 } else {
                     //Handle insertion when the list is not empty.
-                    new_element.setNext(element.list_next());
+                    new_element.setNext(element.next());
                     element.setNext(new_element);
                 }
 
@@ -145,16 +145,16 @@ public interface CycleLinked<D> extends Linked<D , CycleLinkedElmt<D>> , SingleL
                 if (element == null) element = this.head;
 
                 //Remove the element from the list.
-                data = element.list_next().list_Data();
-                if (element.list_next() == element) {
+                data = element.next().list_Data();
+                if (element.next() == element) {
                     //Handle removing the last element.
-                    old_element = element.list_next();
+                    old_element = element.next();
                     this.head = null;
                 } else {
                     //Handle removing other than the last element.
-                    old_element = element.list_next();
-                    element.setNext(element.list_next().list_next());
-                    if (old_element == this.head) this.head = old_element.list_next();
+                    old_element = element.next();
+                    element.setNext(element.next().next());
+                    if (old_element == this.head) this.head = old_element.next();
                 }
 
                 //Free the storage allocated by the abstract datatype.

@@ -16,55 +16,52 @@ public class AutoIncreaseArrayTest {
     } , Character[].class);
 
     @Before
-    public void before(){
+    public void before() {
         this.array = new AutoIncreaseArray<Character>();
     }
-    
+
     @Test
-    public void testInsertTail(){
+    public void testForeach() {
+        this.testInsertTail();
+
+        String str = "";
+        for (Character c : this.array)
+            str += c;
+
+        Assert.assertThat(str , Matchers.is("abcdefghijklmnopqrstuvwxyz"));
+    }
+
+    @Test
+    public void testInsertHead() {
         Assert.assertThat(this.array.size() , Matchers.is(0));
-        
-        for(Character c : this.data){
+
+        for (Character c : this.data)
+            this.array.addHead(c);
+
+        Assert.assertThat(this.array.size() , Matchers.is(this.data.length));
+        Assert.assertThat(this.array.get(0) , Matchers.is(this.data[this.data.length - 1]));
+        Assert.assertThat(this.array.get(this.data.length - 1) , Matchers.is(this.data[0]));
+    }
+
+    @Test
+    public void testInsertTail() {
+        Assert.assertThat(this.array.size() , Matchers.is(0));
+
+        for (Character c : this.data)
             this.array.addTail(c);
-        }
-        
+
         Assert.assertThat(this.array.size() , Matchers.is(this.data.length));
         Assert.assertThat(this.array.get(0) , Matchers.is(this.data[0]));
-        Assert.assertThat(this.array.get(this.data.length-1) , Matchers.is(this.data[this.data.length-1]));
+        Assert.assertThat(this.array.get(this.data.length - 1) , Matchers.is(this.data[this.data.length - 1]));
     }
-    
+
     @Test
-    public void testInsertHead(){
-        Assert.assertThat(this.array.size() , Matchers.is(0));
-        
-        for(Character c : this.data){
-            this.array.addHead(c);
-        }
-        
-        Assert.assertThat(this.array.size() , Matchers.is(this.data.length));
-        Assert.assertThat(this.array.get(0) , Matchers.is(this.data[this.data.length-1]));
-        Assert.assertThat(this.array.get(this.data.length-1) , Matchers.is(this.data[0]));
-    }
-    
-    @Test
-    public void testRemove(){
-        testInsertTail();
-        
-        Character c = this.array.remove(this.data.length-1);
-        
+    public void testRemove() {
+        this.testInsertTail();
+
+        Character c = this.array.remove(this.data.length - 1);
+
         Assert.assertThat(this.array.size() , Matchers.is(this.data.length - 1));
         Assert.assertThat(c , Matchers.is('z'));
-    }
-    
-    @Test
-    public void testForeach(){
-        testInsertTail();
-        
-        String str = "";
-        for(Character c : this.array){
-            str += c;
-        }
-        
-        Assert.assertThat(str , Matchers.is("abcdefghijklmnopqrstuvwxyz"));
     }
 }

@@ -20,7 +20,7 @@ public interface SingleLinked<D> extends Linked<D , CycleLinkedElmt<D>> , Single
     public class MySingleLinked<D> implements SingleLinked<D> {
         private class MyIterator implements Iterator<D> {
             private final long actionCount = MySingleLinked.this.actionCount;
-            private volatile CycleLinkedElmt<D> index = MySingleLinked.this.list_head();
+            private volatile CycleLinkedElmt<D> index = MySingleLinked.this.head();
 
             @Override
             public boolean hasNext() {
@@ -31,7 +31,7 @@ public interface SingleLinked<D> extends Linked<D , CycleLinkedElmt<D>> , Single
             @Override
             public D next() {
                 CycleLinkedElmt<D> result = this.index;
-                this.index = this.index.list_next();
+                this.index = this.index.next();
                 return result.list_Data();
             }
 
@@ -65,7 +65,7 @@ public interface SingleLinked<D> extends Linked<D , CycleLinkedElmt<D>> , Single
             SingleLinked<D> that;
             if (obj instanceof SingleLinked) {
                 that = (SingleLinked<D>) obj;
-                return this.size() == that.size() && Objects.equals(this.list_head() , that.list_head())
+                return this.size() == that.size() && Objects.equals(this.head() , that.head())
                     && Objects.equals(this.tail() , that.tail());
             } else return false;
         }
@@ -77,17 +77,17 @@ public interface SingleLinked<D> extends Linked<D , CycleLinkedElmt<D>> , Single
 
         @Override
         public int hashCode() {
-            return Objects.hash(this.size() , this.list_head() , this.tail());
+            return Objects.hash(this.size() , this.head() , this.tail());
+        }
+
+        @Override
+        public CycleLinkedElmt<D> head() {
+            return this.head;
         }
 
         @Override
         public Iterator<D> iterator() {
             return this.new MyIterator();
-        }
-
-        @Override
-        public CycleLinkedElmt<D> list_head() {
-            return this.head;
         }
 
         @Override
@@ -102,9 +102,9 @@ public interface SingleLinked<D> extends Linked<D , CycleLinkedElmt<D>> , Single
                 this.head = new_element;
             } else {
                 //Handle insertion somewhere other than at the head.
-                if (element.list_next() == null) this.tail = new_element;
+                if (element.next() == null) this.tail = new_element;
 
-                new_element.setNext(element.list_next());
+                new_element.setNext(element.next());
                 element.setNext(new_element);
             }
 
@@ -125,17 +125,17 @@ public interface SingleLinked<D> extends Linked<D , CycleLinkedElmt<D>> , Single
                 //Handle removal from the head of the list.
                 data = this.head.list_Data();
                 old_element = this.head;
-                this.head = this.head.list_next();
+                this.head = this.head.next();
 
                 if (this.size() == 1) this.tail = null;
             } else {
-                if (element.list_next() == null) return null;
+                if (element.next() == null) return null;
 
-                data = element.list_next().list_Data();
-                old_element = element.list_next();
-                element.setNext(element.list_next().list_next());
+                data = element.next().list_Data();
+                old_element = element.next();
+                element.setNext(element.next().next());
 
-                if (element.list_next() == null) this.tail = element;
+                if (element.next() == null) this.tail = element;
             }
 
             //Free the storage allocated by the abstract datatype.

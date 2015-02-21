@@ -34,7 +34,7 @@ public interface Stack<D> extends Cleanable , Iterable<D> {
 
             @Override
             public DATA peek() {
-                return linked.list_head() == null ? null : linked.list_head().list_Data();
+                return linked.head() == null ? null : linked.head().list_Data();
             }
 
             @Override
