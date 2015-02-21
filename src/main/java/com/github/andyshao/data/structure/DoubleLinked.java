@@ -23,14 +23,18 @@ public interface DoubleLinked<D> extends Linked<D , DoubleLinked.DoubleLinkedElm
                 private DoubleLinkedElmt<DATA> next;
                 private DoubleLinkedElmt<DATA> prev;
 
+                @Override
+                public DATA data() {
+                    return this.data;
+                }
+
                 @SuppressWarnings("unchecked")
                 @Override
                 public boolean equals(Object obj) {
                     DoubleLinkedElmt<DATA> that;
                     if (obj instanceof DoubleLinkedElmt) {
                         that = (DoubleLinkedElmt<DATA>) obj;
-                        return Objects.equals(this.list_Data() , that.list_Data())
-                            && Objects.equals(this.next() , that.next())
+                        return Objects.equals(this.data() , that.data()) && Objects.equals(this.next() , that.next())
                             && Objects.equals(this.getPrev() , that.getPrev());
                     } else return false;
                 }
@@ -42,12 +46,7 @@ public interface DoubleLinked<D> extends Linked<D , DoubleLinked.DoubleLinkedElm
 
                 @Override
                 public int hashCode() {
-                    return Objects.hash(this.list_Data() , this.getPrev() , this.next());
-                }
-
-                @Override
-                public DATA list_Data() {
-                    return this.data;
+                    return Objects.hash(this.data() , this.getPrev() , this.next());
                 }
 
                 @Override
@@ -166,7 +165,7 @@ public interface DoubleLinked<D> extends Linked<D , DoubleLinked.DoubleLinkedElm
                     "Do not allow a NULL element or removal from an empty list.");
 
                 //Remove the element from the list.
-                data = element.list_Data();
+                data = element.data();
 
                 if (element.equals(this.head)) {
                     //Handle removal from the head of the list.
@@ -224,7 +223,7 @@ public interface DoubleLinked<D> extends Linked<D , DoubleLinked.DoubleLinkedElm
                     public DATA next() {
                         DoubleLinked.DoubleLinkedElmt<DATA> result = this.index;
                         this.index = this.index.next();
-                        return result.list_Data();
+                        return result.data();
                     }
                 };
             }

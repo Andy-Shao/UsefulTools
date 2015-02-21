@@ -36,7 +36,7 @@ public class SingleLinkedTest {
             this.linked.list_ins_next(this.linked.tail() , this.data[i]);
 
         Assert.assertThat(this.linked.size() , Matchers.is(this.data.length));
-        Assert.assertThat(this.linked.head().list_Data() , Matchers.is(this.data[0]));
+        Assert.assertThat(this.linked.head().data() , Matchers.is(this.data[0]));
     }
 
     @Test

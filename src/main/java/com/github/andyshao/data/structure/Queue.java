@@ -33,7 +33,7 @@ public interface Queue<D> extends Cleanable , Iterable<D> {
 
             @Override
             public DATA peek() {
-                return linked.head() == null ? null : linked.head().list_Data();
+                return linked.head() == null ? null : linked.head().data();
             }
 
             @Override

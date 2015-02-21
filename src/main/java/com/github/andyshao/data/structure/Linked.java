@@ -20,12 +20,12 @@ public interface Linked<D , T extends Linked.LinkedElmt<D , T>> extends Cleanabl
 
     public interface LinkedElmt<DATA , T extends Linked.LinkedElmt<DATA , T>> {
 
+        public abstract DATA data();
+
         public default void free() {
             this.setData(null);
             this.setNext(null);
         }
-
-        public abstract DATA list_Data();
 
         public abstract T next();
 

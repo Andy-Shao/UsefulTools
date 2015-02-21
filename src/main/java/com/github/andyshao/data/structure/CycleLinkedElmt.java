@@ -8,14 +8,19 @@ public interface CycleLinkedElmt<DATA> extends Linked.LinkedElmt<DATA , CycleLin
             private DAT data;
             private CycleLinkedElmt<DAT> next;
 
+            @Override
+            public DAT data() {
+                return this.data;
+            }
+
             @SuppressWarnings("unchecked")
             @Override
             public boolean equals(Object obj) {
                 CycleLinkedElmt<DAT> that;
                 if (obj instanceof CycleLinkedElmt) {
                     that = (CycleLinkedElmt<DAT>) obj;
-                    if (this.next == this) return Objects.equals(this.data , that.list_Data());
-                    else return Objects.equals(this.data , that.list_Data()) && Objects.equals(this.next , that.next());
+                    if (this.next == this) return Objects.equals(this.data , that.data());
+                    else return Objects.equals(this.data , that.data()) && Objects.equals(this.next , that.next());
                 } else return false;
             }
 
@@ -23,11 +28,6 @@ public interface CycleLinkedElmt<DATA> extends Linked.LinkedElmt<DATA , CycleLin
             public int hashCode() {
                 if (this.next == this) return this.data.hashCode();
                 else return Objects.hash(this.data , this.next);
-            }
-
-            @Override
-            public DAT list_Data() {
-                return this.data;
             }
 
             @Override

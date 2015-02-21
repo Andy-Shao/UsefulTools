@@ -68,7 +68,7 @@ public interface LinkedSet<D> extends Linked<D , CycleLinkedElmt<D>> , Set<D> {
 
                 //Determine if the data is a member of the set.
                 for (member = this.head() ; member != null ; member = member.next())
-                    if (member.list_Data().equals(data)) return true;
+                    if (member.data().equals(data)) return true;
 
                 return false;
             }
@@ -82,7 +82,7 @@ public interface LinkedSet<D> extends Linked<D , CycleLinkedElmt<D>> , Set<D> {
 
                 //Determine if set1 is a subset of set2.
                 for (member = this.head() ; member != null ; member = member.next())
-                    if (!set1.set_is_member(member.list_Data())) return false;
+                    if (!set1.set_is_member(member.data())) return false;
                 return true;
             }
 
@@ -94,7 +94,7 @@ public interface LinkedSet<D> extends Linked<D , CycleLinkedElmt<D>> , Set<D> {
                 prev = null;
 
                 for (member = linked.head() ; member != null ; member = member.next()) {
-                    if (member.list_Data().equals(data)) break;
+                    if (member.data().equals(data)) break;
                     prev = member;
                 }
 

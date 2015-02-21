@@ -32,7 +32,7 @@ public interface SingleLinked<D> extends Linked<D , CycleLinkedElmt<D>> , Single
             public D next() {
                 CycleLinkedElmt<D> result = this.index;
                 this.index = this.index.next();
-                return result.list_Data();
+                return result.data();
             }
 
         }
@@ -123,7 +123,7 @@ public interface SingleLinked<D> extends Linked<D , CycleLinkedElmt<D>> , Single
             //Remove the element from the list.
             if (element == null) {
                 //Handle removal from the head of the list.
-                data = this.head.list_Data();
+                data = this.head.data();
                 old_element = this.head;
                 this.head = this.head.next();
 
@@ -131,7 +131,7 @@ public interface SingleLinked<D> extends Linked<D , CycleLinkedElmt<D>> , Single
             } else {
                 if (element.next() == null) return null;
 
-                data = element.next().list_Data();
+                data = element.next().data();
                 old_element = element.next();
                 element.setNext(element.next().next());
 

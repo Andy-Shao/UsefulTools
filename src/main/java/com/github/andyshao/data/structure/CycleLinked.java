@@ -108,7 +108,7 @@ public interface CycleLinked<D> extends Linked<D , CycleLinkedElmt<D>> , SingleL
                     public DATA next() {
                         CycleLinkedElmt<DATA> result = this.index;
                         this.index = this.index.next();
-                        return result.list_Data();
+                        return result.data();
                     }
                 };
             }
@@ -145,7 +145,7 @@ public interface CycleLinked<D> extends Linked<D , CycleLinkedElmt<D>> , SingleL
                 if (element == null) element = this.head;
 
                 //Remove the element from the list.
-                data = element.next().list_Data();
+                data = element.next().data();
                 if (element.next() == element) {
                     //Handle removing the last element.
                     old_element = element.next();

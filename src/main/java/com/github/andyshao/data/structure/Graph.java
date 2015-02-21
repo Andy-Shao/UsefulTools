@@ -105,19 +105,21 @@ public interface Graph<D> extends Cleanable {
         @Override
         public void graph_ins_edge(DATA data1 , DATA data2) {
             // TODO Auto-generated method stub
+            CycleLinkedElmt<AdjList<DATA>> element;
 
+            //Do not allow insertion of an edge without both its vertices in the graph.
+            for (element = this.adjlists.head() ; element != null ; element = element.next())
+                if (this.match(data2 , element.data().vertex())) throw new GraphOperationException();
         }
 
         @Override
         public void graph_ins_vertex(DATA data) {
-            // TODO Auto-generated method stub
             CycleLinkedElmt<AdjList<DATA>> element;
             AdjList<DATA> adjlist;
-            int retval;
 
             //Do not allow the insertion of duplicate vertices.
             for (element = this.adjlists.head() ; element != null ; element = element.next())
-                if (this.match(data , element.list_Data().vertex())) throw new GraphOperationException(
+                if (this.match(data , element.data().vertex())) throw new GraphOperationException(
                     "the data is recurring.");
 
             //Insert the vertex.
@@ -125,6 +127,9 @@ public interface Graph<D> extends Cleanable {
 
             adjlist.vertex(data);
             this.adjlists.list_ins_next(this.adjlists.tail() , adjlist);
+
+            //Adjust the vertex count to account for the inserted vertex.
+            this.vcount++;
         }
 
         @Override
