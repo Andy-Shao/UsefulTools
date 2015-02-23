@@ -2,6 +2,7 @@ package com.github.andyshao.data.structure;
 
 import java.util.Comparator;
 import java.util.HashSet;
+import java.util.function.Consumer;
 import java.util.function.Supplier;
 
 import com.github.andyshao.data.structure.convert.SetConvert;
@@ -44,6 +45,11 @@ public interface Graph<D> extends Cleanable {
         }
 
         public Set<DATA> adjacent();
+
+        public default void free() {
+            this.vertex(null);
+            this.adjacent().clean();
+        }
 
         public DATA vertex();
 
@@ -104,15 +110,16 @@ public interface Graph<D> extends Cleanable {
 
         @Override
         public void graph_ins_edge(DATA data1 , DATA data2) {
-            // TODO Auto-generated method stub
             CycleLinkedElmt<AdjList<DATA>> element;
 
             //Do not allow insertion of an edge without both its vertices in the graph.
-            element = this.search(data2);
+            element = this.search(data2 , (elmt) -> {
+            });
             if (element == null) throw new GraphOperationException("Can't find out the data2 (" + data2
                 + ") in the graph.");
 
-            element = this.search(data1);
+            element = this.search(data1 , (elmt) -> {
+            });
             if (element == null) throw new GraphOperationException("Can't find out the data1 (" + data1
                 + ") in the graph.");
 
@@ -123,25 +130,13 @@ public interface Graph<D> extends Cleanable {
             this.ecount++;
         }
 
-        private CycleLinkedElmt<AdjList<DATA>> search(DATA data) {
-            CycleLinkedElmt<AdjList<DATA>> result = null;
-
-            for (CycleLinkedElmt<AdjList<DATA>> element = adjlists.head() ; element != null ; element = element.next())
-                if (this.match(data , element.data().vertex())) {
-                    result = element;
-                    break;
-                }
-
-            return result;
-        }
-
         @Override
         public void graph_ins_vertex(DATA data) {
             AdjList<DATA> adjlist;
 
             //Do not allow the insertion of duplicate vertices.
-            if (this.search(data) != null) throw new GraphOperationException(
-                "Do not allow the insertion of duplicate vertices.");
+            if (this.search(data , (elmt) -> {
+            }) != null) throw new GraphOperationException("Do not allow the insertion of duplicate vertices.");
 
             //Insert the vertex.
             adjlist = this.adjListFactory.get();
@@ -159,10 +154,39 @@ public interface Graph<D> extends Cleanable {
 
         }
 
+        @SuppressWarnings({
+            "unchecked" , "unused"
+        })
         @Override
-        public void graph_rem_vertex(DATA data) {
-            // TODO Auto-generated method stub
+        public DATA graph_rem_vertex(final DATA data) {
+            CycleLinkedElmt<AdjList<DATA>> element , prev;
+            AdjList<DATA> adjList;
+            DATA result = data;
 
+            //Traverse each adjacency list and the vertices it contains.
+            prev = null;
+
+            {
+                final Object[] object = new Object[1];
+                element = this.search(data , (elmt) -> {
+                    if (!Graph.MyGraph.this.match(data , elmt.data().vertex())) object[0] = elmt;
+                });
+                prev = (CycleLinkedElmt<Graph.AdjList<DATA>>) object[0];
+            }
+            if (element.data().adjacent().set_is_member(data)) throw new GraphOperationException(
+                "Do not allow removal of the vertex if it is an adjecency list.");
+            //Return if the vertex was not found.
+            if (element == null) return result;
+            if (element.data().adjacent().size() > 0) throw new GraphOperationException(
+                "Do not allow removal of the vertex if its adjacency list is not emtpy.");
+            //Remove the vertex.
+            adjList = this.adjlists.list_rem_next(prev);
+            result = adjList.vertex();
+            adjList.free();
+            //Adjust the vertex count to account for the removed vertex.
+            this.vcount--;
+
+            return result;
         }
 
         @Override
@@ -174,6 +198,28 @@ public interface Graph<D> extends Cleanable {
         public boolean match(DATA data1 , DATA data2) {
             if (this.comparator.compare(data1 , data2) == 0) return true;
             else return false;
+        }
+
+        /**
+         * search {@link CycleLinkedElmt} by data.
+         * 
+         * @param data data
+         * @param consumer operation
+         * @return if can't find out anything return null.
+         */
+        private CycleLinkedElmt<AdjList<DATA>> search(DATA data , Consumer<CycleLinkedElmt<AdjList<DATA>>> consumer) {
+            CycleLinkedElmt<AdjList<DATA>> result = null;
+
+            for (CycleLinkedElmt<AdjList<DATA>> element = this.adjlists.head() ; element != null ; element =
+                element.next()) {
+                consumer.accept(element);
+                if (this.match(data , element.data().vertex())) {
+                    result = element;
+                    break;
+                }
+            }
+
+            return result;
         }
 
         @Override
@@ -201,7 +247,7 @@ public interface Graph<D> extends Cleanable {
 
     public void graph_rem_edge(final D data1 , final D data2);
 
-    public void graph_rem_vertex(D data);
+    public D graph_rem_vertex(D data);
 
     public int graph_vcount();
 
