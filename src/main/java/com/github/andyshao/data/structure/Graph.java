@@ -92,15 +92,23 @@ public interface Graph<D> extends Cleanable {
         }
 
         @Override
-        public Graph.AdjList<DATA> graph_adjlist(DATA data , Graph.AdjList<DATA> adjList) {
-            // TODO Auto-generated method stub
-            return null;
+        public Graph.AdjList<DATA> graph_adjlist(DATA data) {
+            CycleLinkedElmt<AdjList<DATA>> element;
+
+            //Locate the adjacency list for the vertex.
+            element = this.search(data , (elmt) -> {
+            });
+
+            //Return if the vertex was not found.
+            if (element == null) throw new GraphOperationException(data + " can't found out.");
+
+            //Pass back the adjacency list for the vertex.
+            return element.data();
         }
 
         @Override
         public SingleLinked<Graph.AdjList<DATA>> graph_adjlists() {
-            // TODO Auto-generated method stub
-            return null;
+            return this.adjlists;
         }
 
         @Override
@@ -149,9 +157,34 @@ public interface Graph<D> extends Cleanable {
         }
 
         @Override
-        public void graph_rem_edge(DATA data1 , DATA data2) {
-            // TODO Auto-generated method stub
+        public boolean graph_is_adjacent(DATA data1 , DATA data2) {
+            CycleLinkedElmt<AdjList<DATA>> element;
 
+            element = this.search(data1 , (elmt) -> {
+            });
+
+            //Return if the first vertex was not found.
+            if (element == null) throw new GraphOperationException(data1 + "can't find out.");
+
+            //Return whether the second vertex is in the adjacency list of the first.
+            return element.data().adjacent().set_is_member(data2);
+        }
+
+        @Override
+        public void graph_rem_edge(DATA data1 , DATA data2) {
+            CycleLinkedElmt<AdjList<DATA>> element;
+
+            //Locate the adjacency list for the first vertex.
+            element = this.search(data1 , (elmt) -> {
+            });
+
+            if (element == null) throw new GraphOperationException("Can't not find out data1 " + data1);
+
+            //Remove the second vertex from the adjacency list of the first vertex.
+            element.data().adjacent().set_remove(data2);
+
+            //Adjust the edge count to account for the removed edge.
+            this.ecount--;
         }
 
         @SuppressWarnings({
@@ -207,7 +240,7 @@ public interface Graph<D> extends Cleanable {
          * @param consumer operation
          * @return if can't find out anything return null.
          */
-        private CycleLinkedElmt<AdjList<DATA>> search(DATA data , Consumer<CycleLinkedElmt<AdjList<DATA>>> consumer) {
+        protected CycleLinkedElmt<AdjList<DATA>> search(DATA data , Consumer<CycleLinkedElmt<AdjList<DATA>>> consumer) {
             CycleLinkedElmt<AdjList<DATA>> result = null;
 
             for (CycleLinkedElmt<AdjList<DATA>> element = this.adjlists.head() ; element != null ; element =
@@ -233,9 +266,19 @@ public interface Graph<D> extends Cleanable {
         BLACK , GRAY , WHITE
     }
 
+    public static <DATA> void ADD_UNTOWARD_EDGE(Graph<DATA> graph , DATA data1 , DATA data2) {
+        graph.graph_ins_edge(data1 , data2);
+        graph.graph_ins_edge(data2 , data1);
+    }
+
+    public static <DATA> Graph<DATA> DEFAULT_GRAPH(
+        Comparator<DATA> comparator , Supplier<SingleLinked<AdjList<DATA>>> singleLinkedFactory) {
+        return new MyGraph<DATA>(comparator , singleLinkedFactory);
+    }
+
     public Supplier<AdjList<D>> getAdjListFactory();
 
-    public AdjList<D> graph_adjlist(final D data , AdjList<D> adjList);
+    public AdjList<D> graph_adjlist(final D data);
 
     public SingleLinked<AdjList<D>> graph_adjlists();
 
@@ -244,6 +287,8 @@ public interface Graph<D> extends Cleanable {
     public void graph_ins_edge(final D data1 , final D data2);
 
     public void graph_ins_vertex(final D data);
+
+    public boolean graph_is_adjacent(final D data1 , final D data2);
 
     public void graph_rem_edge(final D data1 , final D data2);
 

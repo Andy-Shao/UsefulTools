@@ -103,4 +103,8 @@ public interface Set<D> extends Cleanable , Iterable<D> {
     public abstract void set_remove(D data);
 
     public abstract int size();
+    
+    public static <DATA> Set<DATA> DEFALUT_SET(){
+        return new SetConvert<DATA>().convert(new HashSet<DATA>());
+    }
 }
