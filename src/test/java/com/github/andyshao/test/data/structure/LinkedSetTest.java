@@ -6,7 +6,6 @@ import org.junit.Before;
 import org.junit.Test;
 
 import com.github.andyshao.data.structure.SingleLinked;
-import com.github.andyshao.test.data.structure.LinkedSet;
 
 @Deprecated
 public class LinkedSetTest {
@@ -44,7 +43,7 @@ public class LinkedSetTest {
 
         Assert.assertThat(this.set.size() , Matchers.is(this.data.length));
 
-        this.set.clean();
+        this.set.clear();
 
         Assert.assertThat(this.set.size() , Matchers.is(0));
     }

@@ -88,7 +88,7 @@ public interface DoubleLinked<D> extends Linked<D , DoubleLinked.DoubleLinkedElm
             private DoubleLinked.DoubleLinkedElmt<DATA> tail;
 
             @Override
-            public void clean() {
+            public void clear() {
                 do
                     this.dlist_remove(this.head);
                 while (this.size != 0);

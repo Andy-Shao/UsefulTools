@@ -22,7 +22,7 @@ public class SetConvert<D> implements Convert<Set<D> , com.github.andyshao.test.
     public com.github.andyshao.test.data.structure.Set<D> convert(final Set<D> in) {
         return new com.github.andyshao.test.data.structure.Set<D>() {
             @Override
-            public void clean() {
+            public void clear() {
                 in.clear();
             }
 

@@ -15,8 +15,8 @@ public interface Queue<D> extends Cleanable , Iterable<D> {
         return new Queue<DATA>() {
 
             @Override
-            public void clean() {
-                linked.clean();
+            public void clear() {
+                linked.clear();
             }
 
             @Override

@@ -23,8 +23,8 @@ public interface LinkedSet<D> extends Linked<D , CycleLinkedElmt<D>> , Set<D> {
     public static <DATA> LinkedSet<DATA> DEFAULT_SET(final SingleLinked<DATA> linked) {
         return new LinkedSet<DATA>() {
             @Override
-            public void clean() {
-                linked.clean();
+            public void clear() {
+                linked.clear();
             }
 
             @SuppressWarnings("unchecked")

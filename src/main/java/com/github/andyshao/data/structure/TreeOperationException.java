@@ -1,6 +1,5 @@
 package com.github.andyshao.data.structure;
 
-
 /**
  * 
  * Title:<br>

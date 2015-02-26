@@ -23,8 +23,8 @@ public interface Stack<D> extends Cleanable , Iterable<D> {
         return new Stack<DATA>() {
 
             @Override
-            public void clean() {
-                linked.clean();
+            public void clear() {
+                linked.clear();
             }
 
             @Override

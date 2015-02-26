@@ -5,8 +5,6 @@ import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 
-import com.github.andyshao.data.structure.SingleLinked;
-
 @Deprecated
 public class SingleLinkedTest {
 
@@ -26,7 +24,7 @@ public class SingleLinkedTest {
 
         Assert.assertThat(this.linked.size() , Matchers.is(this.data.length));
 
-        this.linked.clean();
+        this.linked.clear();
 
         Assert.assertThat(this.linked.size() , Matchers.is(0));
     }
@@ -58,7 +56,7 @@ public class SingleLinkedTest {
         this.testInsert();
         Assert.assertThat(this.linked.size() , Matchers.is(this.data.length));
 
-        this.linked.clean();
+        this.linked.clear();
         Assert.assertThat(this.linked.size() , Matchers.is(0));
 
         this.testInsert();

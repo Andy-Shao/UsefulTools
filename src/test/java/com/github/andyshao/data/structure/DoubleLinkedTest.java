@@ -5,8 +5,6 @@ import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 
-import com.github.andyshao.data.structure.DoubleLinked;
-
 @Deprecated
 public class DoubleLinkedTest {
 
@@ -35,7 +33,7 @@ public class DoubleLinkedTest {
         this.testInsert();
         Assert.assertThat(this.doubleLinked.size() , Matchers.is(2));
 
-        this.doubleLinked.clean();
+        this.doubleLinked.clear();
         Assert.assertThat(this.doubleLinked.size() , Matchers.is(0));
 
         this.testInsert();

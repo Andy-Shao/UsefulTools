@@ -17,5 +17,5 @@ public interface Cleanable {
     /**
      * clean the memory
      */
-    public void clean();
+    public void clear();
 }

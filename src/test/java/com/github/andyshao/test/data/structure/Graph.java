@@ -52,7 +52,7 @@ public interface Graph<D> extends Cleanable {
 
         public default void free() {
             this.vertex(null);
-            this.adjacent().clean();
+            this.adjacent().clear();
         }
 
         public DATA vertex();
@@ -144,10 +144,10 @@ public interface Graph<D> extends Cleanable {
         }
 
         @Override
-        public void clean() {
+        public void clear() {
             this.vcount = 0;
             this.ecount = 0;
-            this.adjlists.clean();
+            this.adjlists.clear();
             this.actionAcount++;
         }
 

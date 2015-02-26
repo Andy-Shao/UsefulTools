@@ -81,7 +81,7 @@ public class AutoIncreaseArray<D> implements Iterable<D> , Cleanable {
     }
 
     @Override
-    public void clean() {
+    public void clear() {
         this.actionAccount++;
         this.end = this.arraySize >> 1;
         this.start = this.end;

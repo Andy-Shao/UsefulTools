@@ -13,7 +13,6 @@ import org.junit.runners.Parameterized.Parameters;
 import com.github.andyshao.data.structure.CycleLinked;
 import com.github.andyshao.data.structure.CycleLinkedElmt;
 import com.github.andyshao.data.structure.SingleLinked;
-import com.github.andyshao.test.data.structure.Queue;
 
 @Deprecated
 @RunWith(Parameterized.class)

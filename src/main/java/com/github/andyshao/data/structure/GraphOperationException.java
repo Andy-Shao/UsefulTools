@@ -1,6 +1,5 @@
 package com.github.andyshao.data.structure;
 
-
 public class GraphOperationException extends DataStructureException {
 
     private static final long serialVersionUID = -6437250465369070393L;

@@ -11,6 +11,7 @@ import java.util.Queue;
  * Descript:<br>
  * Copyright: Copryright(c) Feb 26, 2015<br>
  * Encoding:UNIX UTF-8
+ * 
  * @author Andy.Shao
  *
  * @param <D> data
@@ -19,13 +20,18 @@ public class SimpleQueue<D> implements Queue<D> {
     private final ArrayList<D> list = new ArrayList<>();
 
     @Override
-    public int size() {
-        return this.size();
+    public boolean add(D e) {
+        return this.list.add(e);
     }
 
     @Override
-    public boolean isEmpty() {
-        return this.list.isEmpty();
+    public boolean addAll(Collection<? extends D> c) {
+        return this.list.addAll(c);
+    }
+
+    @Override
+    public void clear() {
+        this.list.clear();
     }
 
     @Override
@@ -34,33 +40,48 @@ public class SimpleQueue<D> implements Queue<D> {
     }
 
     @Override
-    public Iterator<D> iterator() {
-        return this.list.iterator();
-    }
-
-    @Override
-    public Object[] toArray() {
-        return this.list.toArray();
-    }
-
-    @Override
-    public <T> T[] toArray(T[] a) {
-        return this.list.toArray(a);
-    }
-
-    @Override
-    public boolean remove(Object o) {
-        return this.list.remove(o);
-    }
-
-    @Override
     public boolean containsAll(Collection<?> c) {
         return this.list.containsAll(c);
     }
 
     @Override
-    public boolean addAll(Collection<? extends D> c) {
-        return this.list.addAll(c);
+    public D element() {
+        return this.list.get(0);
+    }
+
+    @Override
+    public boolean isEmpty() {
+        return this.list.isEmpty();
+    }
+
+    @Override
+    public Iterator<D> iterator() {
+        return this.list.iterator();
+    }
+
+    @Override
+    public boolean offer(D e) {
+        return this.list.add(e);
+    }
+
+    @Override
+    public D peek() {
+        return this.list.get(0);
+    }
+
+    @Override
+    public D poll() {
+        return this.list.remove(0);
+    }
+
+    @Override
+    public D remove() {
+        return this.list.remove(0);
+    }
+
+    @Override
+    public boolean remove(Object o) {
+        return this.list.remove(o);
     }
 
     @Override
@@ -74,38 +95,18 @@ public class SimpleQueue<D> implements Queue<D> {
     }
 
     @Override
-    public void clear() {
-        this.list.clear();
+    public int size() {
+        return this.size();
     }
 
     @Override
-    public boolean add(D e) {
-        return this.list.add(e);
+    public Object[] toArray() {
+        return this.list.toArray();
     }
 
     @Override
-    public boolean offer(D e) {
-        return this.list.add(e);
-    }
-
-    @Override
-    public D remove() {
-        return this.list.remove(0);
-    }
-
-    @Override
-    public D poll() {
-        return this.list.remove(0);
-    }
-
-    @Override
-    public D element() {
-        return this.list.get(0);
-    }
-
-    @Override
-    public D peek() {
-        return this.list.get(0);
+    public <T> T[] toArray(T[] a) {
+        return this.list.toArray(a);
     }
 
 }

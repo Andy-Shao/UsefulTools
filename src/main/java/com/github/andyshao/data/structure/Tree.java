@@ -6,7 +6,7 @@ import com.github.andyshao.lang.Cleanable;
 public interface Tree<D> extends Cleanable {
 
     @Override
-    public abstract void clean();
+    public abstract void clear();
 
     public abstract BitreeNode<D> root();
 

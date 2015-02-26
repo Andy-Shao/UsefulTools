@@ -5,8 +5,6 @@ import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 
-import com.github.andyshao.data.structure.Bistree;
-import com.github.andyshao.data.structure.Bitree;
 import com.github.andyshao.data.structure.Bistree.AvlNode;
 import com.github.andyshao.util.ArrayTools;
 

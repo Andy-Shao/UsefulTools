@@ -47,7 +47,7 @@ public interface SingleLinked<D> extends Linked<D , CycleLinkedElmt<D>> , Single
         private CycleLinkedElmt<D> tail;
 
         @Override
-        public void clean() {
+        public void clear() {
             do
                 if (this.size == 0) return;
                 else if (this.size == 1) {

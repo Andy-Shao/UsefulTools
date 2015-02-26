@@ -5,8 +5,6 @@ import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 
-import com.github.andyshao.data.structure.CycleLinked;
-
 @Deprecated
 public class CycleLinkedTest {
     private final String[] data = new String[] {
@@ -39,7 +37,7 @@ public class CycleLinkedTest {
 
         Assert.assertThat(this.linked.size() , Matchers.is(2));
 
-        this.linked.clean();
+        this.linked.clear();
     }
 
     @Test

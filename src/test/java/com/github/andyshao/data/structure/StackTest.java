@@ -10,11 +10,6 @@ import org.junit.runner.RunWith;
 import org.junit.runners.Parameterized;
 import org.junit.runners.Parameterized.Parameters;
 
-import com.github.andyshao.data.structure.CycleLinked;
-import com.github.andyshao.data.structure.CycleLinkedElmt;
-import com.github.andyshao.data.structure.SingleLinked;
-import com.github.andyshao.data.structure.Stack;
-
 @Deprecated
 @RunWith(Parameterized.class)
 public class StackTest {

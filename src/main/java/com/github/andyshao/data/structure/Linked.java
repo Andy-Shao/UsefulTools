@@ -5,7 +5,7 @@ import com.github.andyshao.lang.Cleanable;
 /**
  * 
  * Title: Linked list interface<br>
- * Descript: Because of it is a linked list, you should use the {@link #clean()}
+ * Descript: Because of it is a linked list, you should use the {@link #clear()}
  * method when you
  * want to remove this list.<br>
  * Copyright: Copryright(c) Feb 8, 2015<br>

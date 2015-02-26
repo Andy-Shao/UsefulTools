@@ -18,6 +18,10 @@ import com.github.andyshao.test.data.structure.convert.SetConvert;
  */
 public interface Set<D> extends Cleanable , Iterable<D> {
 
+    public static <DATA> Set<DATA> DEFALUT_SET() {
+        return new SetConvert<DATA>().convert(new HashSet<DATA>());
+    }
+
     @SuppressWarnings("unchecked")
     public static <DATA> Set<DATA> set_difference(final Set<DATA> result , Set<DATA>... sets) {
         switch (sets.length) {
@@ -103,8 +107,4 @@ public interface Set<D> extends Cleanable , Iterable<D> {
     public abstract void set_remove(D data);
 
     public abstract int size();
-    
-    public static <DATA> Set<DATA> DEFALUT_SET(){
-        return new SetConvert<DATA>().convert(new HashSet<DATA>());
-    }
 }

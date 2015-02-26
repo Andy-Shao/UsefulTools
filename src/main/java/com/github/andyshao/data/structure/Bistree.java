@@ -102,8 +102,8 @@ public interface Bistree<DATA> extends Cleanable , Tree<Bistree.AvlNode<DATA>> {
         }
 
         @Override
-        public void clean() {
-            this.bitree.clean();
+        public void clear() {
+            this.bitree.clear();
         }
 
         @Override

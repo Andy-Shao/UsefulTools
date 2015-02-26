@@ -24,7 +24,7 @@ public interface CycleLinked<D> extends Linked<D , CycleLinkedElmt<D>> , SingleL
             private int size;
 
             @Override
-            public void clean() {
+            public void clear() {
                 do
                     if (this.size == 0) return;
                     else if (this.size == 1) {

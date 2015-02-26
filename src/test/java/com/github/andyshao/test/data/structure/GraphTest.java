@@ -4,7 +4,6 @@ import org.junit.Before;
 import org.junit.Test;
 
 import com.github.andyshao.data.structure.SingleLinked;
-import com.github.andyshao.test.data.structure.Graph;
 
 @Deprecated
 public class GraphTest {

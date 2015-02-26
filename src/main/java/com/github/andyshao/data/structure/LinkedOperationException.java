@@ -1,6 +1,5 @@
 package com.github.andyshao.data.structure;
 
-
 public class LinkedOperationException extends DataStructureException {
 
     private static final long serialVersionUID = 3324113947275253394L;

@@ -7,7 +7,6 @@ import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 
-import com.github.andyshao.data.structure.Heap;
 import com.github.andyshao.util.ArrayTools;
 
 public class HeapTest {

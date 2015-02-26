@@ -24,8 +24,8 @@ public interface Heap<D> extends Cleanable {
         protected AutoIncreaseArray<DATA> tree = new AutoIncreaseArray<DATA>();
 
         @Override
-        public void clean() {
-            this.tree.clean();
+        public void clear() {
+            this.tree.clear();
         }
 
         @Override
@@ -43,7 +43,7 @@ public interface Heap<D> extends Cleanable {
             //Manage the heap when extracting the last node.
             else {
                 save = this.tree.get(0);
-                this.clean();
+                this.clear();
                 return save;
             }
 

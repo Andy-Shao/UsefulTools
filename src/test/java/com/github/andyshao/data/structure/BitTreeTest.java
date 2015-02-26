@@ -7,7 +7,6 @@ import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 
-import com.github.andyshao.data.structure.Bitree;
 import com.github.andyshao.data.structure.Bitree.BitreeNode;
 
 public class BitTreeTest {
@@ -34,7 +33,7 @@ public class BitTreeTest {
         Assert.assertThat(this.bitree.root().left().data() , Matchers.is("left"));
         Assert.assertThat(this.bitree.root().right().data() , Matchers.is("right"));
 
-        this.bitree.clean();
+        this.bitree.clear();
 
         Assert.assertThat(this.bitree.size() , Matchers.is(0));
     }
@@ -52,7 +51,7 @@ public class BitTreeTest {
         Assert.assertThat(this.bitree.root().left().data() , Matchers.is("left"));
         Assert.assertThat(this.bitree.root().right().data() , Matchers.is("right"));
 
-//        SingleLinked<String> linked = SingleLinked.DEFAULT_SINGLE_LINKED();
+        //        SingleLinked<String> linked = SingleLinked.DEFAULT_SINGLE_LINKED();
         Queue<String> linked = new SimpleQueue<String>();
         Bitree.inorder(this.bitree.root() , linked);
 
@@ -127,7 +126,7 @@ public class BitTreeTest {
         Assert.assertThat(this.bitree.root().left().data() , Matchers.is("left"));
         Assert.assertThat(this.bitree.root().right().data() , Matchers.is("right"));
 
-//        SingleLinked<String> linked = SingleLinked.DEFAULT_SINGLE_LINKED();
+        //        SingleLinked<String> linked = SingleLinked.DEFAULT_SINGLE_LINKED();
         Queue<String> linked = new SimpleQueue<String>();
         Bitree.postorder(this.bitree.root() , linked);
 
@@ -151,7 +150,7 @@ public class BitTreeTest {
         Assert.assertThat(this.bitree.root().left().data() , Matchers.is("left"));
         Assert.assertThat(this.bitree.root().right().data() , Matchers.is("right"));
 
-//        SingleLinked<String> linked = SingleLinked.DEFAULT_SINGLE_LINKED();
+        //        SingleLinked<String> linked = SingleLinked.DEFAULT_SINGLE_LINKED();
         Queue<String> linked = new SimpleQueue<String>();
         Bitree.preorder(this.bitree.root() , linked);
 
