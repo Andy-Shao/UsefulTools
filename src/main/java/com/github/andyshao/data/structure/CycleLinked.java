@@ -14,7 +14,6 @@ import java.util.Iterator;
  *
  * @param <D> data
  */
-@Deprecated
 public interface CycleLinked<D> extends Linked<D , CycleLinkedElmt<D>> , SingleLinkedOperation<D , CycleLinkedElmt<D>> {
 
     public static <DATA> CycleLinked<DATA> DEFAULT_CYCLE_LINKED() {

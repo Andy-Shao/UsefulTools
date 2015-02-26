@@ -15,7 +15,6 @@ import java.util.Objects;
  *
  * @param <D> data
  */
-@Deprecated
 public interface DoubleLinked<D> extends Linked<D , DoubleLinked.DoubleLinkedElmt<D>> {
     public interface DoubleLinkedElmt<DATA> extends Linked.LinkedElmt<DATA , DoubleLinkedElmt<DATA>> {
         public static <DATA> DoubleLinkedElmt<DATA> DEFAULT_ELMT(DATA data) {

@@ -16,7 +16,6 @@ import java.util.function.Function;
  *
  * @param <D> data
  */
-@Deprecated
 public interface SingleLinked<D> extends Linked<D , CycleLinkedElmt<D>> , SingleLinkedOperation<D , CycleLinkedElmt<D>> {
     public class MySingleLinked<D> implements SingleLinked<D> {
         private class MyIterator implements Iterator<D> {

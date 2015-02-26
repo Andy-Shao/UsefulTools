@@ -2,7 +2,6 @@ package com.github.andyshao.data.structure;
 
 import java.util.Objects;
 
-@Deprecated
 public interface CycleLinkedElmt<DATA> extends Linked.LinkedElmt<DATA , CycleLinkedElmt<DATA>> {
     public static <DAT> CycleLinkedElmt<DAT> DEFAULT_ELMT(DAT data) {
         CycleLinkedElmt<DAT> result = new CycleLinkedElmt<DAT>() {
