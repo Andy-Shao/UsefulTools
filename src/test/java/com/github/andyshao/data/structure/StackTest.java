@@ -1,4 +1,4 @@
-package com.github.andyshao.test.data.structure;
+package com.github.andyshao.data.structure;
 
 import java.util.Arrays;
 import java.util.Collection;
@@ -10,11 +10,12 @@ import org.junit.runner.RunWith;
 import org.junit.runners.Parameterized;
 import org.junit.runners.Parameterized.Parameters;
 
-import com.github.andyshao.test.data.structure.CycleLinked;
-import com.github.andyshao.test.data.structure.CycleLinkedElmt;
-import com.github.andyshao.test.data.structure.SingleLinked;
-import com.github.andyshao.test.data.structure.Stack;
+import com.github.andyshao.data.structure.CycleLinked;
+import com.github.andyshao.data.structure.CycleLinkedElmt;
+import com.github.andyshao.data.structure.SingleLinked;
+import com.github.andyshao.data.structure.Stack;
 
+@Deprecated
 @RunWith(Parameterized.class)
 public class StackTest {
     @Parameters

@@ -2,8 +2,11 @@ package com.github.andyshao.test.data.structure;
 
 import java.util.Iterator;
 
+import com.github.andyshao.data.structure.Linked;
+import com.github.andyshao.data.structure.SingleLinkedOperation;
 import com.github.andyshao.lang.Cleanable;
 
+@Deprecated
 public interface Queue<D> extends Cleanable , Iterable<D> {
 
     public static

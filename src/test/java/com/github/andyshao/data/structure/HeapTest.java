@@ -1,4 +1,4 @@
-package com.github.andyshao.test.data.structure;
+package com.github.andyshao.data.structure;
 
 import java.util.PriorityQueue;
 
@@ -7,7 +7,7 @@ import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 
-import com.github.andyshao.test.data.structure.Heap;
+import com.github.andyshao.data.structure.Heap;
 import com.github.andyshao.util.ArrayTools;
 
 public class HeapTest {

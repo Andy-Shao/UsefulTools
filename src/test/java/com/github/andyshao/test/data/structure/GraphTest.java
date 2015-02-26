@@ -3,9 +3,10 @@ package com.github.andyshao.test.data.structure;
 import org.junit.Before;
 import org.junit.Test;
 
+import com.github.andyshao.data.structure.SingleLinked;
 import com.github.andyshao.test.data.structure.Graph;
-import com.github.andyshao.test.data.structure.SingleLinked;
 
+@Deprecated
 public class GraphTest {
     private volatile Graph<String> graph;
     private final String node1 = "node1";

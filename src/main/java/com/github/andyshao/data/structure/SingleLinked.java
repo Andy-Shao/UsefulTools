@@ -1,4 +1,4 @@
-package com.github.andyshao.test.data.structure;
+package com.github.andyshao.data.structure;
 
 import java.util.ConcurrentModificationException;
 import java.util.Iterator;
@@ -16,6 +16,7 @@ import java.util.function.Function;
  *
  * @param <D> data
  */
+@Deprecated
 public interface SingleLinked<D> extends Linked<D , CycleLinkedElmt<D>> , SingleLinkedOperation<D , CycleLinkedElmt<D>> {
     public class MySingleLinked<D> implements SingleLinked<D> {
         private class MyIterator implements Iterator<D> {

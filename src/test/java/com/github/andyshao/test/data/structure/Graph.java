@@ -3,9 +3,11 @@ package com.github.andyshao.test.data.structure;
 import java.util.Comparator;
 import java.util.HashSet;
 import java.util.function.Consumer;
-import java.util.function.Function;
 import java.util.function.Supplier;
 
+import com.github.andyshao.data.structure.CycleLinkedElmt;
+import com.github.andyshao.data.structure.GraphOperationException;
+import com.github.andyshao.data.structure.SingleLinked;
 import com.github.andyshao.lang.Cleanable;
 import com.github.andyshao.test.data.structure.convert.SetConvert;
 
@@ -20,6 +22,7 @@ import com.github.andyshao.test.data.structure.convert.SetConvert;
  *
  * @param <D> data
  */
+@Deprecated
 public interface Graph<D> extends Cleanable {
 
     public interface AdjList<DATA> {
@@ -331,36 +334,6 @@ public interface Graph<D> extends Cleanable {
     public static <DATA> void ADD_UNTOWARD_EDGE(Graph<DATA> graph , DATA data1 , DATA data2) {
         graph.graph_ins_edge(data1 , data2);
         graph.graph_ins_edge(data2 , data1);
-    }
-
-    /**
-     * The breadth first search
-     * 
-     * @param graph graph
-     * @param start start side
-     * @param hops hops list.
-     * @param <DATA> data
-     */
-    public static <DATA> void bfs(
-        Graph<BfsVertex<DATA>> graph , BfsVertex<DATA> start , SingleLinked<DATA> hops , Consumer<Queue<DATA>> queueFactory) {
-        Queue<DATA> queue;
-        AdjList<DATA> adjlist , clr_adjlist;
-        BfsVertex<DATA> clr_vertex , adj_vertex;
-        CycleLinkedElmt<AdjList<BfsVertex<DATA>>> element , member;
-        
-        //Initialize all of the vertices in the graph
-        for(element = graph.graph_adjlists().head(); element != null; element = element.next()){
-            clr_vertex = element.data().vertex();
-            if(graph.match(clr_vertex , start)){
-                //Initialize the start vertex.
-                clr_vertex.color(VertexColor.GRAY);
-                clr_vertex.hops(0);
-            } else {
-                //Initialize vertices other than the start vertex.
-                clr_vertex.color(VertexColor.WHITE);
-                clr_vertex.hops(-1);
-            }
-        }
     }
 
     public static <DATA> Graph<DATA> DEFAULT_GRAPH(

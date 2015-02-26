@@ -2,6 +2,10 @@ package com.github.andyshao.test.data.structure;
 
 import java.util.Iterator;
 
+import com.github.andyshao.data.structure.CycleLinkedElmt;
+import com.github.andyshao.data.structure.Linked;
+import com.github.andyshao.data.structure.SingleLinked;
+
 /**
  * 
  * Title:<br>
@@ -13,6 +17,7 @@ import java.util.Iterator;
  *
  * @param <D> data
  */
+@Deprecated
 public interface LinkedSet<D> extends Linked<D , CycleLinkedElmt<D>> , Set<D> {
 
     public static <DATA> LinkedSet<DATA> DEFAULT_SET(final SingleLinked<DATA> linked) {

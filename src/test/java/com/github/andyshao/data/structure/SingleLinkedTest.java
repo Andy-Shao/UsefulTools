@@ -1,12 +1,13 @@
-package com.github.andyshao.test.data.structure;
+package com.github.andyshao.data.structure;
 
 import org.hamcrest.Matchers;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 
-import com.github.andyshao.test.data.structure.SingleLinked;
+import com.github.andyshao.data.structure.SingleLinked;
 
+@Deprecated
 public class SingleLinkedTest {
 
     private final String[] data = new String[] {

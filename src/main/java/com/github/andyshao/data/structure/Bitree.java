@@ -1,5 +1,6 @@
-package com.github.andyshao.test.data.structure;
+package com.github.andyshao.data.structure;
 
+import java.util.Queue;
 import java.util.function.Supplier;
 
 import com.github.andyshao.lang.Cleanable;
@@ -225,12 +226,12 @@ public interface Bitree<D> extends Cleanable , Tree<D> {
     }
 
     public static
-        <DATA , E extends Linked.LinkedElmt<DATA , E> , T extends Linked<DATA , E> & SingleLinkedOperation<DATA , E>>
-        Linked<DATA , E> inorder(final BitreeNode<DATA> node , final T linked) {
+        <DATA> Queue<DATA> inorder(final BitreeNode<DATA> node , final Queue<DATA> linked) {
         //Load the list with an inorder listing of the tree.
         if (!Bitree.bitree_is_eob(node)) {
             if (!Bitree.bitree_is_eob(node.left())) Bitree.inorder(node.left() , linked);
-            linked.list_ins_next(linked.tail() , node.data());
+//            linked.list_ins_next(linked.tail() , node.data());
+            linked.offer(node.data());
             if (!Bitree.bitree_is_eob(node.right())) Bitree.inorder(node.right() , linked);
         }
 
@@ -238,24 +239,24 @@ public interface Bitree<D> extends Cleanable , Tree<D> {
     }
 
     public static
-        <DATA , E extends Linked.LinkedElmt<DATA , E> , T extends Linked<DATA , E> & SingleLinkedOperation<DATA , E>>
-        Linked<DATA , E> postorder(final BitreeNode<DATA> node , final T linked) {
+        <DATA> Queue<DATA> postorder(final BitreeNode<DATA> node , final Queue<DATA> linked) {
         //Load the list with an inorder listing of the tree.
         if (!Bitree.bitree_is_eob(node)) {
             if (!Bitree.bitree_is_eob(node.left())) Bitree.postorder(node.left() , linked);
             if (!Bitree.bitree_is_eob(node.right())) Bitree.postorder(node.right() , linked);
-            linked.list_ins_next(linked.tail() , node.data());
+//            linked.list_ins_next(linked.tail() , node.data());
+            linked.offer(node.data());
         }
 
         return linked;
     }
 
     public static
-        <DATA , E extends Linked.LinkedElmt<DATA , E> , T extends Linked<DATA , E> & SingleLinkedOperation<DATA , E>>
-        Linked<DATA , E> preorder(final BitreeNode<DATA> node , final T linked) {
+        <DATA> Queue<DATA> preorder(final BitreeNode<DATA> node , final Queue<DATA> linked) {
         //Load the list with a preorder listing of the tree.
         if (!Bitree.bitree_is_eob(node)) {
-            linked.list_ins_next(linked.tail() , node.data());
+//            linked.list_ins_next(linked.tail() , node.data());
+            linked.offer(node.data());
             if (!Bitree.bitree_is_eob(node.left())) Bitree.preorder(node.left() , linked);
             if (!Bitree.bitree_is_eob(node.right())) Bitree.preorder(node.right() , linked);
         }

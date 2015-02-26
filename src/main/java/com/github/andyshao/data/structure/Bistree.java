@@ -1,9 +1,9 @@
-package com.github.andyshao.test.data.structure;
+package com.github.andyshao.data.structure;
 
 import java.util.Comparator;
 
+import com.github.andyshao.data.structure.Bitree.BitreeNode;
 import com.github.andyshao.lang.Cleanable;
-import com.github.andyshao.test.data.structure.Bitree.BitreeNode;
 
 /**
  * 

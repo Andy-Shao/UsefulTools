@@ -1,12 +1,13 @@
-package com.github.andyshao.test.data.structure;
+package com.github.andyshao.data.structure;
 
 import org.hamcrest.Matchers;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 
-import com.github.andyshao.test.data.structure.DoubleLinked;
+import com.github.andyshao.data.structure.DoubleLinked;
 
+@Deprecated
 public class DoubleLinkedTest {
 
     private String[] data = new String[] {

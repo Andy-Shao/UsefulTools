@@ -1,4 +1,4 @@
-package com.github.andyshao.test.data.structure;
+package com.github.andyshao.data.structure;
 
 /**
  * 

@@ -1,13 +1,13 @@
-package com.github.andyshao.test.data.structure;
+package com.github.andyshao.data.structure;
 
 import org.hamcrest.Matchers;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 
-import com.github.andyshao.test.data.structure.Bistree;
-import com.github.andyshao.test.data.structure.Bitree;
-import com.github.andyshao.test.data.structure.Bistree.AvlNode;
+import com.github.andyshao.data.structure.Bistree;
+import com.github.andyshao.data.structure.Bitree;
+import com.github.andyshao.data.structure.Bistree.AvlNode;
 import com.github.andyshao.util.ArrayTools;
 
 public class BistreeTest {

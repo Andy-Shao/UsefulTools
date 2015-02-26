@@ -1,4 +1,5 @@
-package com.github.andyshao.test.data.structure;
+package com.github.andyshao.data.structure;
+
 
 public class HeapOperationException extends DataStructureException {
     private static final long serialVersionUID = 6700152770758060898L;

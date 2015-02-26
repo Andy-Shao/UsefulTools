@@ -1,7 +1,7 @@
-package com.github.andyshao.test.data.structure;
+package com.github.andyshao.data.structure;
 
+import com.github.andyshao.data.structure.Heap.MyHeap;
 import com.github.andyshao.lang.Cleanable;
-import com.github.andyshao.test.data.structure.Heap.MyHeap;
 
 /**
  * 

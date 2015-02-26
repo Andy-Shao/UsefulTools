@@ -1,14 +1,14 @@
-package com.github.andyshao.test.data.structure;
+package com.github.andyshao.data.structure;
+
+import java.util.Queue;
 
 import org.hamcrest.Matchers;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 
-import com.github.andyshao.test.data.structure.Bitree;
-import com.github.andyshao.test.data.structure.SingleLinked;
-import com.github.andyshao.test.data.structure.Tree;
-import com.github.andyshao.test.data.structure.Bitree.BitreeNode;
+import com.github.andyshao.data.structure.Bitree;
+import com.github.andyshao.data.structure.Bitree.BitreeNode;
 
 public class BitTreeTest {
 
@@ -52,7 +52,8 @@ public class BitTreeTest {
         Assert.assertThat(this.bitree.root().left().data() , Matchers.is("left"));
         Assert.assertThat(this.bitree.root().right().data() , Matchers.is("right"));
 
-        SingleLinked<String> linked = SingleLinked.DEFAULT_SINGLE_LINKED();
+//        SingleLinked<String> linked = SingleLinked.DEFAULT_SINGLE_LINKED();
+        Queue<String> linked = new SimpleQueue<String>();
         Bitree.inorder(this.bitree.root() , linked);
 
         String string = "";
@@ -126,7 +127,8 @@ public class BitTreeTest {
         Assert.assertThat(this.bitree.root().left().data() , Matchers.is("left"));
         Assert.assertThat(this.bitree.root().right().data() , Matchers.is("right"));
 
-        SingleLinked<String> linked = SingleLinked.DEFAULT_SINGLE_LINKED();
+//        SingleLinked<String> linked = SingleLinked.DEFAULT_SINGLE_LINKED();
+        Queue<String> linked = new SimpleQueue<String>();
         Bitree.postorder(this.bitree.root() , linked);
 
         String string = "";
@@ -149,7 +151,8 @@ public class BitTreeTest {
         Assert.assertThat(this.bitree.root().left().data() , Matchers.is("left"));
         Assert.assertThat(this.bitree.root().right().data() , Matchers.is("right"));
 
-        SingleLinked<String> linked = SingleLinked.DEFAULT_SINGLE_LINKED();
+//        SingleLinked<String> linked = SingleLinked.DEFAULT_SINGLE_LINKED();
+        Queue<String> linked = new SimpleQueue<String>();
         Bitree.preorder(this.bitree.root() , linked);
 
         String string = "";

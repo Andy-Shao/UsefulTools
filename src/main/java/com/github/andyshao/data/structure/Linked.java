@@ -1,4 +1,4 @@
-package com.github.andyshao.test.data.structure;
+package com.github.andyshao.data.structure;
 
 import com.github.andyshao.lang.Cleanable;
 
@@ -16,6 +16,7 @@ import com.github.andyshao.lang.Cleanable;
  * @param <D> data
  * @param <T> element type
  */
+@Deprecated
 public interface Linked<D , T extends Linked.LinkedElmt<D , T>> extends Cleanable , Iterable<D> {
 
     public interface LinkedElmt<DATA , T extends Linked.LinkedElmt<DATA , T>> {

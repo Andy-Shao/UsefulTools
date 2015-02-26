@@ -1,4 +1,5 @@
-package com.github.andyshao.test.data.structure;
+package com.github.andyshao.data.structure;
+
 
 public class LinkedOperationException extends DataStructureException {
 

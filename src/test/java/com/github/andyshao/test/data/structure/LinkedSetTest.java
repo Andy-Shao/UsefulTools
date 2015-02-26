@@ -5,9 +5,10 @@ import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 
+import com.github.andyshao.data.structure.SingleLinked;
 import com.github.andyshao.test.data.structure.LinkedSet;
-import com.github.andyshao.test.data.structure.SingleLinked;
 
+@Deprecated
 public class LinkedSetTest {
     private final String[] data = new String[] {
         "Andy" , "shao"

@@ -10,11 +10,12 @@ import org.junit.runner.RunWith;
 import org.junit.runners.Parameterized;
 import org.junit.runners.Parameterized.Parameters;
 
-import com.github.andyshao.test.data.structure.CycleLinked;
-import com.github.andyshao.test.data.structure.CycleLinkedElmt;
+import com.github.andyshao.data.structure.CycleLinked;
+import com.github.andyshao.data.structure.CycleLinkedElmt;
+import com.github.andyshao.data.structure.SingleLinked;
 import com.github.andyshao.test.data.structure.Queue;
-import com.github.andyshao.test.data.structure.SingleLinked;
 
+@Deprecated
 @RunWith(Parameterized.class)
 public class QueueTest {
 
