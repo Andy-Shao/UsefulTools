@@ -1,6 +1,7 @@
 package com.github.andyshao.data.structure;
 
-import java.util.Queue;
+import java.util.ArrayList;
+import java.util.List;
 
 import org.hamcrest.Matchers;
 import org.junit.Assert;
@@ -51,8 +52,7 @@ public class BitTreeTest {
         Assert.assertThat(this.bitree.root().left().data() , Matchers.is("left"));
         Assert.assertThat(this.bitree.root().right().data() , Matchers.is("right"));
 
-        //        SingleLinked<String> linked = SingleLinked.DEFAULT_SINGLE_LINKED();
-        Queue<String> linked = new SimpleQueue<String>();
+        List<String> linked = new ArrayList<String>();
         Bitree.inorder(this.bitree.root() , linked);
 
         String string = "";
@@ -126,8 +126,7 @@ public class BitTreeTest {
         Assert.assertThat(this.bitree.root().left().data() , Matchers.is("left"));
         Assert.assertThat(this.bitree.root().right().data() , Matchers.is("right"));
 
-        //        SingleLinked<String> linked = SingleLinked.DEFAULT_SINGLE_LINKED();
-        Queue<String> linked = new SimpleQueue<String>();
+        List<String> linked = new ArrayList<String>();
         Bitree.postorder(this.bitree.root() , linked);
 
         String string = "";
@@ -150,8 +149,7 @@ public class BitTreeTest {
         Assert.assertThat(this.bitree.root().left().data() , Matchers.is("left"));
         Assert.assertThat(this.bitree.root().right().data() , Matchers.is("right"));
 
-        //        SingleLinked<String> linked = SingleLinked.DEFAULT_SINGLE_LINKED();
-        Queue<String> linked = new SimpleQueue<String>();
+        List<String> linked = new ArrayList<String>();
         Bitree.preorder(this.bitree.root() , linked);
 
         String string = "";

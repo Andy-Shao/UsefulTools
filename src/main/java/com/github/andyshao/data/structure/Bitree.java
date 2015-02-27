@@ -1,6 +1,6 @@
 package com.github.andyshao.data.structure;
 
-import java.util.Queue;
+import java.util.Collection;
 import java.util.function.Supplier;
 
 import com.github.andyshao.lang.Cleanable;
@@ -225,40 +225,37 @@ public interface Bitree<D> extends Cleanable , Tree<D> {
         return new Bitree.MyBitree<>(treeNodeFactory);
     }
 
-    public static <DATA> Queue<DATA> inorder(final BitreeNode<DATA> node , final Queue<DATA> linked) {
+    public static <DATA> Collection<DATA> inorder(final BitreeNode<DATA> node , final Collection<DATA> result) {
         //Load the list with an inorder listing of the tree.
         if (!Bitree.bitree_is_eob(node)) {
-            if (!Bitree.bitree_is_eob(node.left())) Bitree.inorder(node.left() , linked);
-            //            linked.list_ins_next(linked.tail() , node.data());
-            linked.offer(node.data());
-            if (!Bitree.bitree_is_eob(node.right())) Bitree.inorder(node.right() , linked);
+            if (!Bitree.bitree_is_eob(node.left())) Bitree.inorder(node.left() , result);
+            result.add(node.data());
+            if (!Bitree.bitree_is_eob(node.right())) Bitree.inorder(node.right() , result);
         }
 
-        return linked;
+        return result;
     }
 
-    public static <DATA> Queue<DATA> postorder(final BitreeNode<DATA> node , final Queue<DATA> linked) {
+    public static <DATA> Collection<DATA> postorder(final BitreeNode<DATA> node , final Collection<DATA> result) {
         //Load the list with an inorder listing of the tree.
         if (!Bitree.bitree_is_eob(node)) {
-            if (!Bitree.bitree_is_eob(node.left())) Bitree.postorder(node.left() , linked);
-            if (!Bitree.bitree_is_eob(node.right())) Bitree.postorder(node.right() , linked);
-            //            linked.list_ins_next(linked.tail() , node.data());
-            linked.offer(node.data());
+            if (!Bitree.bitree_is_eob(node.left())) Bitree.postorder(node.left() , result);
+            if (!Bitree.bitree_is_eob(node.right())) Bitree.postorder(node.right() , result);
+            result.add(node.data());
         }
 
-        return linked;
+        return result;
     }
 
-    public static <DATA> Queue<DATA> preorder(final BitreeNode<DATA> node , final Queue<DATA> linked) {
+    public static <DATA> Collection<DATA> preorder(final BitreeNode<DATA> node , final Collection<DATA> result) {
         //Load the list with a preorder listing of the tree.
         if (!Bitree.bitree_is_eob(node)) {
-            //            linked.list_ins_next(linked.tail() , node.data());
-            linked.offer(node.data());
-            if (!Bitree.bitree_is_eob(node.left())) Bitree.preorder(node.left() , linked);
-            if (!Bitree.bitree_is_eob(node.right())) Bitree.preorder(node.right() , linked);
+            result.add(node.data());
+            if (!Bitree.bitree_is_eob(node.left())) Bitree.preorder(node.left() , result);
+            if (!Bitree.bitree_is_eob(node.right())) Bitree.preorder(node.right() , result);
         }
 
-        return linked;
+        return result;
     }
 
     /**
