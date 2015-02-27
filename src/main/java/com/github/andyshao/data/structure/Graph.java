@@ -1,5 +1,6 @@
 package com.github.andyshao.data.structure;
 
+import java.util.Collection;
 import java.util.Comparator;
 import java.util.HashSet;
 import java.util.Queue;
@@ -106,7 +107,7 @@ public interface Graph<D> extends Cleanable {
 
             @Override
             public String toString() {
-                return "MyBfsVertex [color=" + color + ", data=" + data + ", hops=" + hops + "]";
+                return "MyBfsVertex [color=" + this.color + ", data=" + this.data + ", hops=" + this.hops + "]";
             }
         }
 
@@ -125,6 +126,62 @@ public interface Graph<D> extends Cleanable {
         int hops();
 
         void hops(int hops);
+    }
+
+    /**
+     * 
+     * Title:<br>
+     * Descript: Define a structure for vertices in a depth-first search.<br>
+     * Copyright: Copryright(c) Feb 27, 2015<br>
+     * Encoding:UNIX UTF-8
+     * 
+     * @author Andy.Shao
+     *
+     * @param <DATA> data
+     */
+    public interface DfsVertex<DATA> {
+        public class MyDfsVertex<DAT> implements DfsVertex<DAT> {
+            private VertexColor color;
+            private DAT data;
+
+            @Override
+            public VertexColor color() {
+                return this.color;
+            }
+
+            @Override
+            public void color(VertexColor color) {
+                this.color = color;
+            }
+
+            @Override
+            public DAT data() {
+                return this.data;
+            }
+
+            @Override
+            public void data(DAT data) {
+                this.data = data;
+            }
+
+            @Override
+            public String toString() {
+                return "MyDfsVertex [data=" + this.data + ", color=" + this.color + "]";
+            }
+
+        }
+
+        public static <DAT> DfsVertex<DAT> DEFAULT_DFS_VERTEX() {
+            return new MyDfsVertex<>();
+        }
+
+        public VertexColor color();
+
+        public void color(VertexColor color);
+
+        public DATA data();
+
+        public void data(DATA data);
     }
 
     public class MyGraph<DATA> implements Graph<DATA> {
@@ -347,11 +404,11 @@ public interface Graph<D> extends Cleanable {
      * 
      * @param graph {@link Graph}
      * @param start the start side
-     * @param result the {@link Queue} which should return
+     * @param result the {@link Collection} which should return
      * @return the result
      */
-    public static <DATA> Queue<BfsVertex<DATA>> BREADTH_FIRST_SEARCH(
-        Graph<BfsVertex<DATA>> graph , BfsVertex<DATA> start , Queue<BfsVertex<DATA>> result) {
+    public static <DATA> Collection<BfsVertex<DATA>> BREADTH_FIRST_SEARCH(
+        Graph<BfsVertex<DATA>> graph , BfsVertex<DATA> start , Collection<BfsVertex<DATA>> result) {
         Queue<AdjList<BfsVertex<DATA>>> queue = new SimpleQueue<>();
         //Initialize the queue with the adjacency list of the start vertex.
         AdjList<BfsVertex<DATA>> clr_adjlist = graph.graph_adjlist(start);
@@ -402,7 +459,7 @@ public interface Graph<D> extends Cleanable {
             //Skip vertices that were not visited (those with hop counts of -1).
             BfsVertex<DATA> vertex = element.data().vertex();
 
-            if (vertex.hops() != -1) result.offer(vertex);
+            if (vertex.hops() != -1) result.add(vertex);
         }
 
         return result;
@@ -411,6 +468,50 @@ public interface Graph<D> extends Cleanable {
     public static <DATA> Graph<DATA> DEFAULT_GRAPH(
         Comparator<DATA> comparator , Supplier<SingleLinked<AdjList<DATA>>> singleLinkedFactory) {
         return new MyGraph<DATA>(comparator , singleLinkedFactory);
+    }
+
+    public static <DATA> Collection<DfsVertex<DATA>> DEPTH_FIRST_SEARCH(
+        Graph<DfsVertex<DATA>> graph , Collection<DfsVertex<DATA>> result) {
+        DfsVertex<DATA> vertex;
+        CycleLinkedElmt<AdjList<DfsVertex<DATA>>> element;
+
+        //Initialize all of the vertices in the graph.
+        for (element = graph.graph_adjlists().head() ; element != null ; element = element.next()) {
+            vertex = element.data().vertex();
+            vertex.color(VertexColor.WHITE);
+        }
+
+        //Perform depth-first search.
+        for (element = graph.graph_adjlists().head() ; element != null ; element = element.next()) {
+            //Ensure that every component of unconnected graphs is searched.
+            vertex = element.data().vertex();
+
+            if (vertex.color() == VertexColor.WHITE) Graph.DFS_MAIN(graph , element.data() , result);
+        }
+
+        return result;
+    }
+
+    public static <DATA> Collection<DfsVertex<DATA>> DFS_MAIN(
+        Graph<DfsVertex<DATA>> graph , AdjList<DfsVertex<DATA>> adjlist , Collection<DfsVertex<DATA>> result) {
+        //Color the vertex gray and traverse its adjacency list.
+        adjlist.vertex().color(VertexColor.GRAY);
+
+        for (DfsVertex<DATA> adj_vertex : adjlist.adjacent()) {
+            AdjList<DfsVertex<DATA>> clr_adjlist = graph.graph_adjlist(adj_vertex);
+
+            DfsVertex<DATA> clr_vertex = clr_adjlist.vertex();
+
+            //Move one vertex deeper when the next adjacent vertex is white.
+            if (clr_vertex.color() == VertexColor.WHITE) Graph.DFS_MAIN(graph , clr_adjlist , result);
+        }
+
+        //Color the current vertex black and make it first in the list.
+        adjlist.vertex().color(VertexColor.BLACK);
+
+        result.add(adjlist.vertex());
+
+        return result;
     }
 
     public Supplier<AdjList<D>> getAdjListFactory();
