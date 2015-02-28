@@ -12,13 +12,13 @@ import com.github.andyshao.data.structure.Graph.BfsVertex;
 import com.github.andyshao.data.structure.Graph.DfsVertex;
 
 public class GraphTest {
-    static final <DATA> Graph.BfsVertex<DATA> build_bsfvertex(DATA data) {
+    static final <DATA> Graph.BfsVertex<DATA> buildBsfvertex(DATA data) {
         Graph.BfsVertex<DATA> result = Graph.BfsVertex.defaultBfsVertex();
         result.data(data);
         return result;
     }
 
-    static final <DATA> DfsVertex<DATA> build_dfs_vertex(DATA data) {
+    static final <DATA> DfsVertex<DATA> buildDfsVertex(DATA data) {
         Graph.DfsVertex<DATA> result = DfsVertex.defaultDfsVertex();
         result.data(data);
         return result;
@@ -38,12 +38,12 @@ public class GraphTest {
     @SuppressWarnings("unchecked")
     @Test
     public void testBsf() {
-        final Graph.BfsVertex<String> node1 = GraphTest.build_bsfvertex("node1");
-        final Graph.BfsVertex<String> node2 = GraphTest.build_bsfvertex("node2");
-        final Graph.BfsVertex<String> node3 = GraphTest.build_bsfvertex("node3");
-        final Graph.BfsVertex<String> node4 = GraphTest.build_bsfvertex("node4");
-        final Graph.BfsVertex<String> node5 = GraphTest.build_bsfvertex("node5");
-        final Graph.BfsVertex<String> node6 = GraphTest.build_bsfvertex("node6");
+        final Graph.BfsVertex<String> node1 = GraphTest.buildBsfvertex("node1");
+        final Graph.BfsVertex<String> node2 = GraphTest.buildBsfvertex("node2");
+        final Graph.BfsVertex<String> node3 = GraphTest.buildBsfvertex("node3");
+        final Graph.BfsVertex<String> node4 = GraphTest.buildBsfvertex("node4");
+        final Graph.BfsVertex<String> node5 = GraphTest.buildBsfvertex("node5");
+        final Graph.BfsVertex<String> node6 = GraphTest.buildBsfvertex("node6");
         Graph<Graph.BfsVertex<String>> graph = Graph.<Graph.BfsVertex<String>> defaultGraph((obj1 , obj2) -> {
             return obj1.data().compareTo(obj2.data());
         } , () -> {
@@ -108,13 +108,13 @@ public class GraphTest {
     @SuppressWarnings("unchecked")
     @Test
     public void testDfs() {
-        final DfsVertex<String> cs100 = GraphTest.build_dfs_vertex("CS100");
-        final DfsVertex<String> cs200 = GraphTest.build_dfs_vertex("CS200");
-        final DfsVertex<String> cs300 = GraphTest.build_dfs_vertex("CS300");
-        final DfsVertex<String> cs150 = GraphTest.build_dfs_vertex("CS1500");
-        final DfsVertex<String> ma100 = GraphTest.build_dfs_vertex("MA100");
-        final DfsVertex<String> ma200 = GraphTest.build_dfs_vertex("MA200");
-        final DfsVertex<String> ma300 = GraphTest.build_dfs_vertex("MA300");
+        final DfsVertex<String> cs100 = GraphTest.buildDfsVertex("CS100");
+        final DfsVertex<String> cs200 = GraphTest.buildDfsVertex("CS200");
+        final DfsVertex<String> cs300 = GraphTest.buildDfsVertex("CS300");
+        final DfsVertex<String> cs150 = GraphTest.buildDfsVertex("CS1500");
+        final DfsVertex<String> ma100 = GraphTest.buildDfsVertex("MA100");
+        final DfsVertex<String> ma200 = GraphTest.buildDfsVertex("MA200");
+        final DfsVertex<String> ma300 = GraphTest.buildDfsVertex("MA300");
         Graph<DfsVertex<String>> graph = Graph.<DfsVertex<String>> defaultGraph((obj1 , obj2) -> {
             return obj1.data().compareTo(obj2.data());
         } , () -> {
