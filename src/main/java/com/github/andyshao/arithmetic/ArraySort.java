@@ -12,7 +12,16 @@ import java.util.Comparator;
  * @author Andy.Shao
  *
  */
-public final class Sort {
+public final class ArraySort {
+
+    /**
+     * insert sort(插入排序)
+     * 
+     * @param data array
+     * @param comparator {@link Comparator}
+     * @param <DATA> data
+     * @return if the data is null then return it.
+     */
     public static final <DATA> DATA[] issort(DATA[] data , Comparator<DATA> comparator) {
         if (data == null) return data;
         //Repeatedly insert a key element among the sorted elements.
@@ -28,7 +37,7 @@ public final class Sort {
         return data;
     }
 
-    private Sort() {
-        throw new AssertionError("No com.github.andyshao.arithmetic.Sort instances for you!");
+    private ArraySort() {
+        throw new AssertionError("No com.github.andyshao.arithmetic.ArraySort instances for you!");
     }
 }

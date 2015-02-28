@@ -9,7 +9,7 @@ import org.junit.Test;
 
 import com.github.andyshao.util.ArrayTools;
 
-public class SortTest {
+public class ArraySortTest {
     private final Integer[] answer = ArrayTools.pack_unpack(new int[] {
         0 , 1 , 2 , 3 , 4 , 5 , 6 , 7 , 8 , 9
     } , Integer[].class);
@@ -25,7 +25,7 @@ public class SortTest {
 
     @Test
     public void teatIssort() {
-        Sort.<Integer> issort(this.data , (i1 , i2) -> {
+        ArraySort.<Integer> issort(this.data , (i1 , i2) -> {
             return Integer.compare(i1 , i2);
         });
 
