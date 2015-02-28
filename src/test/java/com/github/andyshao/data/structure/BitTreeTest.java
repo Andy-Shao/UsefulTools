@@ -16,7 +16,7 @@ public class BitTreeTest {
 
     @Before
     public void before() {
-        this.bitree = Bitree.<String> DEFAULT_BIT_TREE(() -> {
+        this.bitree = Bitree.<String> defaultBitTree(() -> {
             return BitreeNode.<String> DEFAULT_BITREE_NODE();
         });
     }
@@ -94,16 +94,16 @@ public class BitTreeTest {
 
     @Test
     public void testMeger() {
-        Bitree<String> left = Bitree.<String> DEFAULT_BIT_TREE(() -> {
+        Bitree<String> left = Bitree.<String> defaultBitTree(() -> {
             return BitreeNode.<String> DEFAULT_BITREE_NODE();
         });
-        Bitree<String> right = Bitree.<String> DEFAULT_BIT_TREE(() -> {
+        Bitree<String> right = Bitree.<String> defaultBitTree(() -> {
             return BitreeNode.<String> DEFAULT_BITREE_NODE();
         });
 
         left.bitree_ins_left(null , "left");
         right.bitree_ins_left(null , "right");
-        Tree<String> bitree = Bitree.<String> BITREE_MERGE(() -> {
+        Tree<String> bitree = Bitree.<String> bitreeMerge(() -> {
             return BitreeNode.<String> DEFAULT_BITREE_NODE();
         } , left , right , "root");
 

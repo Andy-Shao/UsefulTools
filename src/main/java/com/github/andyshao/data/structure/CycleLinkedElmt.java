@@ -3,7 +3,7 @@ package com.github.andyshao.data.structure;
 import java.util.Objects;
 
 public interface CycleLinkedElmt<DATA> extends Linked.LinkedElmt<DATA , CycleLinkedElmt<DATA>> {
-    public static <DAT> CycleLinkedElmt<DAT> DEFAULT_ELMT(DAT data) {
+    public static <DAT> CycleLinkedElmt<DAT> defaultElmt(DAT data) {
         CycleLinkedElmt<DAT> result = new CycleLinkedElmt<DAT>() {
             private DAT data;
             private CycleLinkedElmt<DAT> next;

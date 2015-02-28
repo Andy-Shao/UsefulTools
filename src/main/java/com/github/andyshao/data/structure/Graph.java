@@ -24,7 +24,7 @@ import com.github.andyshao.lang.Cleanable;
 public interface Graph<D> extends Cleanable {
 
     public interface AdjList<DATA> {
-        public static <D> AdjList<D> DEFAULT_ADJ_LIST(Supplier<Set<D>> setFactory) {
+        public static <D> AdjList<D> defaultAdjList(Supplier<Set<D>> setFactory) {
             return new AdjList<D>() {
                 private final Set<D> adjacent = setFactory.get();
                 private D vertex;
@@ -111,7 +111,7 @@ public interface Graph<D> extends Cleanable {
             }
         }
 
-        public static <DAT> MyBfsVertex<DAT> DEFAULT_BFS_VERTEX() {
+        public static <DAT> MyBfsVertex<DAT> defaultBfsVertex() {
             return new MyBfsVertex<>();
         }
 
@@ -171,7 +171,7 @@ public interface Graph<D> extends Cleanable {
 
         }
 
-        public static <DAT> DfsVertex<DAT> DEFAULT_DFS_VERTEX() {
+        public static <DAT> DfsVertex<DAT> defaultDfsVertex() {
             return new MyDfsVertex<>();
         }
 
@@ -187,7 +187,7 @@ public interface Graph<D> extends Cleanable {
     public class MyGraph<DATA> implements Graph<DATA> {
         private long actionAcount;
         protected Supplier<AdjList<DATA>> adjListFactory = () -> {
-            return AdjList.<DATA> DEFAULT_ADJ_LIST(() -> {
+            return AdjList.<DATA> defaultAdjList(() -> {
                 return new HashSet<>();
             });
         };
@@ -407,7 +407,7 @@ public interface Graph<D> extends Cleanable {
      * @param result the {@link Collection} which should return
      * @return the result
      */
-    public static <DATA> Collection<BfsVertex<DATA>> BREADTH_FIRST_SEARCH(
+    public static <DATA> Collection<BfsVertex<DATA>> bfs(
         Graph<BfsVertex<DATA>> graph , BfsVertex<DATA> start , Collection<BfsVertex<DATA>> result) {
         Queue<AdjList<BfsVertex<DATA>>> queue = new SimpleQueue<>();
         //Initialize the queue with the adjacency list of the start vertex.
@@ -465,12 +465,12 @@ public interface Graph<D> extends Cleanable {
         return result;
     }
 
-    public static <DATA> Graph<DATA> DEFAULT_GRAPH(
+    public static <DATA> Graph<DATA> defaultGraph(
         Comparator<DATA> comparator , Supplier<SingleLinked<AdjList<DATA>>> singleLinkedFactory) {
         return new MyGraph<DATA>(comparator , singleLinkedFactory);
     }
 
-    public static <DATA> Collection<DfsVertex<DATA>> DEPTH_FIRST_SEARCH(
+    public static <DATA> Collection<DfsVertex<DATA>> dfs(
         Graph<DfsVertex<DATA>> graph , Collection<DfsVertex<DATA>> result) {
         DfsVertex<DATA> vertex;
         CycleLinkedElmt<AdjList<DfsVertex<DATA>>> element;
@@ -486,13 +486,13 @@ public interface Graph<D> extends Cleanable {
             //Ensure that every component of unconnected graphs is searched.
             vertex = element.data().vertex();
 
-            if (vertex.color() == VertexColor.WHITE) Graph.DFS_MAIN(graph , element.data() , result);
+            if (vertex.color() == VertexColor.WHITE) Graph.dfsMain(graph , element.data() , result);
         }
 
         return result;
     }
 
-    public static <DATA> Collection<DfsVertex<DATA>> DFS_MAIN(
+    public static <DATA> Collection<DfsVertex<DATA>> dfsMain(
         Graph<DfsVertex<DATA>> graph , AdjList<DfsVertex<DATA>> adjlist , Collection<DfsVertex<DATA>> result) {
         //Color the vertex gray and traverse its adjacency list.
         adjlist.vertex().color(VertexColor.GRAY);
@@ -503,7 +503,7 @@ public interface Graph<D> extends Cleanable {
             DfsVertex<DATA> clr_vertex = clr_adjlist.vertex();
 
             //Move one vertex deeper when the next adjacent vertex is white.
-            if (clr_vertex.color() == VertexColor.WHITE) Graph.DFS_MAIN(graph , clr_adjlist , result);
+            if (clr_vertex.color() == VertexColor.WHITE) Graph.dfsMain(graph , clr_adjlist , result);
         }
 
         //Color the current vertex black and make it first in the list.

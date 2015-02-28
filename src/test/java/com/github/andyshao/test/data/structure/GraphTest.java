@@ -20,7 +20,7 @@ public class GraphTest {
         this.graph = Graph.<String> DEFAULT_GRAPH((obj1 , obj2) -> {
             return obj1.compareTo(obj2);
         } , () -> {
-            return SingleLinked.DEFAULT_SINGLE_LINKED();
+            return SingleLinked.defaultSingleLinked();
         });
     }
 

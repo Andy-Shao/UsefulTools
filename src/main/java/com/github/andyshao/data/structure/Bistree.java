@@ -282,7 +282,7 @@ public interface Bistree<DATA> extends Cleanable , Tree<Bistree.AvlNode<DATA>> {
     /** right heavy */
     public static final int AVL_RGT_HEAVY = -1;
 
-    public static <D> Bistree<D> DEFAULT_BISTREE(
+    public static <D> Bistree<D> defaultBistree(
         Bitree<AvlNode<D>> bitree , AvlNodeFactory<D , AvlNode<D>> avlNodeFactory , Comparator<D> comparator) {
         Bistree<D> bistree = new Bistree.MyBistree<>(bitree , avlNodeFactory);
         bistree.setComparator(comparator);

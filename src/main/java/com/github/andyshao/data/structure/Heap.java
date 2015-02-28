@@ -118,7 +118,7 @@ public interface Heap<D> extends Cleanable {
 
     }
 
-    public static <DATA> Heap<DATA> DEFAULT_HEAP(Comparator<DATA> comparator) {
+    public static <DATA> Heap<DATA> defaultHeap(Comparator<DATA> comparator) {
         Heap<DATA> result = new MyHeap<DATA>();
         result.setComparator(comparator);
         return result;

@@ -16,7 +16,7 @@ import java.util.Iterator;
  */
 public interface CycleLinked<D> extends Linked<D , CycleLinkedElmt<D>> , SingleLinkedOperation<D , CycleLinkedElmt<D>> {
 
-    public static <DATA> CycleLinked<DATA> DEFAULT_CYCLE_LINKED() {
+    public static <DATA> CycleLinked<DATA> defaultCycleLinked() {
         return new CycleLinked<DATA>() {
             private long actionAccount = 0;
             private CycleLinkedElmt<DATA> head;
@@ -65,7 +65,7 @@ public interface CycleLinked<D> extends Linked<D , CycleLinkedElmt<D>> , SingleL
 
             @Override
             public void list_ins_next(CycleLinkedElmt<DATA> element , final DATA data) {
-                CycleLinkedElmt<DATA> new_element = CycleLinkedElmt.<DATA> DEFAULT_ELMT(data);
+                CycleLinkedElmt<DATA> new_element = CycleLinkedElmt.<DATA> defaultElmt(data);
 
                 if (this.size == 0) {
                     //Handle insertion when the list is empty.
@@ -87,7 +87,7 @@ public interface CycleLinked<D> extends Linked<D , CycleLinkedElmt<D>> , SingleL
 
             @Override
             public DATA list_rem_next(CycleLinkedElmt<DATA> element) {
-                CycleLinkedElmt<DATA> old_element = CycleLinkedElmt.<DATA> DEFAULT_ELMT(null);
+                CycleLinkedElmt<DATA> old_element = CycleLinkedElmt.<DATA> defaultElmt(null);
                 DATA data = null;
 
                 //Do not allow removal from an empty list.

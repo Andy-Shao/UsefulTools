@@ -14,7 +14,7 @@ public class CycleLinkedTest {
 
     @Before
     public void before() {
-        this.linked = CycleLinked.DEFAULT_CYCLE_LINKED();
+        this.linked = CycleLinked.defaultCycleLinked();
     }
 
     private void fill() {

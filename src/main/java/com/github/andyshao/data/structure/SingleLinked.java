@@ -39,7 +39,7 @@ public interface SingleLinked<D> extends Linked<D , CycleLinkedElmt<D>> , Single
 
         private long actionCount = 0;
         private Function<D , CycleLinkedElmt<D>> cycleLinkedElmt = (data) -> {
-            return CycleLinkedElmt.DEFAULT_ELMT(data);
+            return CycleLinkedElmt.defaultElmt(data);
         };
         private CycleLinkedElmt<D> head;
         private int size = 0;
@@ -165,7 +165,7 @@ public interface SingleLinked<D> extends Linked<D , CycleLinkedElmt<D>> , Single
         }
     }
 
-    public static <DATA> SingleLinked<DATA> DEFAULT_SINGLE_LINKED() {
+    public static <DATA> SingleLinked<DATA> defaultSingleLinked() {
         return new MySingleLinked<DATA>();
     }
 

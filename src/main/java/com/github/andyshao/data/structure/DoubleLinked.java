@@ -79,7 +79,7 @@ public interface DoubleLinked<D> extends Linked<D , DoubleLinked.DoubleLinkedElm
         public void setPrev(DoubleLinkedElmt<DATA> prev);
     }
 
-    public static <DATA> DoubleLinked<DATA> DEFAULT_DOUBLE_LINKED() {
+    public static <DATA> DoubleLinked<DATA> defaultDoubleLinked() {
         return new DoubleLinked<DATA>() {
             private long actionCount = 0;
             private DoubleLinked.DoubleLinkedElmt<DATA> head;

@@ -16,7 +16,7 @@ public class LinkedSetTest {
 
     @Before
     public void before() {
-        this.set = LinkedSet.DEFAULT_SET(SingleLinked.DEFAULT_SINGLE_LINKED());
+        this.set = LinkedSet.DEFAULT_SET(SingleLinked.defaultSingleLinked());
     }
 
     @Test

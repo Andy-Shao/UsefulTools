@@ -18,7 +18,7 @@ public class HeapTest {
 
     @Before
     public void before() {
-        this.heap = Heap.<Double> DEFAULT_HEAP((d1 , d2) -> {
+        this.heap = Heap.<Double> defaultHeap((d1 , d2) -> {
             return d1.compareTo(d2);
         });
     }

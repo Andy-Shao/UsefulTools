@@ -15,7 +15,7 @@ public class SingleLinkedTest {
 
     @Before
     public void before() {
-        this.linked = SingleLinked.<String> DEFAULT_SINGLE_LINKED();
+        this.linked = SingleLinked.<String> defaultSingleLinked();
     }
 
     @Test

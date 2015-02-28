@@ -19,7 +19,7 @@ public interface Stack<D> extends Cleanable , Iterable<D> {
 
     public static
         <DATA , E extends Linked.LinkedElmt<DATA , E> , T extends Linked<DATA , E> & SingleLinkedOperation<DATA , E>>
-        Stack<DATA> DEFAULT_STACK(T linked) {
+        Stack<DATA> defaultStack(T linked) {
         return new Stack<DATA>() {
 
             @Override

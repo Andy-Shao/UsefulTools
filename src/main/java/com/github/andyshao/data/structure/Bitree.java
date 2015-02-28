@@ -216,12 +216,12 @@ public interface Bitree<D> extends Cleanable , Tree<D> {
         return node.left() == null && node.right() == null;
     }
 
-    public static <DATA> Bitree<DATA> BITREE_MERGE(
+    public static <DATA> Bitree<DATA> bitreeMerge(
         Supplier<BitreeNode<DATA>> treeNodeFactory , Bitree<DATA> left , Bitree<DATA> right , DATA data) {
         return new Bitree.MyBitree<>(treeNodeFactory , left , right , data);
     }
 
-    public static <DATA> Bitree<DATA> DEFAULT_BIT_TREE(Supplier<BitreeNode<DATA>> treeNodeFactory) {
+    public static <DATA> Bitree<DATA> defaultBitTree(Supplier<BitreeNode<DATA>> treeNodeFactory) {
         return new Bitree.MyBitree<>(treeNodeFactory);
     }
 

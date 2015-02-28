@@ -23,11 +23,11 @@ public class QueueTest {
         return Arrays.asList(new Object[][] {
             {
                 Queue.<String , CycleLinkedElmt<String> , SingleLinked<String>> DEFAULT_QUEUE(SingleLinked
-                    .DEFAULT_SINGLE_LINKED())
+                    .defaultSingleLinked())
             } ,
             {
                 Queue.<String , CycleLinkedElmt<String> , CycleLinked<String>> DEFAULT_QUEUE(CycleLinked
-                    .DEFAULT_CYCLE_LINKED())
+                    .defaultCycleLinked())
             }
         });
     }

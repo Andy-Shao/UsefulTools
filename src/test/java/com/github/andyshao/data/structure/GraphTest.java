@@ -13,13 +13,13 @@ import com.github.andyshao.data.structure.Graph.DfsVertex;
 
 public class GraphTest {
     static final <DATA> Graph.BfsVertex<DATA> BUILD_BSFVERTEX(DATA data) {
-        Graph.BfsVertex<DATA> result = Graph.BfsVertex.DEFAULT_BFS_VERTEX();
+        Graph.BfsVertex<DATA> result = Graph.BfsVertex.defaultBfsVertex();
         result.data(data);
         return result;
     }
 
     static final <DATA> DfsVertex<DATA> BUILD_DFS_VERTEX(DATA data) {
-        Graph.DfsVertex<DATA> result = DfsVertex.DEFAULT_DFS_VERTEX();
+        Graph.DfsVertex<DATA> result = DfsVertex.defaultDfsVertex();
         result.data(data);
         return result;
     }
@@ -28,10 +28,10 @@ public class GraphTest {
 
     @Before
     public void before() {
-        this.graph = Graph.<String> DEFAULT_GRAPH((obj1 , obj2) -> {
+        this.graph = Graph.<String> defaultGraph((obj1 , obj2) -> {
             return obj1.compareTo(obj2);
         } , () -> {
-            return SingleLinked.DEFAULT_SINGLE_LINKED();
+            return SingleLinked.defaultSingleLinked();
         });
     }
 
@@ -44,10 +44,10 @@ public class GraphTest {
         final Graph.BfsVertex<String> node4 = GraphTest.BUILD_BSFVERTEX("node4");
         final Graph.BfsVertex<String> node5 = GraphTest.BUILD_BSFVERTEX("node5");
         final Graph.BfsVertex<String> node6 = GraphTest.BUILD_BSFVERTEX("node6");
-        Graph<Graph.BfsVertex<String>> graph = Graph.<Graph.BfsVertex<String>> DEFAULT_GRAPH((obj1 , obj2) -> {
+        Graph<Graph.BfsVertex<String>> graph = Graph.<Graph.BfsVertex<String>> defaultGraph((obj1 , obj2) -> {
             return obj1.data().compareTo(obj2.data());
         } , () -> {
-            return SingleLinked.DEFAULT_SINGLE_LINKED();
+            return SingleLinked.defaultSingleLinked();
         });
         graph.graph_ins_vertex(node1);
         graph.graph_ins_vertex(node2);
@@ -69,7 +69,7 @@ public class GraphTest {
         Queue<BfsVertex<String>> queue = new PriorityQueue<BfsVertex<String>>((obj1 , obj2) -> {
             return Integer.compare(obj1.hops() , obj2.hops());
         });
-        Graph.BREADTH_FIRST_SEARCH(graph , node6 , queue);
+        Graph.bfs(graph , node6 , queue);
         Assert.assertThat(queue.poll() , Matchers.is(node6));
         Assert.assertThat(queue.poll() , Matchers.is(node5));
         Assert.assertThat(queue.poll() , Matchers.anyOf(Matchers.is(node4) , Matchers.is(node3)));
@@ -115,10 +115,10 @@ public class GraphTest {
         final DfsVertex<String> ma100 = GraphTest.BUILD_DFS_VERTEX("MA100");
         final DfsVertex<String> ma200 = GraphTest.BUILD_DFS_VERTEX("MA200");
         final DfsVertex<String> ma300 = GraphTest.BUILD_DFS_VERTEX("MA300");
-        Graph<DfsVertex<String>> graph = Graph.<DfsVertex<String>> DEFAULT_GRAPH((obj1 , obj2) -> {
+        Graph<DfsVertex<String>> graph = Graph.<DfsVertex<String>> defaultGraph((obj1 , obj2) -> {
             return obj1.data().compareTo(obj2.data());
         } , () -> {
-            return SingleLinked.DEFAULT_SINGLE_LINKED();
+            return SingleLinked.defaultSingleLinked();
         });
         graph.graph_ins_vertex(cs100);
         graph.graph_ins_vertex(cs200);
@@ -138,7 +138,7 @@ public class GraphTest {
         Assert.assertThat(graph.graph_ecount() , Matchers.is(6));
 
         Queue<DfsVertex<String>> queue = new SimpleQueue<>();
-        Graph.DEPTH_FIRST_SEARCH(graph , queue);
+        Graph.dfs(graph , queue);
         DfsVertex<String> dfs = queue.peek();
         if(!dfs.data().equals(cs150.data())){
             Assert.assertThat(queue.poll() , Matchers.is(ma300));
