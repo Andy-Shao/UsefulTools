@@ -14,15 +14,16 @@ import java.util.Comparator;
  */
 public final class Sort {
     public static final <DATA> DATA[] issort(DATA[] data , Comparator<DATA> comparator) {
+        if (data == null) return data;
         //Repeatedly insert a key element among the sorted elements.
-        for (int j = 1 ; j < data.length ; j++) {
-            DATA key = data[j];
-            int i = j - 1;
+        for (int i = 1 ; i < data.length ; i++) {
+            DATA temp = data[i];
+            int j = i - 1;
 
             //Determine the position at which to insert the key element.
-            for ( ; i >= 0 && comparator.compare(data[i] , key) > 0 ; i--)
-                data[i + 1] = data[i];
-            data[i + 1] = key;
+            for ( ; j >= 0 && comparator.compare(data[j] , temp) > 0 ; j--)
+                data[j + 1] = data[j];
+            data[j + 1] = temp;
         }
         return data;
     }
