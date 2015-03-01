@@ -5,15 +5,13 @@ import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 
-import com.github.andyshao.util.ArrayTools;
-
 public class AutoIncreaseArrayTest {
 
     private volatile AutoIncreaseArray<Character> array;
-    private final Character[] data = ArrayTools.pack_unpack(new char[] {
+    private final Character[] data = new Character[] {
         'a' , 'b' , 'c' , 'd' , 'e' , 'f' , 'g' , 'h' , 'i' , 'j' , 'k' , 'l' , 'm' , 'n' , 'o' , 'p' , 'q' , 'r' ,
         's' , 't' , 'u' , 'v' , 'w' , 'x' , 'y' , 'z'
-    } , Character[].class);
+    };
 
     @Before
     public void before() {

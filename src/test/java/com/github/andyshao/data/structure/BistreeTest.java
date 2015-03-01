@@ -6,14 +6,13 @@ import org.junit.Before;
 import org.junit.Test;
 
 import com.github.andyshao.data.structure.Bistree.AvlNode;
-import com.github.andyshao.util.ArrayTools;
 
 public class BistreeTest {
 
     private volatile Bistree<Integer> bistree;
-    private final Integer[] data = ArrayTools.pack_unpack(new int[] {
+    private final Integer[] data = new Integer[] {
         4 , 5 , 9 , 0 , 1 , 6 , 7 , 8 , 2 , 3
-    } , Integer[].class);
+    };
 
     @Before
     public void before() {

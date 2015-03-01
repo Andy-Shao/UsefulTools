@@ -7,13 +7,11 @@ import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 
-import com.github.andyshao.util.ArrayTools;
-
 public class HeapTest {
 
-    private final Double[] data = ArrayTools.pack_unpack(new double[] {
+    private final Double[] data = new Double[] {
         1.23 , 3.21 , 4.56 , 0.37 , 1.11 , 4.23
-    } , Double[].class);
+    };
     private volatile Heap<Double> heap;
 
     @Before
