@@ -43,12 +43,9 @@ public final class ArraySort {
         final Random random = new Random();
 
         //Use the median-of-three method to find the partition value.
-        int randomValue = (random.nextInt() % (end - begin + 1)) + begin;
-        r[0] = randomValue < 0 ? -randomValue : randomValue;
-        randomValue = (random.nextInt() % (end - begin + 1)) + begin;
-        r[1] = randomValue < 0 ? -randomValue : randomValue;
-        randomValue = (random.nextInt() % (end - begin + 1)) + begin;
-        r[2] = randomValue < 0 ? -randomValue : randomValue;
+        r[0] = random.ints(begin , end).findFirst().getAsInt();
+        r[1] = random.ints(begin , end).findFirst().getAsInt();
+        r[2] = random.ints(begin , end).findFirst().getAsInt();
         ArraySort.<Integer> issort(r , (i1 , i2) -> {
             return Integer.compare(i1 , i2);
         });
