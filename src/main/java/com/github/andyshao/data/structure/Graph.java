@@ -405,6 +405,7 @@ public interface Graph<D> extends Cleanable {
      * @param graph {@link Graph}
      * @param start the start side
      * @param result the {@link Collection} which should return
+     * @param <DATA> data type
      * @return the result
      */
     public static <DATA> Collection<BfsVertex<DATA>> bfs(

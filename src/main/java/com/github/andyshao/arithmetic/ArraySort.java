@@ -87,6 +87,7 @@ public final class ArraySort {
      * @param begin the begin of sort
      * @param end the end of sort
      * @param comparator {@link Comparator}
+     * @param <DATA> data type
      * @return the array which is sorted.
      * @throws ArraySortException when the sort has error.
      */
