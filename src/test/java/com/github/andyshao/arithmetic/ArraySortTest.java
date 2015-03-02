@@ -26,15 +26,21 @@ public class ArraySortTest {
 
     @Test
     public void teatIssort() {
-        ArraySort.<Integer> issort(this.data , this.comparator);
+        ArraySort.<Integer> issort(this.data , 0 , this.data.length - 1 , this.comparator);
 
         Assert.assertThat(Arrays.deepEquals(this.data , this.answer) , Matchers.is(true));
     }
 
     @Test
-    public void testQksort(){
-        ArraySort.qksort(this.data , 0 , this.data.length-1 , this.comparator);
-        
+    public void testQksort() {
+        ArraySort.qksort(this.data , 0 , this.data.length - 1 , this.comparator);
+
+        Assert.assertThat(Arrays.deepEquals(this.data , this.answer) , Matchers.is(true));
+    }
+
+    @Test
+    public void testMgsort() {
+        ArraySort.mgsort(this.data , 0 , this.data.length - 1 , this.comparator);
         Assert.assertThat(Arrays.deepEquals(this.data , this.answer) , Matchers.is(true));
     }
 }
